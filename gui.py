@@ -144,6 +144,69 @@ console.grid(row=3, column=1)
 editor = scrolledtext.ScrolledText(texto, undo=True, width=60, height=15)
 lines = Canvas(texto, width=30, height=345, background='gray60')
 
+# Frame for tables
+tables1 = Frame(frame, width=240, height=120)
+tables1.config(bd=25, bg="slate gray")
+tables1.grid(row=4, column=0)
+
+tables2 = Frame(frame, width=240, height=120)
+tables2.config(bd=25, bg="slate gray")
+tables2.grid(row=4, column=1)
+
+# take the data of symbols
+lst = [('#', 'Id', 'Tipo', 'Dim', 'Val', 'Amb', 'Ref'),
+       (1, '$t1', 'INT', 1, 0, 'gl', 0),
+       (2, '$t2', 'STR', 1, 0, 'gl', 0),
+       (3, '$t3', 'CHAR', 1, 0, 'lc', 0),
+       (4, '$t4', 'INT', 1, 0, 'gl', 0),
+       (5, '$t5', 'STR', 1, 0, 'lc', 0),
+       ]
+# find total number of rows and
+# columns in list
+total_rows = len(lst)
+total_columns = len(lst[0])
+
+# take the data of errors
+lst2 = [('#', 'Tipo', 'Desc', 'Linea', 'Col'),
+        (1, '$t1', 'INT', 1, 0),
+        (2, '$t2', 'STR', 1, 0),
+        (3, '$t3', 'CHAR', 1, 0),
+        (4, '$t4', 'INT', 1, 0),
+        (5, '$t5', 'STR', 1, 0)
+        ]
+# find total number of rows and
+# columns in list
+total_rows2 = len(lst2)
+total_columns2 = len(lst2[0])
+
+
+class TableSymbols:
+    def __init__(self, root):
+        # code for creating table
+        for i in range(total_rows):
+            for j in range(total_columns):
+                self.e = Entry(root, width=5, fg='white',
+                               font=('Arial', 16, 'bold'))
+
+                self.e.grid(row=i, column=j)
+                self.e.insert(END, lst[i][j])
+
+
+class TableErrors:
+    def __init__(self, root):
+        # code for creating table
+        for i in range(total_rows2):
+            for j in range(total_columns2):
+                self.e = Entry(root, width=5, fg='white',
+                               font=('Arial', 16, 'bold'))
+
+                self.e.grid(row=i, column=j)
+                self.e.insert(END, lst2[i][j])
+
+
+tableSymbols = TableSymbols(tables1)
+tableErrors = TableErrors(tables2)
+
 # Monitor inferior
 mensaje = StringVar()
 mensaje.set("Bienvenido a JPR Ide")
