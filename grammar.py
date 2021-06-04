@@ -78,8 +78,8 @@ def t_ID(t):
 
 
 def t_CADENA(t):
-    r'\".*\"'
-    t.value = t.value[1:-1] # remuevo las comillas
+    r'\".*?\"'
+    t.value = t.value[1:-1]  # remuevo las comillas
     return t
 
 
@@ -120,10 +120,8 @@ precedence = (
     ('right', 'UMENOS'),
 )
 
-
 # Definición de la gramática
 
-# ----------------------- NODOS ---------------------------
 def p_init(t):
     'init            : instrucciones'
     t[0] = t[1]
@@ -150,7 +148,6 @@ def p_instruccion(t):
     t[0] = t[1]
 
 
-# ----------------------- INSTRUCCIONES ---------------------------
 def p_instruccion_imprimir(t):
     'imprimir_instr     : IMPRIMIR PARIZQ expresion_cadena PARDER PTCOMA'
     t[0] = Imprimir(t[3])
@@ -181,7 +178,6 @@ def p_if_else_instr(t):
     t[0] = IfElse(t[3], t[6], t[10])
 
 
-# ----------------------- EXPRESIONES ---------------------------
 def p_expresion_binaria(t):
     '''expresion_numerica : expresion_numerica MAS expresion_numerica
                         | expresion_numerica MENOS expresion_numerica

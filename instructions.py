@@ -40,7 +40,7 @@ class Asignacion(Instruccion):
         Recibe como parámetro el identificador a asignar y el valor que será asignado.
     '''
 
-    def __init__(self, id, expNumerica) :
+    def __init__(self, id, expNumerica):
         self.id = id
         self.expNumerica = expNumerica
 

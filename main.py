@@ -82,7 +82,7 @@ def resolver_expresion_aritmetica(expNum, ts):
 
 
 def procesar_instrucciones(instrucciones, ts):
-    # lista de instrucciones recolectadas
+    ## lista de instrucciones recolectadas
     for instr in instrucciones:
         if isinstance(instr, Imprimir):
             procesar_imprimir(instr, ts)

@@ -1,8 +1,22 @@
 from tkinter import *
-from tkinter import filedialog as FileDialog
+from tkinter import filedialog as FileDialog, scrolledtext
 from io import open
 
 ruta = ""  # La utilizaremos para almacenar la ruta del fichero
+
+
+def lineas(*args):  # ACTUALIZAR LINEAS
+    lines.delete("all")
+
+    cont = editor.index("@1,0")
+    while True:
+        dline = editor.dlineinfo(cont)
+        if dline is None:
+            break
+        y = dline[1]
+        strline = str(cont).split(".")[0]
+        lines.create_text(2, y, anchor="nw", text=strline, font=("Arial", 15))
+        cont = editor.index("%s+1line" % cont)
 
 
 def nuevo():
@@ -116,15 +130,19 @@ labelOut.grid(row=2, column=1)
 
 # Editor
 texto = Text(frame)
-texto.config(bd=0, highlightbackground="white", highlightcolor="white", highlightthickness=8, width=50, height=20,
+texto.config(bd=0, highlightbackground="white", highlightcolor="white", highlightthickness=8, width=50, height=10,
              padx=6, pady=4, font=("Consolas", 12))
 texto.grid(row=3, column=0, padx=20, pady=20)
 
 # Console
-console = Frame(frame)
-console.config(bg="gray14", highlightbackground="black", highlightcolor="black", highlightthickness=8,
-               width=480, height=480)
+console = Text(frame)
+console.config(bd=0, bg="gray14", highlightbackground="black", highlightcolor="black",
+               highlightthickness=8, width=50, height=10,
+               padx=6, pady=4, font=("Consolas", 12))
 console.grid(row=3, column=1)
+
+editor = scrolledtext.ScrolledText(texto, undo=True, width=60, height=15)
+lines = Canvas(texto, width=30, height=345, background='gray60')
 
 # Monitor inferior
 mensaje = StringVar()

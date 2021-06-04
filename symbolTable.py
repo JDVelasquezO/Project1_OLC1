@@ -3,10 +3,9 @@ from enum import Enum
 
 class TIPO_DATO(Enum):
     NUMERO = 1
-    CADENA = 2
 
 
-class Simbolo:
+class Simbolo():
     'Esta clase representa un simbolo dentro de nuestra tabla de simbolos'
 
     def __init__(self, id, tipo, valor):
@@ -15,12 +14,10 @@ class Simbolo:
         self.valor = valor
 
 
-class TablaDeSimbolos:
+class TablaDeSimbolos():
     'Esta clase representa la tabla de simbolos'
 
-    def __init__(self, simbolos=None):
-        if simbolos is None:
-            simbolos = {}
+    def __init__(self, simbolos={}):
         self.simbolos = simbolos
 
     def agregar(self, simbolo):

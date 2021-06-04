@@ -98,7 +98,7 @@ class ExpresionCadenaNumerico(ExpresionCadena):
         self.exp = exp
 
 
-class ExpresionLogica:
+class ExpresionLogica():
     '''
         Esta clase representa la expresión lógica.
         Esta clase recibe los operandos y el operador
