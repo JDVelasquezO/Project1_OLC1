@@ -1,10 +1,23 @@
-# Se imprime el encabezado
+# Archivo de prueba
+
+# Comentario de una sola línea
+
+#*
+  De esta manera se
+  representan los
+  comentarios multilínea
+*#
+
+# Declaración y asignación de variables globales
 
 # Se declara la variable a, de tipo numero
-var a;
+var global_a;             # Declara una variable con valor nulo
+var global_b;             # Declara una variable con valor nulo
 # Se asigna a la variable a el valor 0
-a=0;
-print("Numero a imprimir: \n" & "\t" & 789);
+global_a=10;
+global_b=100;
+print(global_a);
+print("Numero a imprimir: \n" & "\t" & global_b);
 
 print("Tablas de \n" & " multiplicar");
 # Se declara la variable c, de tipo numero
@@ -19,19 +32,19 @@ print("----------------");
  * desde el uno hasta el 5, esto se hace con
  * dos ciclos while anidados.
 *#
-mientras(a<4+c){
-	a= a + 1;
+mientras(global_a<4+c){
+	global_a = global_a + 1;
 	var b;
 	b=0;
 	mientras(b<4+c){
 		b=b+1;
-		print(a & " * " & b & " = " & a * b);
+		print(global_a & " * " & b & " = " & global_a * b);
 	}
 	print("----------------");
 }
 
 # Se asigna a la variable a el valor de 11
-a=11;
+global_a=11;
 #*
  * La variable b ya había sido declarada pero
  * dentro del ámbito del primer ciclo while,
@@ -47,7 +60,7 @@ c=13;
  mayor que 10, si el b es mayor que 11 y si
  el de c es mayor que 12.
 *#
-If(a>10){
+If(global_a>10){
 	print("a es mayor que 10.");
 	if(b>11){
 		print("a es mayor que 10 y b es mayor que 11.");
