@@ -1,22 +1,11 @@
+import time
 from tkinter import *
 from tkinter import filedialog as FileDialog, scrolledtext
 from io import open
+from main import *
+import grammar as g
 
 ruta = ""  # La utilizaremos para almacenar la ruta del fichero
-
-
-def lineas(*args):  # ACTUALIZAR LINEAS
-    lines.delete("all")
-
-    cont = editor.index("@1,0")
-    while True:
-        dline = editor.dlineinfo(cont)
-        if dline is None:
-            break
-        y = dline[1]
-        strline = str(cont).split(".")[0]
-        lines.create_text(2, y, anchor="nw", text=strline, font=("Arial", 15))
-        cont = editor.index("%s+1line" % cont)
 
 
 def nuevo():
@@ -75,12 +64,26 @@ def guardar_como():
         ruta = ""
 
 
+def executeProgram():
+    t0 = time.time()
+
+    console.delete("1.0", END)
+    instrucciones = g.parse(texto.get("1.0", END))
+    ts_global = TS.TablaDeSimbolos()
+
+    procesar_instrucciones(instrucciones, ts_global, console)
+    t1 = time.time()
+    console.insert(END, f"\n\n> Ejecución terminada en: {round(t1 - t0, 6)} segundos")
+
+
 # Configuración de la raíz
 root = Tk()
 root.title("JPR Ide")
 
 # Menú superior
 menubar = Menu(root)
+menuTools = Menu(root)
+
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="Nuevo", command=nuevo)
 filemenu.add_command(label="Abrir", command=abrir)
@@ -88,9 +91,14 @@ filemenu.add_command(label="Guardar", command=guardar)
 filemenu.add_command(label="Guardar como", command=guardar_como)
 filemenu.add_separator()
 filemenu.add_command(label="Salir", command=root.quit)
+
+fMenuTools = Menu(menuTools, tearoff=0)
+fMenuTools.add_command(label="Ejecutar", command=executeProgram)
+fMenuTools.add_command(label="Depurar", command=executeProgram)
+
 menubar.add_cascade(menu=filemenu, label="Archivo")
 menubar.add_cascade(menu=filemenu, label="Edición")
-menubar.add_cascade(menu=filemenu, label="Herramientas")
+menubar.add_cascade(menu=fMenuTools, label="Herramientas")
 menubar.add_cascade(menu=filemenu, label="Analizar")
 menubar.add_cascade(menu=filemenu, label="Reportes")
 menubar.add_cascade(menu=filemenu, label="Ayuda")
@@ -140,9 +148,6 @@ console.config(bd=0, bg="gray14", highlightbackground="black", highlightcolor="b
                highlightthickness=8, width=50, height=10,
                padx=6, pady=4, font=("Consolas", 12))
 console.grid(row=3, column=1)
-
-editor = scrolledtext.ScrolledText(texto, undo=True, width=60, height=15)
-lines = Canvas(texto, width=30, height=345, background='gray60')
 
 # Frame for tables
 tables1 = Frame(frame, width=240, height=120)

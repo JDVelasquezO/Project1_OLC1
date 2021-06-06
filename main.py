@@ -1,10 +1,12 @@
-import grammar as g
+from tkinter import END
 import symbolTable as TS
+import grammar as g
 from expressions import *
 from instructions import *
 
 
-def procesar_imprimir(instr, ts):
+def procesar_imprimir(instr, ts, console):
+    console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
     print('> ', resolver_cadena(instr.cad, ts))
 
 
@@ -25,27 +27,27 @@ def procesar_asignacion(instr, ts):
     ts.actualizar(simbolo)
 
 
-def procesar_mientras(instr, ts):
+def procesar_mientras(instr, ts, console):
     while resolver_expreision_logica(instr.expLogica, ts):
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
-        procesar_instrucciones(instr.instrucciones, ts_local)
+        procesar_instrucciones(instr.instrucciones, ts_local, console)
 
 
-def procesar_if(instr, ts):
+def procesar_if(instr, ts, console):
     val = resolver_expreision_logica(instr.expLogica, ts)
     if val:
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
-        procesar_instrucciones(instr.instrucciones, ts_local)
+        procesar_instrucciones(instr.instrucciones, ts_local, console)
 
 
-def procesar_if_else(instr, ts):
+def procesar_if_else(instr, ts, console):
     val = resolver_expreision_logica(instr.expLogica, ts)
     if val:
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
-        procesar_instrucciones(instr.instrIfVerdadero, ts_local)
+        procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
     else:
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
-        procesar_instrucciones(instr.instrIfFalso, ts_local)
+        procesar_instrucciones(instr.instrIfFalso, ts_local, console)
 
 
 def resolver_cadena(expCad, ts):
@@ -59,6 +61,8 @@ def resolver_cadena(expCad, ts):
         return str(resolver_expresion_aritmetica(expCad.exp, ts))
     elif isinstance(expCad, ExpresionNumero):
         return str(expCad.val)
+    elif isinstance(expCad, ExpresionIdentificador):
+        return expCad.id
     else:
         print('Error: Expresión cadena no válida')
 
@@ -89,29 +93,29 @@ def resolver_expresion_aritmetica(expNum, ts):
         return ts.obtener(expNum.id).valor
 
 
-def procesar_instrucciones(instrucciones, ts):
-    ## lista de instrucciones recolectadas
+def procesar_instrucciones(instrucciones, ts, console):
+    # lista de instrucciones recolectadas
     for instr in instrucciones:
         if isinstance(instr, Imprimir):
-            procesar_imprimir(instr, ts)
+            procesar_imprimir(instr, ts, console)
         elif isinstance(instr, Definicion):
             procesar_definicion(instr, ts)
         elif isinstance(instr, Asignacion):
             procesar_asignacion(instr, ts)
         elif isinstance(instr, Mientras):
-            procesar_mientras(instr, ts)
+            procesar_mientras(instr, ts, console)
         elif isinstance(instr, If):
-            procesar_if(instr, ts)
+            procesar_if(instr, ts, console)
         elif isinstance(instr, IfElse):
-            procesar_if_else(instr, ts)
+            procesar_if_else(instr, ts, console)
         else:
             print('Error: instrucción no válida')
 
 
-f = open("./input.txt", "r")
-input = f.read()
-
-instrucciones = g.parse(input)
-ts_global = TS.TablaDeSimbolos()
-
-procesar_instrucciones(instrucciones, ts_global)
+# f = open("/home/jdvelasquezo/PycharmProjects/ProjectOLC1/input.txt", "r")
+# input = f.read()
+#
+# instrucciones = g.parse('print("Hola a todos");')
+# ts_global = TS.TablaDeSimbolos()
+#
+# procesar_instrucciones(instrucciones, ts_global, None)

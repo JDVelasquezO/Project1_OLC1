@@ -4,15 +4,15 @@
 var a;
 # Se asigna a la variable a el valor 0
 a=0;
-imprimir("Numero a imprimir: \n" & "\t" & 789);
+print("Numero a imprimir: \n" & "\t" & 789);
 
-imprimir("Tablas de \n" & " multiplicar");
+print("Tablas de \n" & " multiplicar");
 # Se declara la variable c, de tipo numero
 var c;
 # Se asigna a la variable c el valor 0
 c=1;
 # Se imprime un separador
-imprimir("----------------");
+print("----------------");
 #*
  * Se imprimen las tablas del 1 al 5 y
  * para cada tabla, se imprimen los resultados
@@ -25,9 +25,9 @@ mientras(a<4+c){
 	b=0;
 	mientras(b<4+c){
 		b=b+1;
-		imprimir(a & " * " & b & " = " & a * b);
+		print(a & " * " & b & " = " & a * b);
 	}
-	imprimir("----------------");
+	print("----------------");
 }
 
 # Se asigna a la variable a el valor de 11
@@ -48,13 +48,13 @@ c=13;
  el de c es mayor que 12.
 *#
 If(a>10){
-	imprimir("a es mayor que 10.");
+	print("a es mayor que 10.");
 	if(b>11){
-		imprimir("a es mayor que 10 y b es mayor que 11.");
+		print("a es mayor que 10 y b es mayor que 11.");
 		if(c>12){
-			imprimir("a es mayor que 10, b es mayor que 11 y c es mayor que 12.");
+			print("a es mayor que 10, b es mayor que 11 y c es mayor que 12.");
 		}
 	}
 }else{
-	imprimir("a es menor o igual que 10.");
+	print("a es menor o igual que 10.");
 }

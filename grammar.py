@@ -5,7 +5,7 @@ from instructions import *
 
 reservadas = {
     'var': 'VAR',
-    'imprimir': 'IMPRIMIR',
+    'print': 'PRINT',
     'mientras': 'MIENTRAS',
     'if': 'IF',
     'else': 'ELSE'
@@ -162,15 +162,20 @@ def p_instruccion(t):
 
 
 def p_instruccion_imprimir(t):
-    'imprimir_instr     : IMPRIMIR PARIZQ expresion_general PARDER PTCOMA'
+    'imprimir_instr     : PRINT PARIZQ expresion_general PARDER PTCOMA'
     t[0] = t[3]
 
 
 def p_expresionGeneralImprimir(t):
     '''expresion_general  :  expresion_numerica
                             | expresion_cadena
-                            | ID'''
+                            | expresion_id'''
     t[0] = Imprimir(t[1])
+
+
+def p_expresionId(t):
+    'expresion_id   : ID'
+    t[0] = ExpresionIdentificador(t[1])
 
 
 def p_instruccion_definicion(t):
@@ -181,7 +186,6 @@ def p_instruccion_definicion(t):
 def p_asignacion_instr(t):
     'asignacion_instr   : ID IGUAL expresion_numerica PTCOMA'
     t[0] = Asignacion(t[1], t[3])
-
 
 
 def p_mientras_instr(t):
