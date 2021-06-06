@@ -80,6 +80,18 @@ def t_ID(t):
 def t_CADENA(t):
     r'\".*?\"'
     t.value = t.value[1:-1]  # remuevo las comillas
+
+    if '\\t' in t.value:
+        t.value = t.value.replace('\\t', '\t')
+    if '\\n' in t.value:
+        t.value = t.value.replace('\\n', '\n')
+    if '\\\\' in t.value:
+        t.value = t.value.replace('\\\\', '\\')
+    if '\\"' in t.value:
+        t.value = t.value.replace('\\"', '\"')
+    if "\\'" in t.value:
+        t.value = t.value.replace("\\'", "\'")
+
     return t
 
 
@@ -120,6 +132,7 @@ precedence = (
     ('right', 'UMENOS'),
 )
 
+
 # Definición de la gramática
 
 def p_init(t):
@@ -149,8 +162,15 @@ def p_instruccion(t):
 
 
 def p_instruccion_imprimir(t):
-    'imprimir_instr     : IMPRIMIR PARIZQ expresion_cadena PARDER PTCOMA'
-    t[0] = Imprimir(t[3])
+    'imprimir_instr     : IMPRIMIR PARIZQ expresion_general PARDER PTCOMA'
+    t[0] = t[3]
+
+
+def p_expresionGeneralImprimir(t):
+    '''expresion_general  :  expresion_numerica
+                            | expresion_cadena
+                            | ID'''
+    t[0] = Imprimir(t[1])
 
 
 def p_instruccion_definicion(t):
@@ -161,6 +181,7 @@ def p_instruccion_definicion(t):
 def p_asignacion_instr(t):
     'asignacion_instr   : ID IGUAL expresion_numerica PTCOMA'
     t[0] = Asignacion(t[1], t[3])
+
 
 
 def p_mientras_instr(t):

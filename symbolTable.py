@@ -3,6 +3,7 @@ from enum import Enum
 
 class TIPO_DATO(Enum):
     NUMERO = 1
+    CADENA = 2
 
 
 class Simbolo():

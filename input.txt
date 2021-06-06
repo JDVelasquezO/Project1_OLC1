@@ -1,10 +1,12 @@
 # Se imprime el encabezado
-imprimir("Tablas de" & " multiplicar");
 
 # Se declara la variable a, de tipo numero
 var a;
 # Se asigna a la variable a el valor 0
 a=0;
+imprimir("Numero a imprimir: \n" & "\t" & 789);
+
+imprimir("Tablas de \n" & " multiplicar");
 # Se declara la variable c, de tipo numero
 var c;
 # Se asigna a la variable c el valor 0

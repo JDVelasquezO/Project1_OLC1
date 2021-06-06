@@ -14,8 +14,14 @@ def procesar_definicion(instr, ts):
 
 
 def procesar_asignacion(instr, ts):
-    val = resolver_expresion_aritmetica(instr.expNumerica, ts)
-    simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val)
+    val = resolver_expresion_aritmetica(instr.expression, ts)
+
+    if val == None:
+        val = resolver_cadena(instr.expression, ts)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
+    else:
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val)
+
     ts.actualizar(simbolo)
 
 
@@ -51,6 +57,8 @@ def resolver_cadena(expCad, ts):
         return expCad.val
     elif isinstance(expCad, ExpresionCadenaNumerico):
         return str(resolver_expresion_aritmetica(expCad.exp, ts))
+    elif isinstance(expCad, ExpresionNumero):
+        return str(expCad.val)
     else:
         print('Error: Expresión cadena no válida')
 
