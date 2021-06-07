@@ -163,12 +163,12 @@ def p_instruccion(t):
 
 
 def p_instruccion_imprimir(t):
-    'imprimir_instr     : PRINT PARIZQ expresion_general PARDER PTCOMA'
+    'imprimir_instr     : PRINT PARIZQ print_expresion_general PARDER PTCOMA'
     t[0] = t[3]
 
 
 def p_expresionGeneralImprimir(t):
-    '''expresion_general  :  expresion_numerica
+    '''print_expresion_general  :  expresion_numerica
                             | expresion_cadena
                             | expresion_id'''
     t[0] = Imprimir(t[1])
@@ -185,8 +185,15 @@ def p_instruccion_definicion(t):
 
 
 def p_asignacion_instr(t):
-    'asignacion_instr   : ID IGUAL expresion_numerica PTCOMA'
+    'asignacion_instr   : ID IGUAL asign_expresion_general PTCOMA'
     t[0] = Asignacion(t[1], t[3])
+
+
+def p_expresionGeneralAsignar(t):
+    '''asign_expresion_general  :  expresion_numerica
+                            | expresion_cadena
+                            | expresion_id'''
+    t[0] = t[1]
 
 
 def p_definicion_asignacion(t):

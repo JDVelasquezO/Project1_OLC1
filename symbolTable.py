@@ -6,13 +6,15 @@ class TIPO_DATO(Enum):
     CADENA = 2
 
 
-class Simbolo():
+class Simbolo:
     'Esta clase representa un simbolo dentro de nuestra tabla de simbolos'
 
-    def __init__(self, id, tipo, valor):
+    def __init__(self, id, tipo, valor, row=0, col=0):
         self.id = id.lower()
         self.tipo = tipo
         self.valor = valor
+        self.row = row
+        self.col = col
 
 
 class TablaDeSimbolos:

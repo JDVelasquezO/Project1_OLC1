@@ -7,7 +7,7 @@ from Exception import Excepcion
 
 
 def procesar_imprimir(instr, ts, console):
-    console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
+    # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
     print('> ', resolver_cadena(instr.cad, ts))
 
 
@@ -126,10 +126,10 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-# f = open("input.txt", "r")
-# input = f.read()
-#
-# instrucciones = g.parse(input)
-# ts_global = TS.TablaDeSimbolos()
-#
-# procesar_instrucciones(instrucciones, ts_global, None)
+f = open("input.txt", "r")
+input = f.read()
+
+instrucciones = g.parse(input)
+ts_global = TS.TablaDeSimbolos()
+
+procesar_instrucciones(instrucciones, ts_global, None)

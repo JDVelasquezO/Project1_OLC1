@@ -8,6 +8,9 @@
   comentarios multilínea
 *#
 
+var cadena1;
+cadena1 = "Hola a \n\t todos";
+print(cadena1);
 VaR global_b=100;
 var global_B=50;
 print(global_b & " - " & "10 = " & global_b - 10);
