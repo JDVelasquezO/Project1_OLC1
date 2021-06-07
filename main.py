@@ -6,7 +6,7 @@ from instructions import *
 
 
 def procesar_imprimir(instr, ts, console):
-    console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
+    # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
     print('> ', resolver_cadena(instr.cad, ts))
 
 
@@ -68,6 +68,8 @@ def resolver_cadena(expCad, ts):
         return str(expCad.val)
     elif isinstance(expCad, ExpresionIdentificador):
         return ts.obtener(expCad.id).valor
+    elif isinstance(expCad, ExpresionBinaria):
+        return resolver_expresion_aritmetica(expCad, ts)
     else:
         print('Error: Expresión cadena no válida')
 
@@ -119,10 +121,10 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-# f = open("input.txt", "r")
-# input = f.read()
-#
-# instrucciones = g.parse(input)
-# ts_global = TS.TablaDeSimbolos()
-#
-# procesar_instrucciones(instrucciones, ts_global, None)
+f = open("input.txt", "r")
+input = f.read()
+
+instrucciones = g.parse(input)
+ts_global = TS.TablaDeSimbolos()
+
+procesar_instrucciones(instrucciones, ts_global, None)

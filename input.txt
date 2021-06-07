@@ -9,7 +9,7 @@
 *#
 
 var global_b=100;
-print(global_b);
+print(global_b & " - " & " 10 =" & global_b - 10);
 
 # Se declara la variable a, de tipo numero
 var global_a;             # Declara una variable con valor nulo
