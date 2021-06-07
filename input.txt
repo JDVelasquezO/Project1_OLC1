@@ -8,8 +8,7 @@
   comentarios multilínea
 *#
 
-var cadena1;
-cadena1 = "Hola a \n\t todos";
+var cadena1 = "Hola a \n\t todos";
 print(cadena1);
 VaR global_b=100;
 var global_B=50;

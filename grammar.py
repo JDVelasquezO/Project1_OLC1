@@ -197,8 +197,15 @@ def p_expresionGeneralAsignar(t):
 
 
 def p_definicion_asignacion(t):
-    'def_asig_instr     : VAR ID IGUAL expresion_numerica PTCOMA'
+    'def_asig_instr     : VAR ID IGUAL asign_def_expresion_general PTCOMA'
     t[0] = Definicion_Asignacion(t[2], t[4])
+
+
+def p_expresionGeneralDefAsign(t):
+    '''asign_def_expresion_general  :  expresion_numerica
+                                | expresion_cadena
+                                | expresion_id'''
+    t[0] = t[1]
 
 
 def p_mientras_instr(t):
