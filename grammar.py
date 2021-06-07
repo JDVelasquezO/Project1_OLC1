@@ -155,6 +155,7 @@ def p_instruccion(t):
     '''instruccion      : imprimir_instr
                         | definicion_instr
                         | asignacion_instr
+                        | def_asig_instr
                         | mientras_instr
                         | if_instr
                         | if_else_instr'''
@@ -186,6 +187,11 @@ def p_instruccion_definicion(t):
 def p_asignacion_instr(t):
     'asignacion_instr   : ID IGUAL expresion_numerica PTCOMA'
     t[0] = Asignacion(t[1], t[3])
+
+
+def p_definicion_asignacion(t):
+    'def_asig_instr     : VAR ID IGUAL expresion_numerica PTCOMA'
+    t[0] = Definicion_Asignacion(t[2], t[4])
 
 
 def p_mientras_instr(t):

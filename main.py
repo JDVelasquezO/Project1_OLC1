@@ -6,7 +6,7 @@ from instructions import *
 
 
 def procesar_imprimir(instr, ts, console):
-    # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
+    console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
     print('> ', resolver_cadena(instr.cad, ts))
 
 
@@ -25,6 +25,11 @@ def procesar_asignacion(instr, ts):
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val)
 
     ts.actualizar(simbolo)
+
+
+def procesar_definicion_asignacion(instr, ts):
+    procesar_definicion(instr, ts)
+    procesar_asignacion(instr, ts)
 
 
 def procesar_mientras(instr, ts, console):
@@ -61,12 +66,9 @@ def resolver_cadena(expCad, ts):
         return str(resolver_expresion_aritmetica(expCad.exp, ts))
     elif isinstance(expCad, ExpresionNumero):
         return str(expCad.val)
+    elif isinstance(expCad, ExpresionIdentificador):
+        return ts.obtener(expCad.id).valor
     else:
-        for symbol in ts.simbolos:
-            if expCad.id == symbol:
-                return ts.simbolos[expCad.id].valor
-            else:
-                continue
         print('Error: Expresión cadena no válida')
 
 
@@ -105,6 +107,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             procesar_definicion(instr, ts)
         elif isinstance(instr, Asignacion):
             procesar_asignacion(instr, ts)
+        elif isinstance(instr, Definicion_Asignacion):
+            procesar_definicion_asignacion(instr, ts)
         elif isinstance(instr, Mientras):
             procesar_mientras(instr, ts, console)
         elif isinstance(instr, If):
@@ -115,10 +119,10 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-f = open("input.txt", "r")
-input = f.read()
-
-instrucciones = g.parse(input)
-ts_global = TS.TablaDeSimbolos()
-
-procesar_instrucciones(instrucciones, ts_global, None)
+# f = open("input.txt", "r")
+# input = f.read()
+#
+# instrucciones = g.parse(input)
+# ts_global = TS.TablaDeSimbolos()
+#
+# procesar_instrucciones(instrucciones, ts_global, None)

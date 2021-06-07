@@ -45,6 +45,12 @@ class Asignacion(Instruccion):
         self.expression = expression
 
 
+class Definicion_Asignacion(Instruccion):
+    def __init__(self, id, expression):
+        self.id = id
+        self.expression = expression
+
+
 class If(Instruccion):
     '''
         Esta clase representa la instrucción if.
