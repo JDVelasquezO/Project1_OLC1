@@ -3,22 +3,28 @@ import symbolTable as TS
 import grammar as g
 from expressions import *
 from instructions import *
+from Exception import Excepcion
 
 
 def procesar_imprimir(instr, ts, console):
-    # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
+    console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
     print('> ', resolver_cadena(instr.cad, ts))
 
 
-def procesar_definicion(instr, ts):
+def procesar_definicion(instr, ts, signal=False):
     simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, 0)  # inicializamos con 0 como valor por defecto
-    ts.agregar(simbolo)
+    if simbolo.id in ts.simbolos:
+        print(Excepcion("Semántico", f"Variable {simbolo.id} ya existe", 0, 0).toString())
+    else:
+        ts.agregar(simbolo)
+        if signal:
+            procesar_asignacion(instr, ts)
 
 
 def procesar_asignacion(instr, ts):
     val = resolver_expresion_aritmetica(instr.expression, ts)
 
-    if val == None:
+    if val is None:
         val = resolver_cadena(instr.expression, ts)
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
     else:
@@ -28,8 +34,7 @@ def procesar_asignacion(instr, ts):
 
 
 def procesar_definicion_asignacion(instr, ts):
-    procesar_definicion(instr, ts)
-    procesar_asignacion(instr, ts)
+    procesar_definicion(instr, ts, True)
 
 
 def procesar_mientras(instr, ts, console):
@@ -121,10 +126,10 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-f = open("input.txt", "r")
-input = f.read()
-
-instrucciones = g.parse(input)
-ts_global = TS.TablaDeSimbolos()
-
-procesar_instrucciones(instrucciones, ts_global, None)
+# f = open("input.txt", "r")
+# input = f.read()
+#
+# instrucciones = g.parse(input)
+# ts_global = TS.TablaDeSimbolos()
+#
+# procesar_instrucciones(instrucciones, ts_global, None)

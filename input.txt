@@ -8,8 +8,9 @@
   comentarios multilínea
 *#
 
-var global_b=100;
-print(global_b & " - " & " 10 =" & global_b - 10);
+VaR global_b=100;
+var global_B=50;
+print(global_b & " - " & "10 = " & global_b - 10);
 
 # Se declara la variable a, de tipo numero
 var global_a;             # Declara una variable con valor nulo
@@ -30,9 +31,9 @@ print("----------------");
  * desde el uno hasta el 5, esto se hace con
  * dos ciclos while anidados.
 *#
+var b;
 mientras(global_a<4+c){
 	global_a = global_a + 1;
-	var b;
 	b=0;
 	mientras(b<4+c){
 		b=b+1;
@@ -49,9 +50,9 @@ global_a=11;
  * entonces no existe en este ámbito por lo que
  * debe declararse.
 *#
-var b;
+var d;
 # Se asigna valor de 12 a b y valor de 13 a c
-b=12;
+d=12;
 c=13;
 #*
  Se evalua si el valor de la variable a es
@@ -60,7 +61,7 @@ c=13;
 *#
 If(global_a>10){
 	print("a es mayor que 10.");
-	if(b>11){
+	if(d>11){
 		print("a es mayor que 10 y b es mayor que 11.");
 		if(c>12){
 			print("a es mayor que 10, b es mayor que 11 y c es mayor que 12.");

@@ -10,12 +10,12 @@ class Simbolo():
     'Esta clase representa un simbolo dentro de nuestra tabla de simbolos'
 
     def __init__(self, id, tipo, valor):
-        self.id = id
+        self.id = id.lower()
         self.tipo = tipo
         self.valor = valor
 
 
-class TablaDeSimbolos():
+class TablaDeSimbolos:
     'Esta clase representa la tabla de simbolos'
 
     def __init__(self, simbolos={}):
@@ -35,3 +35,7 @@ class TablaDeSimbolos():
             print('Error: variable ', simbolo.id, ' no definida.')
         else:
             self.simbolos[simbolo.id] = simbolo
+
+    def isEmpty(self):
+        pass
+        return len(self.simbolos) == 0
