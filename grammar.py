@@ -85,12 +85,10 @@ def t_CADENA(t):
         t.value = t.value.replace('\\t', '\t')
     if '\\n' in t.value:
         t.value = t.value.replace('\\n', '\n')
-    if '\\\\' in t.value:
-        t.value = t.value.replace('\\\\', '\\')
+    if '\\\'' in t.value:
+        t.value = t.value.replace('\\\'', '\\')
     if '\\"' in t.value:
         t.value = t.value.replace('\\"', '\"')
-    if "\\'" in t.value:
-        t.value = t.value.replace("\\'", "\'")
 
     return t
 
@@ -180,12 +178,23 @@ def p_expresionId(t):
 
 
 def p_instruccion_definicion(t):
-    'definicion_instr   : VAR ID PTCOMA'
+    'definicion_instr   : VAR ID def_instr_prima'
     t[0] = Definicion(t[2])
 
 
+def p_instrDef_prima(t):
+    '''def_instr_prima   : PTCOMA
+                        | empty'''
+    t[0] = t[1]
+
+
+def p_empty(t):
+    'empty :'
+    pass
+
+
 def p_asignacion_instr(t):
-    'asignacion_instr   : ID IGUAL asign_expresion_general PTCOMA'
+    'asignacion_instr   : ID IGUAL asign_expresion_general def_instr_prima'
     t[0] = Asignacion(t[1], t[3])
 
 
@@ -197,7 +206,7 @@ def p_expresionGeneralAsignar(t):
 
 
 def p_definicion_asignacion(t):
-    'def_asig_instr     : VAR ID IGUAL asign_def_expresion_general PTCOMA'
+    'def_asig_instr     : VAR ID IGUAL asign_def_expresion_general def_instr_prima'
     t[0] = Definicion_Asignacion(t[2], t[4])
 
 

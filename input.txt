@@ -8,17 +8,28 @@
   comentarios multilínea
 *#
 
+var variable
 var cadena1 = "Hola a \n\t todos";
 print(cadena1);
 VaR global_b=100;
 var global_B=50;
 print(global_b & " - " & "10 = " & global_b - 10);
 
-# Se declara la variable a, de tipo numero
 var global_a;             # Declara una variable con valor nulo
+var global_b              # Declara una variable con valor nulo
+var global_int = 25;      # Declara una variable de tipo entero
+var global_dou = 25.45;    # Declara una variable de tipo double
+var global_cad = "cadena" # Declara una variable de tipo string
+var GlObAl_A;             # Error: La variable ya está definida
+var global_salto = "Cadena con\nsalto de línea";
+#var global_barra = "Cadena con \\ barra invertida";
+#var global_comilla_doble = "Cadena con \"comilla doble\"";
+var global_tab = "Cadena con \t tabulación";
+var global_commilla_simple = "Cadena con \'comilla simple\'";
+
 # Se asigna a la variable a el valor 0
-global_a=0;
-print("Numero a imprimir: \n" & "\t" & global_b);
+global_a = 0;
+print("Numero a imprimir: \n" & "\t" & global_dou + 6);
 
 print("Tablas de \n" & " multiplicar");
 # Se declara la variable c, de tipo numero

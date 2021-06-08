@@ -18,80 +18,85 @@ Rule 12    print_expresion_general -> expresion_numerica
 Rule 13    print_expresion_general -> expresion_cadena
 Rule 14    print_expresion_general -> expresion_id
 Rule 15    expresion_id -> ID
-Rule 16    definicion_instr -> VAR ID PTCOMA
-Rule 17    asignacion_instr -> ID IGUAL asign_expresion_general PTCOMA
-Rule 18    asign_expresion_general -> expresion_numerica
-Rule 19    asign_expresion_general -> expresion_cadena
-Rule 20    asign_expresion_general -> expresion_id
-Rule 21    def_asig_instr -> VAR ID IGUAL asign_def_expresion_general PTCOMA
-Rule 22    asign_def_expresion_general -> expresion_numerica
-Rule 23    asign_def_expresion_general -> expresion_cadena
-Rule 24    asign_def_expresion_general -> expresion_id
-Rule 25    mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-Rule 26    if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-Rule 27    if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
-Rule 28    expresion_numerica -> expresion_numerica MAS expresion_numerica
-Rule 29    expresion_numerica -> expresion_numerica MENOS expresion_numerica
-Rule 30    expresion_numerica -> expresion_numerica POR expresion_numerica
-Rule 31    expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica
-Rule 32    expresion_numerica -> MENOS expresion_numerica
-Rule 33    expresion_numerica -> PARIZQ expresion_numerica PARDER
-Rule 34    expresion_numerica -> ENTERO
-Rule 35    expresion_numerica -> DECIMAL
-Rule 36    expresion_numerica -> ID
-Rule 37    expresion_cadena -> expresion_cadena CONCAT expresion_cadena
-Rule 38    expresion_cadena -> CADENA
-Rule 39    expresion_cadena -> expresion_numerica
-Rule 40    expresion_logica -> expresion_numerica MAYQUE expresion_numerica
-Rule 41    expresion_logica -> expresion_numerica MENQUE expresion_numerica
-Rule 42    expresion_logica -> expresion_numerica IGUALQUE expresion_numerica
-Rule 43    expresion_logica -> expresion_numerica NIGUALQUE expresion_numerica
+Rule 16    definicion_instr -> VAR ID def_instr_prima
+Rule 17    def_instr_prima -> PTCOMA
+Rule 18    def_instr_prima -> empty
+Rule 19    empty -> <empty>
+Rule 20    asignacion_instr -> ID IGUAL asign_expresion_general def_instr_prima
+Rule 21    asign_expresion_general -> expresion_numerica
+Rule 22    asign_expresion_general -> expresion_cadena
+Rule 23    asign_expresion_general -> expresion_id
+Rule 24    def_asig_instr -> VAR ID IGUAL asign_def_expresion_general def_instr_prima
+Rule 25    asign_def_expresion_general -> expresion_numerica
+Rule 26    asign_def_expresion_general -> expresion_cadena
+Rule 27    asign_def_expresion_general -> expresion_id
+Rule 28    mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+Rule 29    if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+Rule 30    if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+Rule 31    expresion_numerica -> expresion_numerica MAS expresion_numerica
+Rule 32    expresion_numerica -> expresion_numerica MENOS expresion_numerica
+Rule 33    expresion_numerica -> expresion_numerica POR expresion_numerica
+Rule 34    expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica
+Rule 35    expresion_numerica -> MENOS expresion_numerica
+Rule 36    expresion_numerica -> PARIZQ expresion_numerica PARDER
+Rule 37    expresion_numerica -> ENTERO
+Rule 38    expresion_numerica -> DECIMAL
+Rule 39    expresion_numerica -> ID
+Rule 40    expresion_cadena -> expresion_cadena CONCAT expresion_cadena
+Rule 41    expresion_cadena -> CADENA
+Rule 42    expresion_cadena -> expresion_numerica
+Rule 43    expresion_logica -> expresion_numerica MAYQUE expresion_numerica
+Rule 44    expresion_logica -> expresion_numerica MENQUE expresion_numerica
+Rule 45    expresion_logica -> expresion_numerica IGUALQUE expresion_numerica
+Rule 46    expresion_logica -> expresion_numerica NIGUALQUE expresion_numerica
 
 Terminals, with rules where they appear
 
-CADENA               : 38
-CONCAT               : 37
-DECIMAL              : 35
-DIVIDIDO             : 31
-ELSE                 : 27
-ENTERO               : 34
-ID                   : 15 16 17 21 36
-IF                   : 26 27
-IGUAL                : 17 21
-IGUALQUE             : 42
-LLAVDER              : 25 26 27 27
-LLAVIZQ              : 25 26 27 27
-MAS                  : 28
-MAYQUE               : 40
-MENOS                : 29 32
-MENQUE               : 41
-MIENTRAS             : 25
-NIGUALQUE            : 43
-PARDER               : 11 25 26 27 33
-PARIZQ               : 11 25 26 27 33
-POR                  : 30
+CADENA               : 41
+CONCAT               : 40
+DECIMAL              : 38
+DIVIDIDO             : 34
+ELSE                 : 30
+ENTERO               : 37
+ID                   : 15 16 20 24 39
+IF                   : 29 30
+IGUAL                : 20 24
+IGUALQUE             : 45
+LLAVDER              : 28 29 30 30
+LLAVIZQ              : 28 29 30 30
+MAS                  : 31
+MAYQUE               : 43
+MENOS                : 32 35
+MENQUE               : 44
+MIENTRAS             : 28
+NIGUALQUE            : 46
+PARDER               : 11 28 29 30 36
+PARIZQ               : 11 28 29 30 36
+POR                  : 33
 PRINT                : 11
-PTCOMA               : 11 16 17 21
-VAR                  : 16 21
+PTCOMA               : 11 17
+VAR                  : 16 24
 error                : 
 
 Nonterminals, with rules where they appear
 
-asign_def_expresion_general : 21
-asign_expresion_general : 17
+asign_def_expresion_general : 24
+asign_expresion_general : 20
 asignacion_instr     : 6
 def_asig_instr       : 7
+def_instr_prima      : 16 20 24
 definicion_instr     : 5
-expresion_cadena     : 13 19 23 37 37
-expresion_id         : 14 20 24
-expresion_logica     : 25 26 27
-expresion_numerica   : 12 18 22 28 28 29 29 30 30 31 31 32 33 39 40 40 41 41 42 42 43 43
+empty                : 18
+expresion_cadena     : 13 22 26 40 40
+expresion_id         : 14 23 27
+expresion_logica     : 28 29 30
+expresion_numerica   : 12 21 25 31 31 32 32 33 33 34 34 35 36 42 43 43 44 44 45 45 46 46
 if_else_instr        : 10
 if_instr             : 9
 imprimir_instr       : 4
 init                 : 0
 instruccion          : 2 3
-instrucciones        : 1 2 25 26 27 27
+instrucciones        : 1 2 28 29 30 30
 mientras_instr       : 8
 print_expresion_general : 11
 
@@ -111,12 +116,12 @@ state 0
     (9) instruccion -> . if_instr
     (10) instruccion -> . if_else_instr
     (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
-    (16) definicion_instr -> . VAR ID PTCOMA
-    (17) asignacion_instr -> . ID IGUAL asign_expresion_general PTCOMA
-    (21) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general PTCOMA
-    (25) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (26) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (16) definicion_instr -> . VAR ID def_instr_prima
+    (20) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
+    (24) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
+    (28) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (29) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 
     PRINT           shift and go to state 11
     VAR             shift and go to state 12
@@ -153,12 +158,12 @@ state 2
     (9) instruccion -> . if_instr
     (10) instruccion -> . if_else_instr
     (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
-    (16) definicion_instr -> . VAR ID PTCOMA
-    (17) asignacion_instr -> . ID IGUAL asign_expresion_general PTCOMA
-    (21) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general PTCOMA
-    (25) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (26) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (16) definicion_instr -> . VAR ID def_instr_prima
+    (20) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
+    (24) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
+    (28) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (29) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 
     $end            reduce using rule 1 (init -> instrucciones .)
     PRINT           shift and go to state 11
@@ -289,30 +294,30 @@ state 11
 
 state 12
 
-    (16) definicion_instr -> VAR . ID PTCOMA
-    (21) def_asig_instr -> VAR . ID IGUAL asign_def_expresion_general PTCOMA
+    (16) definicion_instr -> VAR . ID def_instr_prima
+    (24) def_asig_instr -> VAR . ID IGUAL asign_def_expresion_general def_instr_prima
 
     ID              shift and go to state 18
 
 
 state 13
 
-    (17) asignacion_instr -> ID . IGUAL asign_expresion_general PTCOMA
+    (20) asignacion_instr -> ID . IGUAL asign_expresion_general def_instr_prima
 
     IGUAL           shift and go to state 19
 
 
 state 14
 
-    (25) mientras_instr -> MIENTRAS . PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (28) mientras_instr -> MIENTRAS . PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
 
     PARIZQ          shift and go to state 20
 
 
 state 15
 
-    (26) if_instr -> IF . PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> IF . PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (29) if_instr -> IF . PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> IF . PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 
     PARIZQ          shift and go to state 21
 
@@ -336,18 +341,18 @@ state 17
     (12) print_expresion_general -> . expresion_numerica
     (13) print_expresion_general -> . expresion_cadena
     (14) print_expresion_general -> . expresion_id
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
-    (37) expresion_cadena -> . expresion_cadena CONCAT expresion_cadena
-    (38) expresion_cadena -> . CADENA
-    (39) expresion_cadena -> . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
+    (40) expresion_cadena -> . expresion_cadena CONCAT expresion_cadena
+    (41) expresion_cadena -> . CADENA
+    (42) expresion_cadena -> . expresion_numerica
     (15) expresion_id -> . ID
 
     MENOS           shift and go to state 27
@@ -364,31 +369,43 @@ state 17
 
 state 18
 
-    (16) definicion_instr -> VAR ID . PTCOMA
-    (21) def_asig_instr -> VAR ID . IGUAL asign_def_expresion_general PTCOMA
+    (16) definicion_instr -> VAR ID . def_instr_prima
+    (24) def_asig_instr -> VAR ID . IGUAL asign_def_expresion_general def_instr_prima
+    (17) def_instr_prima -> . PTCOMA
+    (18) def_instr_prima -> . empty
+    (19) empty -> .
 
-    PTCOMA          shift and go to state 32
     IGUAL           shift and go to state 33
+    PTCOMA          shift and go to state 34
+    PRINT           reduce using rule 19 (empty -> .)
+    VAR             reduce using rule 19 (empty -> .)
+    ID              reduce using rule 19 (empty -> .)
+    MIENTRAS        reduce using rule 19 (empty -> .)
+    IF              reduce using rule 19 (empty -> .)
+    $end            reduce using rule 19 (empty -> .)
+    LLAVDER         reduce using rule 19 (empty -> .)
 
+    def_instr_prima                shift and go to state 32
+    empty                          shift and go to state 35
 
 state 19
 
-    (17) asignacion_instr -> ID IGUAL . asign_expresion_general PTCOMA
-    (18) asign_expresion_general -> . expresion_numerica
-    (19) asign_expresion_general -> . expresion_cadena
-    (20) asign_expresion_general -> . expresion_id
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
-    (37) expresion_cadena -> . expresion_cadena CONCAT expresion_cadena
-    (38) expresion_cadena -> . CADENA
-    (39) expresion_cadena -> . expresion_numerica
+    (20) asignacion_instr -> ID IGUAL . asign_expresion_general def_instr_prima
+    (21) asign_expresion_general -> . expresion_numerica
+    (22) asign_expresion_general -> . expresion_cadena
+    (23) asign_expresion_general -> . expresion_id
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
+    (40) expresion_cadena -> . expresion_cadena CONCAT expresion_cadena
+    (41) expresion_cadena -> . CADENA
+    (42) expresion_cadena -> . expresion_numerica
     (15) expresion_id -> . ID
 
     MENOS           shift and go to state 27
@@ -398,119 +415,119 @@ state 19
     ID              shift and go to state 30
     CADENA          shift and go to state 31
 
-    asign_expresion_general        shift and go to state 34
-    expresion_numerica             shift and go to state 35
-    expresion_cadena               shift and go to state 36
-    expresion_id                   shift and go to state 37
+    asign_expresion_general        shift and go to state 36
+    expresion_numerica             shift and go to state 37
+    expresion_cadena               shift and go to state 38
+    expresion_id                   shift and go to state 39
 
 state 20
 
-    (25) mientras_instr -> MIENTRAS PARIZQ . expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (40) expresion_logica -> . expresion_numerica MAYQUE expresion_numerica
-    (41) expresion_logica -> . expresion_numerica MENQUE expresion_numerica
-    (42) expresion_logica -> . expresion_numerica IGUALQUE expresion_numerica
-    (43) expresion_logica -> . expresion_numerica NIGUALQUE expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (28) mientras_instr -> MIENTRAS PARIZQ . expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (43) expresion_logica -> . expresion_numerica MAYQUE expresion_numerica
+    (44) expresion_logica -> . expresion_numerica MENQUE expresion_numerica
+    (45) expresion_logica -> . expresion_numerica IGUALQUE expresion_numerica
+    (46) expresion_logica -> . expresion_numerica NIGUALQUE expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
     MENOS           shift and go to state 27
     PARIZQ          shift and go to state 22
     ENTERO          shift and go to state 28
     DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    ID              shift and go to state 42
 
-    expresion_logica               shift and go to state 38
-    expresion_numerica             shift and go to state 39
+    expresion_logica               shift and go to state 40
+    expresion_numerica             shift and go to state 41
 
 state 21
 
-    (26) if_instr -> IF PARIZQ . expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> IF PARIZQ . expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
-    (40) expresion_logica -> . expresion_numerica MAYQUE expresion_numerica
-    (41) expresion_logica -> . expresion_numerica MENQUE expresion_numerica
-    (42) expresion_logica -> . expresion_numerica IGUALQUE expresion_numerica
-    (43) expresion_logica -> . expresion_numerica NIGUALQUE expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (29) if_instr -> IF PARIZQ . expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> IF PARIZQ . expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (43) expresion_logica -> . expresion_numerica MAYQUE expresion_numerica
+    (44) expresion_logica -> . expresion_numerica MENQUE expresion_numerica
+    (45) expresion_logica -> . expresion_numerica IGUALQUE expresion_numerica
+    (46) expresion_logica -> . expresion_numerica NIGUALQUE expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
     MENOS           shift and go to state 27
     PARIZQ          shift and go to state 22
     ENTERO          shift and go to state 28
     DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    ID              shift and go to state 42
 
-    expresion_logica               shift and go to state 41
-    expresion_numerica             shift and go to state 39
+    expresion_logica               shift and go to state 43
+    expresion_numerica             shift and go to state 41
 
 state 22
 
-    (33) expresion_numerica -> PARIZQ . expresion_numerica PARDER
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (36) expresion_numerica -> PARIZQ . expresion_numerica PARDER
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
     MENOS           shift and go to state 27
     PARIZQ          shift and go to state 22
     ENTERO          shift and go to state 28
     DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    ID              shift and go to state 42
 
-    expresion_numerica             shift and go to state 42
+    expresion_numerica             shift and go to state 44
 
 state 23
 
     (11) imprimir_instr -> PRINT PARIZQ print_expresion_general . PARDER PTCOMA
 
-    PARDER          shift and go to state 43
+    PARDER          shift and go to state 45
 
 
 state 24
 
     (12) print_expresion_general -> expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
-    (39) expresion_cadena -> expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+    (42) expresion_cadena -> expresion_numerica .
 
   ! reduce/reduce conflict for PARDER resolved using rule 12 (print_expresion_general -> expresion_numerica .)
     PARDER          reduce using rule 12 (print_expresion_general -> expresion_numerica .)
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
-    CONCAT          reduce using rule 39 (expresion_cadena -> expresion_numerica .)
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
+    CONCAT          reduce using rule 42 (expresion_cadena -> expresion_numerica .)
 
-  ! PARDER          [ reduce using rule 39 (expresion_cadena -> expresion_numerica .) ]
+  ! PARDER          [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
 
 
 state 25
 
     (13) print_expresion_general -> expresion_cadena .
-    (37) expresion_cadena -> expresion_cadena . CONCAT expresion_cadena
+    (40) expresion_cadena -> expresion_cadena . CONCAT expresion_cadena
 
     PARDER          reduce using rule 13 (print_expresion_general -> expresion_cadena .)
-    CONCAT          shift and go to state 48
+    CONCAT          shift and go to state 50
 
 
 state 26
@@ -522,118 +539,160 @@ state 26
 
 state 27
 
-    (32) expresion_numerica -> MENOS . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (35) expresion_numerica -> MENOS . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
     MENOS           shift and go to state 27
     PARIZQ          shift and go to state 22
     ENTERO          shift and go to state 28
     DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    ID              shift and go to state 42
 
-    expresion_numerica             shift and go to state 49
+    expresion_numerica             shift and go to state 51
 
 state 28
 
-    (34) expresion_numerica -> ENTERO .
+    (37) expresion_numerica -> ENTERO .
 
-    MAS             reduce using rule 34 (expresion_numerica -> ENTERO .)
-    MENOS           reduce using rule 34 (expresion_numerica -> ENTERO .)
-    POR             reduce using rule 34 (expresion_numerica -> ENTERO .)
-    DIVIDIDO        reduce using rule 34 (expresion_numerica -> ENTERO .)
-    PARDER          reduce using rule 34 (expresion_numerica -> ENTERO .)
-    CONCAT          reduce using rule 34 (expresion_numerica -> ENTERO .)
-    PTCOMA          reduce using rule 34 (expresion_numerica -> ENTERO .)
-    MAYQUE          reduce using rule 34 (expresion_numerica -> ENTERO .)
-    MENQUE          reduce using rule 34 (expresion_numerica -> ENTERO .)
-    IGUALQUE        reduce using rule 34 (expresion_numerica -> ENTERO .)
-    NIGUALQUE       reduce using rule 34 (expresion_numerica -> ENTERO .)
+    MAS             reduce using rule 37 (expresion_numerica -> ENTERO .)
+    MENOS           reduce using rule 37 (expresion_numerica -> ENTERO .)
+    POR             reduce using rule 37 (expresion_numerica -> ENTERO .)
+    DIVIDIDO        reduce using rule 37 (expresion_numerica -> ENTERO .)
+    PARDER          reduce using rule 37 (expresion_numerica -> ENTERO .)
+    CONCAT          reduce using rule 37 (expresion_numerica -> ENTERO .)
+    PTCOMA          reduce using rule 37 (expresion_numerica -> ENTERO .)
+    PRINT           reduce using rule 37 (expresion_numerica -> ENTERO .)
+    VAR             reduce using rule 37 (expresion_numerica -> ENTERO .)
+    ID              reduce using rule 37 (expresion_numerica -> ENTERO .)
+    MIENTRAS        reduce using rule 37 (expresion_numerica -> ENTERO .)
+    IF              reduce using rule 37 (expresion_numerica -> ENTERO .)
+    $end            reduce using rule 37 (expresion_numerica -> ENTERO .)
+    LLAVDER         reduce using rule 37 (expresion_numerica -> ENTERO .)
+    MAYQUE          reduce using rule 37 (expresion_numerica -> ENTERO .)
+    MENQUE          reduce using rule 37 (expresion_numerica -> ENTERO .)
+    IGUALQUE        reduce using rule 37 (expresion_numerica -> ENTERO .)
+    NIGUALQUE       reduce using rule 37 (expresion_numerica -> ENTERO .)
 
 
 state 29
 
-    (35) expresion_numerica -> DECIMAL .
+    (38) expresion_numerica -> DECIMAL .
 
-    MAS             reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    MENOS           reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    POR             reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    DIVIDIDO        reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    PARDER          reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    CONCAT          reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    PTCOMA          reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    MAYQUE          reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    MENQUE          reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    IGUALQUE        reduce using rule 35 (expresion_numerica -> DECIMAL .)
-    NIGUALQUE       reduce using rule 35 (expresion_numerica -> DECIMAL .)
+    MAS             reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    MENOS           reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    POR             reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    DIVIDIDO        reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    PARDER          reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    CONCAT          reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    PTCOMA          reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    PRINT           reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    VAR             reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    ID              reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    MIENTRAS        reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    IF              reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    $end            reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    LLAVDER         reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    MAYQUE          reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    MENQUE          reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    IGUALQUE        reduce using rule 38 (expresion_numerica -> DECIMAL .)
+    NIGUALQUE       reduce using rule 38 (expresion_numerica -> DECIMAL .)
 
 
 state 30
 
-    (36) expresion_numerica -> ID .
+    (39) expresion_numerica -> ID .
     (15) expresion_id -> ID .
 
   ! reduce/reduce conflict for PARDER resolved using rule 15 (expresion_id -> ID .)
   ! reduce/reduce conflict for PTCOMA resolved using rule 15 (expresion_id -> ID .)
-    MAS             reduce using rule 36 (expresion_numerica -> ID .)
-    MENOS           reduce using rule 36 (expresion_numerica -> ID .)
-    POR             reduce using rule 36 (expresion_numerica -> ID .)
-    DIVIDIDO        reduce using rule 36 (expresion_numerica -> ID .)
-    CONCAT          reduce using rule 36 (expresion_numerica -> ID .)
+  ! reduce/reduce conflict for PRINT resolved using rule 15 (expresion_id -> ID .)
+  ! reduce/reduce conflict for VAR resolved using rule 15 (expresion_id -> ID .)
+  ! reduce/reduce conflict for ID resolved using rule 15 (expresion_id -> ID .)
+  ! reduce/reduce conflict for MIENTRAS resolved using rule 15 (expresion_id -> ID .)
+  ! reduce/reduce conflict for IF resolved using rule 15 (expresion_id -> ID .)
+  ! reduce/reduce conflict for $end resolved using rule 15 (expresion_id -> ID .)
+  ! reduce/reduce conflict for LLAVDER resolved using rule 15 (expresion_id -> ID .)
+    MAS             reduce using rule 39 (expresion_numerica -> ID .)
+    MENOS           reduce using rule 39 (expresion_numerica -> ID .)
+    POR             reduce using rule 39 (expresion_numerica -> ID .)
+    DIVIDIDO        reduce using rule 39 (expresion_numerica -> ID .)
+    CONCAT          reduce using rule 39 (expresion_numerica -> ID .)
     PARDER          reduce using rule 15 (expresion_id -> ID .)
     PTCOMA          reduce using rule 15 (expresion_id -> ID .)
+    PRINT           reduce using rule 15 (expresion_id -> ID .)
+    VAR             reduce using rule 15 (expresion_id -> ID .)
+    ID              reduce using rule 15 (expresion_id -> ID .)
+    MIENTRAS        reduce using rule 15 (expresion_id -> ID .)
+    IF              reduce using rule 15 (expresion_id -> ID .)
+    $end            reduce using rule 15 (expresion_id -> ID .)
+    LLAVDER         reduce using rule 15 (expresion_id -> ID .)
 
-  ! PARDER          [ reduce using rule 36 (expresion_numerica -> ID .) ]
-  ! PTCOMA          [ reduce using rule 36 (expresion_numerica -> ID .) ]
+  ! PARDER          [ reduce using rule 39 (expresion_numerica -> ID .) ]
+  ! PTCOMA          [ reduce using rule 39 (expresion_numerica -> ID .) ]
+  ! PRINT           [ reduce using rule 39 (expresion_numerica -> ID .) ]
+  ! VAR             [ reduce using rule 39 (expresion_numerica -> ID .) ]
+  ! ID              [ reduce using rule 39 (expresion_numerica -> ID .) ]
+  ! MIENTRAS        [ reduce using rule 39 (expresion_numerica -> ID .) ]
+  ! IF              [ reduce using rule 39 (expresion_numerica -> ID .) ]
+  ! $end            [ reduce using rule 39 (expresion_numerica -> ID .) ]
+  ! LLAVDER         [ reduce using rule 39 (expresion_numerica -> ID .) ]
 
 
 state 31
 
-    (38) expresion_cadena -> CADENA .
+    (41) expresion_cadena -> CADENA .
 
-    CONCAT          reduce using rule 38 (expresion_cadena -> CADENA .)
-    PARDER          reduce using rule 38 (expresion_cadena -> CADENA .)
-    PTCOMA          reduce using rule 38 (expresion_cadena -> CADENA .)
+    CONCAT          reduce using rule 41 (expresion_cadena -> CADENA .)
+    PARDER          reduce using rule 41 (expresion_cadena -> CADENA .)
+    PTCOMA          reduce using rule 41 (expresion_cadena -> CADENA .)
+    PRINT           reduce using rule 41 (expresion_cadena -> CADENA .)
+    VAR             reduce using rule 41 (expresion_cadena -> CADENA .)
+    ID              reduce using rule 41 (expresion_cadena -> CADENA .)
+    MIENTRAS        reduce using rule 41 (expresion_cadena -> CADENA .)
+    IF              reduce using rule 41 (expresion_cadena -> CADENA .)
+    $end            reduce using rule 41 (expresion_cadena -> CADENA .)
+    LLAVDER         reduce using rule 41 (expresion_cadena -> CADENA .)
 
 
 state 32
 
-    (16) definicion_instr -> VAR ID PTCOMA .
+    (16) definicion_instr -> VAR ID def_instr_prima .
 
-    PRINT           reduce using rule 16 (definicion_instr -> VAR ID PTCOMA .)
-    VAR             reduce using rule 16 (definicion_instr -> VAR ID PTCOMA .)
-    ID              reduce using rule 16 (definicion_instr -> VAR ID PTCOMA .)
-    MIENTRAS        reduce using rule 16 (definicion_instr -> VAR ID PTCOMA .)
-    IF              reduce using rule 16 (definicion_instr -> VAR ID PTCOMA .)
-    $end            reduce using rule 16 (definicion_instr -> VAR ID PTCOMA .)
-    LLAVDER         reduce using rule 16 (definicion_instr -> VAR ID PTCOMA .)
+    PRINT           reduce using rule 16 (definicion_instr -> VAR ID def_instr_prima .)
+    VAR             reduce using rule 16 (definicion_instr -> VAR ID def_instr_prima .)
+    ID              reduce using rule 16 (definicion_instr -> VAR ID def_instr_prima .)
+    MIENTRAS        reduce using rule 16 (definicion_instr -> VAR ID def_instr_prima .)
+    IF              reduce using rule 16 (definicion_instr -> VAR ID def_instr_prima .)
+    $end            reduce using rule 16 (definicion_instr -> VAR ID def_instr_prima .)
+    LLAVDER         reduce using rule 16 (definicion_instr -> VAR ID def_instr_prima .)
 
 
 state 33
 
-    (21) def_asig_instr -> VAR ID IGUAL . asign_def_expresion_general PTCOMA
-    (22) asign_def_expresion_general -> . expresion_numerica
-    (23) asign_def_expresion_general -> . expresion_cadena
-    (24) asign_def_expresion_general -> . expresion_id
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
-    (37) expresion_cadena -> . expresion_cadena CONCAT expresion_cadena
-    (38) expresion_cadena -> . CADENA
-    (39) expresion_cadena -> . expresion_numerica
+    (24) def_asig_instr -> VAR ID IGUAL . asign_def_expresion_general def_instr_prima
+    (25) asign_def_expresion_general -> . expresion_numerica
+    (26) asign_def_expresion_general -> . expresion_cadena
+    (27) asign_def_expresion_general -> . expresion_id
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
+    (40) expresion_cadena -> . expresion_cadena CONCAT expresion_cadena
+    (41) expresion_cadena -> . CADENA
+    (42) expresion_cadena -> . expresion_numerica
     (15) expresion_id -> . ID
 
     MENOS           shift and go to state 27
@@ -643,438 +702,579 @@ state 33
     ID              shift and go to state 30
     CADENA          shift and go to state 31
 
-    asign_def_expresion_general    shift and go to state 50
-    expresion_numerica             shift and go to state 51
-    expresion_cadena               shift and go to state 52
-    expresion_id                   shift and go to state 53
+    asign_def_expresion_general    shift and go to state 52
+    expresion_numerica             shift and go to state 53
+    expresion_cadena               shift and go to state 54
+    expresion_id                   shift and go to state 55
 
 state 34
 
-    (17) asignacion_instr -> ID IGUAL asign_expresion_general . PTCOMA
+    (17) def_instr_prima -> PTCOMA .
 
-    PTCOMA          shift and go to state 54
+    PRINT           reduce using rule 17 (def_instr_prima -> PTCOMA .)
+    VAR             reduce using rule 17 (def_instr_prima -> PTCOMA .)
+    ID              reduce using rule 17 (def_instr_prima -> PTCOMA .)
+    MIENTRAS        reduce using rule 17 (def_instr_prima -> PTCOMA .)
+    IF              reduce using rule 17 (def_instr_prima -> PTCOMA .)
+    $end            reduce using rule 17 (def_instr_prima -> PTCOMA .)
+    LLAVDER         reduce using rule 17 (def_instr_prima -> PTCOMA .)
 
 
 state 35
 
-    (18) asign_expresion_general -> expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
-    (39) expresion_cadena -> expresion_numerica .
+    (18) def_instr_prima -> empty .
 
-  ! reduce/reduce conflict for PTCOMA resolved using rule 18 (asign_expresion_general -> expresion_numerica .)
-    PTCOMA          reduce using rule 18 (asign_expresion_general -> expresion_numerica .)
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
-    CONCAT          reduce using rule 39 (expresion_cadena -> expresion_numerica .)
-
-  ! PTCOMA          [ reduce using rule 39 (expresion_cadena -> expresion_numerica .) ]
+    PRINT           reduce using rule 18 (def_instr_prima -> empty .)
+    VAR             reduce using rule 18 (def_instr_prima -> empty .)
+    ID              reduce using rule 18 (def_instr_prima -> empty .)
+    MIENTRAS        reduce using rule 18 (def_instr_prima -> empty .)
+    IF              reduce using rule 18 (def_instr_prima -> empty .)
+    $end            reduce using rule 18 (def_instr_prima -> empty .)
+    LLAVDER         reduce using rule 18 (def_instr_prima -> empty .)
 
 
 state 36
 
-    (19) asign_expresion_general -> expresion_cadena .
-    (37) expresion_cadena -> expresion_cadena . CONCAT expresion_cadena
+    (20) asignacion_instr -> ID IGUAL asign_expresion_general . def_instr_prima
+    (17) def_instr_prima -> . PTCOMA
+    (18) def_instr_prima -> . empty
+    (19) empty -> .
 
-    PTCOMA          reduce using rule 19 (asign_expresion_general -> expresion_cadena .)
-    CONCAT          shift and go to state 48
+    PTCOMA          shift and go to state 34
+    PRINT           reduce using rule 19 (empty -> .)
+    VAR             reduce using rule 19 (empty -> .)
+    ID              reduce using rule 19 (empty -> .)
+    MIENTRAS        reduce using rule 19 (empty -> .)
+    IF              reduce using rule 19 (empty -> .)
+    $end            reduce using rule 19 (empty -> .)
+    LLAVDER         reduce using rule 19 (empty -> .)
 
+    def_instr_prima                shift and go to state 56
+    empty                          shift and go to state 35
 
 state 37
 
-    (20) asign_expresion_general -> expresion_id .
+    (21) asign_expresion_general -> expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+    (42) expresion_cadena -> expresion_numerica .
 
-    PTCOMA          reduce using rule 20 (asign_expresion_general -> expresion_id .)
+  ! reduce/reduce conflict for PTCOMA resolved using rule 21 (asign_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for PRINT resolved using rule 21 (asign_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for VAR resolved using rule 21 (asign_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for ID resolved using rule 21 (asign_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for MIENTRAS resolved using rule 21 (asign_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for IF resolved using rule 21 (asign_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for $end resolved using rule 21 (asign_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for LLAVDER resolved using rule 21 (asign_expresion_general -> expresion_numerica .)
+    PTCOMA          reduce using rule 21 (asign_expresion_general -> expresion_numerica .)
+    PRINT           reduce using rule 21 (asign_expresion_general -> expresion_numerica .)
+    VAR             reduce using rule 21 (asign_expresion_general -> expresion_numerica .)
+    ID              reduce using rule 21 (asign_expresion_general -> expresion_numerica .)
+    MIENTRAS        reduce using rule 21 (asign_expresion_general -> expresion_numerica .)
+    IF              reduce using rule 21 (asign_expresion_general -> expresion_numerica .)
+    $end            reduce using rule 21 (asign_expresion_general -> expresion_numerica .)
+    LLAVDER         reduce using rule 21 (asign_expresion_general -> expresion_numerica .)
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
+    CONCAT          reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+
+  ! PTCOMA          [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! PRINT           [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! VAR             [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! ID              [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! MIENTRAS        [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! IF              [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! $end            [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! LLAVDER         [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
 
 
 state 38
 
-    (25) mientras_instr -> MIENTRAS PARIZQ expresion_logica . PARDER LLAVIZQ instrucciones LLAVDER
+    (22) asign_expresion_general -> expresion_cadena .
+    (40) expresion_cadena -> expresion_cadena . CONCAT expresion_cadena
 
-    PARDER          shift and go to state 55
+    PTCOMA          reduce using rule 22 (asign_expresion_general -> expresion_cadena .)
+    PRINT           reduce using rule 22 (asign_expresion_general -> expresion_cadena .)
+    VAR             reduce using rule 22 (asign_expresion_general -> expresion_cadena .)
+    ID              reduce using rule 22 (asign_expresion_general -> expresion_cadena .)
+    MIENTRAS        reduce using rule 22 (asign_expresion_general -> expresion_cadena .)
+    IF              reduce using rule 22 (asign_expresion_general -> expresion_cadena .)
+    $end            reduce using rule 22 (asign_expresion_general -> expresion_cadena .)
+    LLAVDER         reduce using rule 22 (asign_expresion_general -> expresion_cadena .)
+    CONCAT          shift and go to state 50
 
 
 state 39
 
-    (40) expresion_logica -> expresion_numerica . MAYQUE expresion_numerica
-    (41) expresion_logica -> expresion_numerica . MENQUE expresion_numerica
-    (42) expresion_logica -> expresion_numerica . IGUALQUE expresion_numerica
-    (43) expresion_logica -> expresion_numerica . NIGUALQUE expresion_numerica
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+    (23) asign_expresion_general -> expresion_id .
 
-    MAYQUE          shift and go to state 56
-    MENQUE          shift and go to state 57
-    IGUALQUE        shift and go to state 58
-    NIGUALQUE       shift and go to state 59
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
+    PTCOMA          reduce using rule 23 (asign_expresion_general -> expresion_id .)
+    PRINT           reduce using rule 23 (asign_expresion_general -> expresion_id .)
+    VAR             reduce using rule 23 (asign_expresion_general -> expresion_id .)
+    ID              reduce using rule 23 (asign_expresion_general -> expresion_id .)
+    MIENTRAS        reduce using rule 23 (asign_expresion_general -> expresion_id .)
+    IF              reduce using rule 23 (asign_expresion_general -> expresion_id .)
+    $end            reduce using rule 23 (asign_expresion_general -> expresion_id .)
+    LLAVDER         reduce using rule 23 (asign_expresion_general -> expresion_id .)
 
 
 state 40
 
-    (36) expresion_numerica -> ID .
+    (28) mientras_instr -> MIENTRAS PARIZQ expresion_logica . PARDER LLAVIZQ instrucciones LLAVDER
 
-    MAYQUE          reduce using rule 36 (expresion_numerica -> ID .)
-    MENQUE          reduce using rule 36 (expresion_numerica -> ID .)
-    IGUALQUE        reduce using rule 36 (expresion_numerica -> ID .)
-    NIGUALQUE       reduce using rule 36 (expresion_numerica -> ID .)
-    MAS             reduce using rule 36 (expresion_numerica -> ID .)
-    MENOS           reduce using rule 36 (expresion_numerica -> ID .)
-    POR             reduce using rule 36 (expresion_numerica -> ID .)
-    DIVIDIDO        reduce using rule 36 (expresion_numerica -> ID .)
-    PARDER          reduce using rule 36 (expresion_numerica -> ID .)
-    CONCAT          reduce using rule 36 (expresion_numerica -> ID .)
-    PTCOMA          reduce using rule 36 (expresion_numerica -> ID .)
+    PARDER          shift and go to state 57
 
 
 state 41
 
-    (26) if_instr -> IF PARIZQ expresion_logica . PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> IF PARIZQ expresion_logica . PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (43) expresion_logica -> expresion_numerica . MAYQUE expresion_numerica
+    (44) expresion_logica -> expresion_numerica . MENQUE expresion_numerica
+    (45) expresion_logica -> expresion_numerica . IGUALQUE expresion_numerica
+    (46) expresion_logica -> expresion_numerica . NIGUALQUE expresion_numerica
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
 
-    PARDER          shift and go to state 60
+    MAYQUE          shift and go to state 58
+    MENQUE          shift and go to state 59
+    IGUALQUE        shift and go to state 60
+    NIGUALQUE       shift and go to state 61
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
 
 
 state 42
 
-    (33) expresion_numerica -> PARIZQ expresion_numerica . PARDER
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+    (39) expresion_numerica -> ID .
 
-    PARDER          shift and go to state 61
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
+    MAYQUE          reduce using rule 39 (expresion_numerica -> ID .)
+    MENQUE          reduce using rule 39 (expresion_numerica -> ID .)
+    IGUALQUE        reduce using rule 39 (expresion_numerica -> ID .)
+    NIGUALQUE       reduce using rule 39 (expresion_numerica -> ID .)
+    MAS             reduce using rule 39 (expresion_numerica -> ID .)
+    MENOS           reduce using rule 39 (expresion_numerica -> ID .)
+    POR             reduce using rule 39 (expresion_numerica -> ID .)
+    DIVIDIDO        reduce using rule 39 (expresion_numerica -> ID .)
+    PARDER          reduce using rule 39 (expresion_numerica -> ID .)
+    CONCAT          reduce using rule 39 (expresion_numerica -> ID .)
+    PTCOMA          reduce using rule 39 (expresion_numerica -> ID .)
+    PRINT           reduce using rule 39 (expresion_numerica -> ID .)
+    VAR             reduce using rule 39 (expresion_numerica -> ID .)
+    ID              reduce using rule 39 (expresion_numerica -> ID .)
+    MIENTRAS        reduce using rule 39 (expresion_numerica -> ID .)
+    IF              reduce using rule 39 (expresion_numerica -> ID .)
+    $end            reduce using rule 39 (expresion_numerica -> ID .)
+    LLAVDER         reduce using rule 39 (expresion_numerica -> ID .)
 
 
 state 43
 
-    (11) imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER . PTCOMA
+    (29) if_instr -> IF PARIZQ expresion_logica . PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> IF PARIZQ expresion_logica . PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 
-    PTCOMA          shift and go to state 62
+    PARDER          shift and go to state 62
 
 
 state 44
 
-    (28) expresion_numerica -> expresion_numerica MAS . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (36) expresion_numerica -> PARIZQ expresion_numerica . PARDER
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
 
-    MENOS           shift and go to state 27
-    PARIZQ          shift and go to state 22
-    ENTERO          shift and go to state 28
-    DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    PARDER          shift and go to state 63
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
 
-    expresion_numerica             shift and go to state 63
 
 state 45
 
-    (29) expresion_numerica -> expresion_numerica MENOS . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (11) imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER . PTCOMA
 
-    MENOS           shift and go to state 27
-    PARIZQ          shift and go to state 22
-    ENTERO          shift and go to state 28
-    DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    PTCOMA          shift and go to state 64
 
-    expresion_numerica             shift and go to state 64
 
 state 46
 
-    (30) expresion_numerica -> expresion_numerica POR . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (31) expresion_numerica -> expresion_numerica MAS . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
     MENOS           shift and go to state 27
     PARIZQ          shift and go to state 22
     ENTERO          shift and go to state 28
     DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    ID              shift and go to state 42
 
     expresion_numerica             shift and go to state 65
 
 state 47
 
-    (31) expresion_numerica -> expresion_numerica DIVIDIDO . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (32) expresion_numerica -> expresion_numerica MENOS . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
     MENOS           shift and go to state 27
     PARIZQ          shift and go to state 22
     ENTERO          shift and go to state 28
     DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    ID              shift and go to state 42
 
     expresion_numerica             shift and go to state 66
 
 state 48
 
-    (37) expresion_cadena -> expresion_cadena CONCAT . expresion_cadena
-    (37) expresion_cadena -> . expresion_cadena CONCAT expresion_cadena
-    (38) expresion_cadena -> . CADENA
-    (39) expresion_cadena -> . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (33) expresion_numerica -> expresion_numerica POR . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
+
+    MENOS           shift and go to state 27
+    PARIZQ          shift and go to state 22
+    ENTERO          shift and go to state 28
+    DECIMAL         shift and go to state 29
+    ID              shift and go to state 42
+
+    expresion_numerica             shift and go to state 67
+
+state 49
+
+    (34) expresion_numerica -> expresion_numerica DIVIDIDO . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
+
+    MENOS           shift and go to state 27
+    PARIZQ          shift and go to state 22
+    ENTERO          shift and go to state 28
+    DECIMAL         shift and go to state 29
+    ID              shift and go to state 42
+
+    expresion_numerica             shift and go to state 68
+
+state 50
+
+    (40) expresion_cadena -> expresion_cadena CONCAT . expresion_cadena
+    (40) expresion_cadena -> . expresion_cadena CONCAT expresion_cadena
+    (41) expresion_cadena -> . CADENA
+    (42) expresion_cadena -> . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
     CADENA          shift and go to state 31
     MENOS           shift and go to state 27
     PARIZQ          shift and go to state 22
     ENTERO          shift and go to state 28
     DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    ID              shift and go to state 42
 
-    expresion_cadena               shift and go to state 67
-    expresion_numerica             shift and go to state 68
-
-state 49
-
-    (32) expresion_numerica -> MENOS expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
-
-    MAS             reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    MENOS           reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    POR             reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    DIVIDIDO        reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    PARDER          reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    CONCAT          reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    PTCOMA          reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    MAYQUE          reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    MENQUE          reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    IGUALQUE        reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-    NIGUALQUE       reduce using rule 32 (expresion_numerica -> MENOS expresion_numerica .)
-
-  ! MAS             [ shift and go to state 44 ]
-  ! MENOS           [ shift and go to state 45 ]
-  ! POR             [ shift and go to state 46 ]
-  ! DIVIDIDO        [ shift and go to state 47 ]
-
-
-state 50
-
-    (21) def_asig_instr -> VAR ID IGUAL asign_def_expresion_general . PTCOMA
-
-    PTCOMA          shift and go to state 69
-
+    expresion_cadena               shift and go to state 69
+    expresion_numerica             shift and go to state 70
 
 state 51
 
-    (22) asign_def_expresion_general -> expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
-    (39) expresion_cadena -> expresion_numerica .
+    (35) expresion_numerica -> MENOS expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
 
-  ! reduce/reduce conflict for PTCOMA resolved using rule 22 (asign_def_expresion_general -> expresion_numerica .)
-    PTCOMA          reduce using rule 22 (asign_def_expresion_general -> expresion_numerica .)
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
-    CONCAT          reduce using rule 39 (expresion_cadena -> expresion_numerica .)
+    MAS             reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    MENOS           reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    POR             reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    DIVIDIDO        reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    PARDER          reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    CONCAT          reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    PTCOMA          reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    PRINT           reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    VAR             reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    ID              reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    MIENTRAS        reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    IF              reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    $end            reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    LLAVDER         reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    MAYQUE          reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    MENQUE          reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    IGUALQUE        reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
+    NIGUALQUE       reduce using rule 35 (expresion_numerica -> MENOS expresion_numerica .)
 
-  ! PTCOMA          [ reduce using rule 39 (expresion_cadena -> expresion_numerica .) ]
+  ! MAS             [ shift and go to state 46 ]
+  ! MENOS           [ shift and go to state 47 ]
+  ! POR             [ shift and go to state 48 ]
+  ! DIVIDIDO        [ shift and go to state 49 ]
 
 
 state 52
 
-    (23) asign_def_expresion_general -> expresion_cadena .
-    (37) expresion_cadena -> expresion_cadena . CONCAT expresion_cadena
+    (24) def_asig_instr -> VAR ID IGUAL asign_def_expresion_general . def_instr_prima
+    (17) def_instr_prima -> . PTCOMA
+    (18) def_instr_prima -> . empty
+    (19) empty -> .
 
-    PTCOMA          reduce using rule 23 (asign_def_expresion_general -> expresion_cadena .)
-    CONCAT          shift and go to state 48
+    PTCOMA          shift and go to state 34
+    PRINT           reduce using rule 19 (empty -> .)
+    VAR             reduce using rule 19 (empty -> .)
+    ID              reduce using rule 19 (empty -> .)
+    MIENTRAS        reduce using rule 19 (empty -> .)
+    IF              reduce using rule 19 (empty -> .)
+    $end            reduce using rule 19 (empty -> .)
+    LLAVDER         reduce using rule 19 (empty -> .)
 
+    def_instr_prima                shift and go to state 71
+    empty                          shift and go to state 35
 
 state 53
 
-    (24) asign_def_expresion_general -> expresion_id .
+    (25) asign_def_expresion_general -> expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+    (42) expresion_cadena -> expresion_numerica .
 
-    PTCOMA          reduce using rule 24 (asign_def_expresion_general -> expresion_id .)
+  ! reduce/reduce conflict for PTCOMA resolved using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for PRINT resolved using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for VAR resolved using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for ID resolved using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for MIENTRAS resolved using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for IF resolved using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for $end resolved using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+  ! reduce/reduce conflict for LLAVDER resolved using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+    PTCOMA          reduce using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+    PRINT           reduce using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+    VAR             reduce using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+    ID              reduce using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+    MIENTRAS        reduce using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+    IF              reduce using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+    $end            reduce using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+    LLAVDER         reduce using rule 25 (asign_def_expresion_general -> expresion_numerica .)
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
+    CONCAT          reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+
+  ! PTCOMA          [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! PRINT           [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! VAR             [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! ID              [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! MIENTRAS        [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! IF              [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! $end            [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
+  ! LLAVDER         [ reduce using rule 42 (expresion_cadena -> expresion_numerica .) ]
 
 
 state 54
 
-    (17) asignacion_instr -> ID IGUAL asign_expresion_general PTCOMA .
+    (26) asign_def_expresion_general -> expresion_cadena .
+    (40) expresion_cadena -> expresion_cadena . CONCAT expresion_cadena
 
-    PRINT           reduce using rule 17 (asignacion_instr -> ID IGUAL asign_expresion_general PTCOMA .)
-    VAR             reduce using rule 17 (asignacion_instr -> ID IGUAL asign_expresion_general PTCOMA .)
-    ID              reduce using rule 17 (asignacion_instr -> ID IGUAL asign_expresion_general PTCOMA .)
-    MIENTRAS        reduce using rule 17 (asignacion_instr -> ID IGUAL asign_expresion_general PTCOMA .)
-    IF              reduce using rule 17 (asignacion_instr -> ID IGUAL asign_expresion_general PTCOMA .)
-    $end            reduce using rule 17 (asignacion_instr -> ID IGUAL asign_expresion_general PTCOMA .)
-    LLAVDER         reduce using rule 17 (asignacion_instr -> ID IGUAL asign_expresion_general PTCOMA .)
+    PTCOMA          reduce using rule 26 (asign_def_expresion_general -> expresion_cadena .)
+    PRINT           reduce using rule 26 (asign_def_expresion_general -> expresion_cadena .)
+    VAR             reduce using rule 26 (asign_def_expresion_general -> expresion_cadena .)
+    ID              reduce using rule 26 (asign_def_expresion_general -> expresion_cadena .)
+    MIENTRAS        reduce using rule 26 (asign_def_expresion_general -> expresion_cadena .)
+    IF              reduce using rule 26 (asign_def_expresion_general -> expresion_cadena .)
+    $end            reduce using rule 26 (asign_def_expresion_general -> expresion_cadena .)
+    LLAVDER         reduce using rule 26 (asign_def_expresion_general -> expresion_cadena .)
+    CONCAT          shift and go to state 50
 
 
 state 55
 
-    (25) mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER . LLAVIZQ instrucciones LLAVDER
+    (27) asign_def_expresion_general -> expresion_id .
 
-    LLAVIZQ         shift and go to state 70
+    PTCOMA          reduce using rule 27 (asign_def_expresion_general -> expresion_id .)
+    PRINT           reduce using rule 27 (asign_def_expresion_general -> expresion_id .)
+    VAR             reduce using rule 27 (asign_def_expresion_general -> expresion_id .)
+    ID              reduce using rule 27 (asign_def_expresion_general -> expresion_id .)
+    MIENTRAS        reduce using rule 27 (asign_def_expresion_general -> expresion_id .)
+    IF              reduce using rule 27 (asign_def_expresion_general -> expresion_id .)
+    $end            reduce using rule 27 (asign_def_expresion_general -> expresion_id .)
+    LLAVDER         reduce using rule 27 (asign_def_expresion_general -> expresion_id .)
 
 
 state 56
 
-    (40) expresion_logica -> expresion_numerica MAYQUE . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (20) asignacion_instr -> ID IGUAL asign_expresion_general def_instr_prima .
 
-    MENOS           shift and go to state 27
-    PARIZQ          shift and go to state 22
-    ENTERO          shift and go to state 28
-    DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    PRINT           reduce using rule 20 (asignacion_instr -> ID IGUAL asign_expresion_general def_instr_prima .)
+    VAR             reduce using rule 20 (asignacion_instr -> ID IGUAL asign_expresion_general def_instr_prima .)
+    ID              reduce using rule 20 (asignacion_instr -> ID IGUAL asign_expresion_general def_instr_prima .)
+    MIENTRAS        reduce using rule 20 (asignacion_instr -> ID IGUAL asign_expresion_general def_instr_prima .)
+    IF              reduce using rule 20 (asignacion_instr -> ID IGUAL asign_expresion_general def_instr_prima .)
+    $end            reduce using rule 20 (asignacion_instr -> ID IGUAL asign_expresion_general def_instr_prima .)
+    LLAVDER         reduce using rule 20 (asignacion_instr -> ID IGUAL asign_expresion_general def_instr_prima .)
 
-    expresion_numerica             shift and go to state 71
 
 state 57
 
-    (41) expresion_logica -> expresion_numerica MENQUE . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (28) mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER . LLAVIZQ instrucciones LLAVDER
 
-    MENOS           shift and go to state 27
-    PARIZQ          shift and go to state 22
-    ENTERO          shift and go to state 28
-    DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    LLAVIZQ         shift and go to state 72
 
-    expresion_numerica             shift and go to state 72
 
 state 58
 
-    (42) expresion_logica -> expresion_numerica IGUALQUE . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (43) expresion_logica -> expresion_numerica MAYQUE . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
     MENOS           shift and go to state 27
     PARIZQ          shift and go to state 22
     ENTERO          shift and go to state 28
     DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    ID              shift and go to state 42
 
     expresion_numerica             shift and go to state 73
 
 state 59
 
-    (43) expresion_logica -> expresion_numerica NIGUALQUE . expresion_numerica
-    (28) expresion_numerica -> . expresion_numerica MAS expresion_numerica
-    (29) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
-    (30) expresion_numerica -> . expresion_numerica POR expresion_numerica
-    (31) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
-    (32) expresion_numerica -> . MENOS expresion_numerica
-    (33) expresion_numerica -> . PARIZQ expresion_numerica PARDER
-    (34) expresion_numerica -> . ENTERO
-    (35) expresion_numerica -> . DECIMAL
-    (36) expresion_numerica -> . ID
+    (44) expresion_logica -> expresion_numerica MENQUE . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
     MENOS           shift and go to state 27
     PARIZQ          shift and go to state 22
     ENTERO          shift and go to state 28
     DECIMAL         shift and go to state 29
-    ID              shift and go to state 40
+    ID              shift and go to state 42
 
     expresion_numerica             shift and go to state 74
 
 state 60
 
-    (26) if_instr -> IF PARIZQ expresion_logica PARDER . LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> IF PARIZQ expresion_logica PARDER . LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (45) expresion_logica -> expresion_numerica IGUALQUE . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
-    LLAVIZQ         shift and go to state 75
+    MENOS           shift and go to state 27
+    PARIZQ          shift and go to state 22
+    ENTERO          shift and go to state 28
+    DECIMAL         shift and go to state 29
+    ID              shift and go to state 42
 
+    expresion_numerica             shift and go to state 75
 
 state 61
 
-    (33) expresion_numerica -> PARIZQ expresion_numerica PARDER .
+    (46) expresion_logica -> expresion_numerica NIGUALQUE . expresion_numerica
+    (31) expresion_numerica -> . expresion_numerica MAS expresion_numerica
+    (32) expresion_numerica -> . expresion_numerica MENOS expresion_numerica
+    (33) expresion_numerica -> . expresion_numerica POR expresion_numerica
+    (34) expresion_numerica -> . expresion_numerica DIVIDIDO expresion_numerica
+    (35) expresion_numerica -> . MENOS expresion_numerica
+    (36) expresion_numerica -> . PARIZQ expresion_numerica PARDER
+    (37) expresion_numerica -> . ENTERO
+    (38) expresion_numerica -> . DECIMAL
+    (39) expresion_numerica -> . ID
 
-    MAS             reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    MENOS           reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    POR             reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    DIVIDIDO        reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    PARDER          reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    CONCAT          reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    PTCOMA          reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    MAYQUE          reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    MENQUE          reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    IGUALQUE        reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
-    NIGUALQUE       reduce using rule 33 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    MENOS           shift and go to state 27
+    PARIZQ          shift and go to state 22
+    ENTERO          shift and go to state 28
+    DECIMAL         shift and go to state 29
+    ID              shift and go to state 42
 
+    expresion_numerica             shift and go to state 76
 
 state 62
+
+    (29) if_instr -> IF PARIZQ expresion_logica PARDER . LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> IF PARIZQ expresion_logica PARDER . LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+
+    LLAVIZQ         shift and go to state 77
+
+
+state 63
+
+    (36) expresion_numerica -> PARIZQ expresion_numerica PARDER .
+
+    MAS             reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    MENOS           reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    POR             reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    DIVIDIDO        reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    PARDER          reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    CONCAT          reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    PTCOMA          reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    PRINT           reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    VAR             reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    ID              reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    MIENTRAS        reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    IF              reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    $end            reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    LLAVDER         reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    MAYQUE          reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    MENQUE          reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    IGUALQUE        reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+    NIGUALQUE       reduce using rule 36 (expresion_numerica -> PARIZQ expresion_numerica PARDER .)
+
+
+state 64
 
     (11) imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .
 
@@ -1087,252 +1287,197 @@ state 62
     LLAVDER         reduce using rule 11 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .)
 
 
-state 63
-
-    (28) expresion_numerica -> expresion_numerica MAS expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
-
-    MAS             reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
-    MENOS           reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
-    PARDER          reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
-    CONCAT          reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
-    PTCOMA          reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
-    MAYQUE          reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
-    MENQUE          reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
-    IGUALQUE        reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
-    NIGUALQUE       reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
-
-  ! POR             [ reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .) ]
-  ! DIVIDIDO        [ reduce using rule 28 (expresion_numerica -> expresion_numerica MAS expresion_numerica .) ]
-  ! MAS             [ shift and go to state 44 ]
-  ! MENOS           [ shift and go to state 45 ]
-
-
-state 64
-
-    (29) expresion_numerica -> expresion_numerica MENOS expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
-
-    MAS             reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
-    MENOS           reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
-    PARDER          reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
-    CONCAT          reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
-    PTCOMA          reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
-    MAYQUE          reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
-    MENQUE          reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
-    IGUALQUE        reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
-    NIGUALQUE       reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
-
-  ! POR             [ reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .) ]
-  ! DIVIDIDO        [ reduce using rule 29 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .) ]
-  ! MAS             [ shift and go to state 44 ]
-  ! MENOS           [ shift and go to state 45 ]
-
-
 state 65
 
-    (30) expresion_numerica -> expresion_numerica POR expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+    (31) expresion_numerica -> expresion_numerica MAS expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
 
-    MAS             reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    MENOS           reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    POR             reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    DIVIDIDO        reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    PARDER          reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    CONCAT          reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    PTCOMA          reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    MAYQUE          reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    MENQUE          reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    IGUALQUE        reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
-    NIGUALQUE       reduce using rule 30 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    MAS             reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    MENOS           reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    PARDER          reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    CONCAT          reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    PTCOMA          reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    PRINT           reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    VAR             reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    ID              reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    MIENTRAS        reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    IF              reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    $end            reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    LLAVDER         reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    MAYQUE          reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    MENQUE          reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    IGUALQUE        reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    NIGUALQUE       reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .)
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
 
-  ! MAS             [ shift and go to state 44 ]
-  ! MENOS           [ shift and go to state 45 ]
-  ! POR             [ shift and go to state 46 ]
-  ! DIVIDIDO        [ shift and go to state 47 ]
+  ! POR             [ reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .) ]
+  ! DIVIDIDO        [ reduce using rule 31 (expresion_numerica -> expresion_numerica MAS expresion_numerica .) ]
+  ! MAS             [ shift and go to state 46 ]
+  ! MENOS           [ shift and go to state 47 ]
 
 
 state 66
 
-    (31) expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+    (32) expresion_numerica -> expresion_numerica MENOS expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
 
-    MAS             reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    MENOS           reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    POR             reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    DIVIDIDO        reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    PARDER          reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    CONCAT          reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    PTCOMA          reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    MAYQUE          reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    MENQUE          reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    IGUALQUE        reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
-    NIGUALQUE       reduce using rule 31 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    MAS             reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    MENOS           reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    PARDER          reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    CONCAT          reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    PTCOMA          reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    PRINT           reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    VAR             reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    ID              reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    MIENTRAS        reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    IF              reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    $end            reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    LLAVDER         reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    MAYQUE          reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    MENQUE          reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    IGUALQUE        reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    NIGUALQUE       reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .)
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
 
-  ! MAS             [ shift and go to state 44 ]
-  ! MENOS           [ shift and go to state 45 ]
-  ! POR             [ shift and go to state 46 ]
-  ! DIVIDIDO        [ shift and go to state 47 ]
+  ! POR             [ reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .) ]
+  ! DIVIDIDO        [ reduce using rule 32 (expresion_numerica -> expresion_numerica MENOS expresion_numerica .) ]
+  ! MAS             [ shift and go to state 46 ]
+  ! MENOS           [ shift and go to state 47 ]
 
 
 state 67
 
-    (37) expresion_cadena -> expresion_cadena CONCAT expresion_cadena .
-    (37) expresion_cadena -> expresion_cadena . CONCAT expresion_cadena
+    (33) expresion_numerica -> expresion_numerica POR expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
 
-    CONCAT          reduce using rule 37 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
-    PARDER          reduce using rule 37 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
-    PTCOMA          reduce using rule 37 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    MAS             reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    MENOS           reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    POR             reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    DIVIDIDO        reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    PARDER          reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    CONCAT          reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    PTCOMA          reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    PRINT           reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    VAR             reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    ID              reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    MIENTRAS        reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    IF              reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    $end            reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    LLAVDER         reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    MAYQUE          reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    MENQUE          reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    IGUALQUE        reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
+    NIGUALQUE       reduce using rule 33 (expresion_numerica -> expresion_numerica POR expresion_numerica .)
 
-  ! CONCAT          [ shift and go to state 48 ]
+  ! MAS             [ shift and go to state 46 ]
+  ! MENOS           [ shift and go to state 47 ]
+  ! POR             [ shift and go to state 48 ]
+  ! DIVIDIDO        [ shift and go to state 49 ]
 
 
 state 68
 
-    (39) expresion_cadena -> expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+    (34) expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
 
-    CONCAT          reduce using rule 39 (expresion_cadena -> expresion_numerica .)
-    PARDER          reduce using rule 39 (expresion_cadena -> expresion_numerica .)
-    PTCOMA          reduce using rule 39 (expresion_cadena -> expresion_numerica .)
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
+    MAS             reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    MENOS           reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    POR             reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    DIVIDIDO        reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    PARDER          reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    CONCAT          reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    PTCOMA          reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    PRINT           reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    VAR             reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    ID              reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    MIENTRAS        reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    IF              reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    $end            reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    LLAVDER         reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    MAYQUE          reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    MENQUE          reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    IGUALQUE        reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+    NIGUALQUE       reduce using rule 34 (expresion_numerica -> expresion_numerica DIVIDIDO expresion_numerica .)
+
+  ! MAS             [ shift and go to state 46 ]
+  ! MENOS           [ shift and go to state 47 ]
+  ! POR             [ shift and go to state 48 ]
+  ! DIVIDIDO        [ shift and go to state 49 ]
 
 
 state 69
 
-    (21) def_asig_instr -> VAR ID IGUAL asign_def_expresion_general PTCOMA .
+    (40) expresion_cadena -> expresion_cadena CONCAT expresion_cadena .
+    (40) expresion_cadena -> expresion_cadena . CONCAT expresion_cadena
 
-    PRINT           reduce using rule 21 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general PTCOMA .)
-    VAR             reduce using rule 21 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general PTCOMA .)
-    ID              reduce using rule 21 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general PTCOMA .)
-    MIENTRAS        reduce using rule 21 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general PTCOMA .)
-    IF              reduce using rule 21 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general PTCOMA .)
-    $end            reduce using rule 21 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general PTCOMA .)
-    LLAVDER         reduce using rule 21 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general PTCOMA .)
+    CONCAT          reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    PARDER          reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    PTCOMA          reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    PRINT           reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    VAR             reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    ID              reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    MIENTRAS        reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    IF              reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    $end            reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+    LLAVDER         reduce using rule 40 (expresion_cadena -> expresion_cadena CONCAT expresion_cadena .)
+
+  ! CONCAT          [ shift and go to state 50 ]
 
 
 state 70
 
-    (25) mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ . instrucciones LLAVDER
-    (2) instrucciones -> . instrucciones instruccion
-    (3) instrucciones -> . instruccion
-    (4) instruccion -> . imprimir_instr
-    (5) instruccion -> . definicion_instr
-    (6) instruccion -> . asignacion_instr
-    (7) instruccion -> . def_asig_instr
-    (8) instruccion -> . mientras_instr
-    (9) instruccion -> . if_instr
-    (10) instruccion -> . if_else_instr
-    (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
-    (16) definicion_instr -> . VAR ID PTCOMA
-    (17) asignacion_instr -> . ID IGUAL asign_expresion_general PTCOMA
-    (21) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general PTCOMA
-    (25) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (26) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (42) expresion_cadena -> expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
 
-    PRINT           shift and go to state 11
-    VAR             shift and go to state 12
-    ID              shift and go to state 13
-    MIENTRAS        shift and go to state 14
-    IF              shift and go to state 15
+    CONCAT          reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    PARDER          reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    PTCOMA          reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    PRINT           reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    VAR             reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    ID              reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    MIENTRAS        reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    IF              reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    $end            reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    LLAVDER         reduce using rule 42 (expresion_cadena -> expresion_numerica .)
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
 
-    instrucciones                  shift and go to state 76
-    instruccion                    shift and go to state 3
-    imprimir_instr                 shift and go to state 4
-    definicion_instr               shift and go to state 5
-    asignacion_instr               shift and go to state 6
-    def_asig_instr                 shift and go to state 7
-    mientras_instr                 shift and go to state 8
-    if_instr                       shift and go to state 9
-    if_else_instr                  shift and go to state 10
 
 state 71
 
-    (40) expresion_logica -> expresion_numerica MAYQUE expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+    (24) def_asig_instr -> VAR ID IGUAL asign_def_expresion_general def_instr_prima .
 
-    PARDER          reduce using rule 40 (expresion_logica -> expresion_numerica MAYQUE expresion_numerica .)
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
+    PRINT           reduce using rule 24 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general def_instr_prima .)
+    VAR             reduce using rule 24 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general def_instr_prima .)
+    ID              reduce using rule 24 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general def_instr_prima .)
+    MIENTRAS        reduce using rule 24 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general def_instr_prima .)
+    IF              reduce using rule 24 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general def_instr_prima .)
+    $end            reduce using rule 24 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general def_instr_prima .)
+    LLAVDER         reduce using rule 24 (def_asig_instr -> VAR ID IGUAL asign_def_expresion_general def_instr_prima .)
 
 
 state 72
 
-    (41) expresion_logica -> expresion_numerica MENQUE expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
-
-    PARDER          reduce using rule 41 (expresion_logica -> expresion_numerica MENQUE expresion_numerica .)
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
-
-
-state 73
-
-    (42) expresion_logica -> expresion_numerica IGUALQUE expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
-
-    PARDER          reduce using rule 42 (expresion_logica -> expresion_numerica IGUALQUE expresion_numerica .)
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
-
-
-state 74
-
-    (43) expresion_logica -> expresion_numerica NIGUALQUE expresion_numerica .
-    (28) expresion_numerica -> expresion_numerica . MAS expresion_numerica
-    (29) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
-    (30) expresion_numerica -> expresion_numerica . POR expresion_numerica
-    (31) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
-
-    PARDER          reduce using rule 43 (expresion_logica -> expresion_numerica NIGUALQUE expresion_numerica .)
-    MAS             shift and go to state 44
-    MENOS           shift and go to state 45
-    POR             shift and go to state 46
-    DIVIDIDO        shift and go to state 47
-
-
-state 75
-
-    (26) if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ . instrucciones LLAVDER
-    (27) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ . instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (28) mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ . instrucciones LLAVDER
     (2) instrucciones -> . instrucciones instruccion
     (3) instrucciones -> . instruccion
     (4) instruccion -> . imprimir_instr
@@ -1343,12 +1488,12 @@ state 75
     (9) instruccion -> . if_instr
     (10) instruccion -> . if_else_instr
     (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
-    (16) definicion_instr -> . VAR ID PTCOMA
-    (17) asignacion_instr -> . ID IGUAL asign_expresion_general PTCOMA
-    (21) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general PTCOMA
-    (25) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (26) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (16) definicion_instr -> . VAR ID def_instr_prima
+    (20) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
+    (24) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
+    (28) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (29) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 
     PRINT           shift and go to state 11
     VAR             shift and go to state 12
@@ -1356,7 +1501,7 @@ state 75
     MIENTRAS        shift and go to state 14
     IF              shift and go to state 15
 
-    instrucciones                  shift and go to state 77
+    instrucciones                  shift and go to state 78
     instruccion                    shift and go to state 3
     imprimir_instr                 shift and go to state 4
     definicion_instr               shift and go to state 5
@@ -1366,46 +1511,72 @@ state 75
     if_instr                       shift and go to state 9
     if_else_instr                  shift and go to state 10
 
+state 73
+
+    (43) expresion_logica -> expresion_numerica MAYQUE expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+
+    PARDER          reduce using rule 43 (expresion_logica -> expresion_numerica MAYQUE expresion_numerica .)
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
+
+
+state 74
+
+    (44) expresion_logica -> expresion_numerica MENQUE expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+
+    PARDER          reduce using rule 44 (expresion_logica -> expresion_numerica MENQUE expresion_numerica .)
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
+
+
+state 75
+
+    (45) expresion_logica -> expresion_numerica IGUALQUE expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
+
+    PARDER          reduce using rule 45 (expresion_logica -> expresion_numerica IGUALQUE expresion_numerica .)
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
+
+
 state 76
 
-    (25) mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones . LLAVDER
-    (2) instrucciones -> instrucciones . instruccion
-    (4) instruccion -> . imprimir_instr
-    (5) instruccion -> . definicion_instr
-    (6) instruccion -> . asignacion_instr
-    (7) instruccion -> . def_asig_instr
-    (8) instruccion -> . mientras_instr
-    (9) instruccion -> . if_instr
-    (10) instruccion -> . if_else_instr
-    (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
-    (16) definicion_instr -> . VAR ID PTCOMA
-    (17) asignacion_instr -> . ID IGUAL asign_expresion_general PTCOMA
-    (21) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general PTCOMA
-    (25) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (26) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (46) expresion_logica -> expresion_numerica NIGUALQUE expresion_numerica .
+    (31) expresion_numerica -> expresion_numerica . MAS expresion_numerica
+    (32) expresion_numerica -> expresion_numerica . MENOS expresion_numerica
+    (33) expresion_numerica -> expresion_numerica . POR expresion_numerica
+    (34) expresion_numerica -> expresion_numerica . DIVIDIDO expresion_numerica
 
-    LLAVDER         shift and go to state 78
-    PRINT           shift and go to state 11
-    VAR             shift and go to state 12
-    ID              shift and go to state 13
-    MIENTRAS        shift and go to state 14
-    IF              shift and go to state 15
+    PARDER          reduce using rule 46 (expresion_logica -> expresion_numerica NIGUALQUE expresion_numerica .)
+    MAS             shift and go to state 46
+    MENOS           shift and go to state 47
+    POR             shift and go to state 48
+    DIVIDIDO        shift and go to state 49
 
-    instruccion                    shift and go to state 16
-    imprimir_instr                 shift and go to state 4
-    definicion_instr               shift and go to state 5
-    asignacion_instr               shift and go to state 6
-    def_asig_instr                 shift and go to state 7
-    mientras_instr                 shift and go to state 8
-    if_instr                       shift and go to state 9
-    if_else_instr                  shift and go to state 10
 
 state 77
 
-    (26) if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones . LLAVDER
-    (27) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones . LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
-    (2) instrucciones -> instrucciones . instruccion
+    (29) if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ . instrucciones LLAVDER
+    (30) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ . instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (2) instrucciones -> . instrucciones instruccion
+    (3) instrucciones -> . instruccion
     (4) instruccion -> . imprimir_instr
     (5) instruccion -> . definicion_instr
     (6) instruccion -> . asignacion_instr
@@ -1414,21 +1585,21 @@ state 77
     (9) instruccion -> . if_instr
     (10) instruccion -> . if_else_instr
     (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
-    (16) definicion_instr -> . VAR ID PTCOMA
-    (17) asignacion_instr -> . ID IGUAL asign_expresion_general PTCOMA
-    (21) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general PTCOMA
-    (25) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (26) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (16) definicion_instr -> . VAR ID def_instr_prima
+    (20) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
+    (24) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
+    (28) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (29) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 
-    LLAVDER         shift and go to state 79
     PRINT           shift and go to state 11
     VAR             shift and go to state 12
     ID              shift and go to state 13
     MIENTRAS        shift and go to state 14
     IF              shift and go to state 15
 
-    instruccion                    shift and go to state 16
+    instrucciones                  shift and go to state 79
+    instruccion                    shift and go to state 3
     imprimir_instr                 shift and go to state 4
     definicion_instr               shift and go to state 5
     asignacion_instr               shift and go to state 6
@@ -1439,78 +1610,7 @@ state 77
 
 state 78
 
-    (25) mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .
-
-    PRINT           reduce using rule 25 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    VAR             reduce using rule 25 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    ID              reduce using rule 25 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    MIENTRAS        reduce using rule 25 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    IF              reduce using rule 25 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    $end            reduce using rule 25 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    LLAVDER         reduce using rule 25 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-
-
-state 79
-
-    (26) if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .
-    (27) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER . ELSE LLAVIZQ instrucciones LLAVDER
-
-    PRINT           reduce using rule 26 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    VAR             reduce using rule 26 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    ID              reduce using rule 26 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    MIENTRAS        reduce using rule 26 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    IF              reduce using rule 26 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    $end            reduce using rule 26 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    LLAVDER         reduce using rule 26 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
-    ELSE            shift and go to state 80
-
-
-state 80
-
-    (27) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE . LLAVIZQ instrucciones LLAVDER
-
-    LLAVIZQ         shift and go to state 81
-
-
-state 81
-
-    (27) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ . instrucciones LLAVDER
-    (2) instrucciones -> . instrucciones instruccion
-    (3) instrucciones -> . instruccion
-    (4) instruccion -> . imprimir_instr
-    (5) instruccion -> . definicion_instr
-    (6) instruccion -> . asignacion_instr
-    (7) instruccion -> . def_asig_instr
-    (8) instruccion -> . mientras_instr
-    (9) instruccion -> . if_instr
-    (10) instruccion -> . if_else_instr
-    (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
-    (16) definicion_instr -> . VAR ID PTCOMA
-    (17) asignacion_instr -> . ID IGUAL asign_expresion_general PTCOMA
-    (21) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general PTCOMA
-    (25) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (26) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
-
-    PRINT           shift and go to state 11
-    VAR             shift and go to state 12
-    ID              shift and go to state 13
-    MIENTRAS        shift and go to state 14
-    IF              shift and go to state 15
-
-    instrucciones                  shift and go to state 82
-    instruccion                    shift and go to state 3
-    imprimir_instr                 shift and go to state 4
-    definicion_instr               shift and go to state 5
-    asignacion_instr               shift and go to state 6
-    def_asig_instr                 shift and go to state 7
-    mientras_instr                 shift and go to state 8
-    if_instr                       shift and go to state 9
-    if_else_instr                  shift and go to state 10
-
-state 82
-
-    (27) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones . LLAVDER
+    (28) mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones . LLAVDER
     (2) instrucciones -> instrucciones . instruccion
     (4) instruccion -> . imprimir_instr
     (5) instruccion -> . definicion_instr
@@ -1520,14 +1620,14 @@ state 82
     (9) instruccion -> . if_instr
     (10) instruccion -> . if_else_instr
     (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
-    (16) definicion_instr -> . VAR ID PTCOMA
-    (17) asignacion_instr -> . ID IGUAL asign_expresion_general PTCOMA
-    (21) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general PTCOMA
-    (25) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (26) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
-    (27) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (16) definicion_instr -> . VAR ID def_instr_prima
+    (20) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
+    (24) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
+    (28) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (29) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 
-    LLAVDER         shift and go to state 83
+    LLAVDER         shift and go to state 80
     PRINT           shift and go to state 11
     VAR             shift and go to state 12
     ID              shift and go to state 13
@@ -1543,17 +1643,159 @@ state 82
     if_instr                       shift and go to state 9
     if_else_instr                  shift and go to state 10
 
+state 79
+
+    (29) if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones . LLAVDER
+    (30) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones . LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (2) instrucciones -> instrucciones . instruccion
+    (4) instruccion -> . imprimir_instr
+    (5) instruccion -> . definicion_instr
+    (6) instruccion -> . asignacion_instr
+    (7) instruccion -> . def_asig_instr
+    (8) instruccion -> . mientras_instr
+    (9) instruccion -> . if_instr
+    (10) instruccion -> . if_else_instr
+    (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) definicion_instr -> . VAR ID def_instr_prima
+    (20) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
+    (24) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
+    (28) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (29) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+
+    LLAVDER         shift and go to state 81
+    PRINT           shift and go to state 11
+    VAR             shift and go to state 12
+    ID              shift and go to state 13
+    MIENTRAS        shift and go to state 14
+    IF              shift and go to state 15
+
+    instruccion                    shift and go to state 16
+    imprimir_instr                 shift and go to state 4
+    definicion_instr               shift and go to state 5
+    asignacion_instr               shift and go to state 6
+    def_asig_instr                 shift and go to state 7
+    mientras_instr                 shift and go to state 8
+    if_instr                       shift and go to state 9
+    if_else_instr                  shift and go to state 10
+
+state 80
+
+    (28) mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .
+
+    PRINT           reduce using rule 28 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    VAR             reduce using rule 28 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    ID              reduce using rule 28 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    MIENTRAS        reduce using rule 28 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    IF              reduce using rule 28 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    $end            reduce using rule 28 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    LLAVDER         reduce using rule 28 (mientras_instr -> MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+
+
+state 81
+
+    (29) if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .
+    (30) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER . ELSE LLAVIZQ instrucciones LLAVDER
+
+    PRINT           reduce using rule 29 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    VAR             reduce using rule 29 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    ID              reduce using rule 29 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    MIENTRAS        reduce using rule 29 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    IF              reduce using rule 29 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    $end            reduce using rule 29 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    LLAVDER         reduce using rule 29 (if_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER .)
+    ELSE            shift and go to state 82
+
+
+state 82
+
+    (30) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE . LLAVIZQ instrucciones LLAVDER
+
+    LLAVIZQ         shift and go to state 83
+
+
 state 83
 
-    (27) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .
+    (30) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ . instrucciones LLAVDER
+    (2) instrucciones -> . instrucciones instruccion
+    (3) instrucciones -> . instruccion
+    (4) instruccion -> . imprimir_instr
+    (5) instruccion -> . definicion_instr
+    (6) instruccion -> . asignacion_instr
+    (7) instruccion -> . def_asig_instr
+    (8) instruccion -> . mientras_instr
+    (9) instruccion -> . if_instr
+    (10) instruccion -> . if_else_instr
+    (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) definicion_instr -> . VAR ID def_instr_prima
+    (20) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
+    (24) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
+    (28) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (29) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 
-    PRINT           reduce using rule 27 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
-    VAR             reduce using rule 27 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
-    ID              reduce using rule 27 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
-    MIENTRAS        reduce using rule 27 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
-    IF              reduce using rule 27 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
-    $end            reduce using rule 27 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
-    LLAVDER         reduce using rule 27 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
+    PRINT           shift and go to state 11
+    VAR             shift and go to state 12
+    ID              shift and go to state 13
+    MIENTRAS        shift and go to state 14
+    IF              shift and go to state 15
+
+    instrucciones                  shift and go to state 84
+    instruccion                    shift and go to state 3
+    imprimir_instr                 shift and go to state 4
+    definicion_instr               shift and go to state 5
+    asignacion_instr               shift and go to state 6
+    def_asig_instr                 shift and go to state 7
+    mientras_instr                 shift and go to state 8
+    if_instr                       shift and go to state 9
+    if_else_instr                  shift and go to state 10
+
+state 84
+
+    (30) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones . LLAVDER
+    (2) instrucciones -> instrucciones . instruccion
+    (4) instruccion -> . imprimir_instr
+    (5) instruccion -> . definicion_instr
+    (6) instruccion -> . asignacion_instr
+    (7) instruccion -> . def_asig_instr
+    (8) instruccion -> . mientras_instr
+    (9) instruccion -> . if_instr
+    (10) instruccion -> . if_else_instr
+    (11) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) definicion_instr -> . VAR ID def_instr_prima
+    (20) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
+    (24) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
+    (28) mientras_instr -> . MIENTRAS PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (29) if_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_else_instr -> . IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+
+    LLAVDER         shift and go to state 85
+    PRINT           shift and go to state 11
+    VAR             shift and go to state 12
+    ID              shift and go to state 13
+    MIENTRAS        shift and go to state 14
+    IF              shift and go to state 15
+
+    instruccion                    shift and go to state 16
+    imprimir_instr                 shift and go to state 4
+    definicion_instr               shift and go to state 5
+    asignacion_instr               shift and go to state 6
+    def_asig_instr                 shift and go to state 7
+    mientras_instr                 shift and go to state 8
+    if_instr                       shift and go to state 9
+    if_else_instr                  shift and go to state 10
+
+state 85
+
+    (30) if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .
+
+    PRINT           reduce using rule 30 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
+    VAR             reduce using rule 30 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
+    ID              reduce using rule 30 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
+    MIENTRAS        reduce using rule 30 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
+    IF              reduce using rule 30 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
+    $end            reduce using rule 30 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
+    LLAVDER         reduce using rule 30 (if_else_instr -> IF PARIZQ expresion_logica PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
 
 WARNING: 
 WARNING: Conflicts:
@@ -1562,7 +1804,7 @@ WARNING: reduce/reduce conflict in state 24 resolved using rule (print_expresion
 WARNING: rejected rule (expresion_cadena -> expresion_numerica) in state 24
 WARNING: reduce/reduce conflict in state 30 resolved using rule (expresion_id -> ID)
 WARNING: rejected rule (expresion_numerica -> ID) in state 30
-WARNING: reduce/reduce conflict in state 35 resolved using rule (asign_expresion_general -> expresion_numerica)
-WARNING: rejected rule (expresion_cadena -> expresion_numerica) in state 35
-WARNING: reduce/reduce conflict in state 51 resolved using rule (asign_def_expresion_general -> expresion_numerica)
-WARNING: rejected rule (expresion_cadena -> expresion_numerica) in state 51
+WARNING: reduce/reduce conflict in state 37 resolved using rule (asign_expresion_general -> expresion_numerica)
+WARNING: rejected rule (expresion_cadena -> expresion_numerica) in state 37
+WARNING: reduce/reduce conflict in state 53 resolved using rule (asign_def_expresion_general -> expresion_numerica)
+WARNING: rejected rule (expresion_cadena -> expresion_numerica) in state 53
