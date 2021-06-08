@@ -175,7 +175,7 @@ def p_func_main(t):
 
 
 def p_instruccion_imprimir(t):
-    'imprimir_instr     : PRINT PARIZQ print_expresion_general PARDER PTCOMA'
+    'imprimir_instr     : PRINT PARIZQ print_expresion_general PARDER def_instr_prima'
     t[0] = t[3]
 
 

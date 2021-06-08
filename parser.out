@@ -18,7 +18,7 @@ Rule 12    def_funcs_vars -> definicion_instr
 Rule 13    def_funcs_vars -> asignacion_instr
 Rule 14    def_funcs_vars -> empty
 Rule 15    func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-Rule 16    imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA
+Rule 16    imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima
 Rule 17    print_expresion_general -> expresion_numerica
 Rule 18    print_expresion_general -> expresion_cadena
 Rule 19    print_expresion_general -> expresion_id
@@ -80,7 +80,7 @@ PARDER               : 15 16 33 34 35 41
 PARIZQ               : 15 16 33 34 35 41
 POR                  : 38
 PRINT                : 16
-PTCOMA               : 16 22
+PTCOMA               : 22
 VAR                  : 21 29
 error                : 
 
@@ -91,7 +91,7 @@ asign_expresion_general : 25
 asignacion_instr     : 7 13
 def_asig_instr       : 8
 def_funcs_vars       : 
-def_instr_prima      : 21 25 29
+def_instr_prima      : 16 21 25 29
 definicion_instr     : 6 12
 empty                : 14 23
 expresion_cadena     : 18 27 31 45 45
@@ -125,7 +125,7 @@ state 0
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
@@ -171,7 +171,7 @@ state 2
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
@@ -332,7 +332,7 @@ state 12
 
 state 13
 
-    (16) imprimir_instr -> PRINT . PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> PRINT . PARIZQ print_expresion_general PARDER def_instr_prima
 
     PARIZQ          shift and go to state 20
 
@@ -390,7 +390,7 @@ state 19
 
 state 20
 
-    (16) imprimir_instr -> PRINT PARIZQ . print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> PRINT PARIZQ . print_expresion_general PARDER def_instr_prima
     (17) print_expresion_general -> . expresion_numerica
     (18) print_expresion_general -> . expresion_cadena
     (19) print_expresion_general -> . expresion_id
@@ -557,7 +557,7 @@ state 26
 
 state 27
 
-    (16) imprimir_instr -> PRINT PARIZQ print_expresion_general . PARDER PTCOMA
+    (16) imprimir_instr -> PRINT PARIZQ print_expresion_general . PARDER def_instr_prima
 
     PARDER          shift and go to state 50
 
@@ -974,7 +974,7 @@ state 48
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
@@ -1017,10 +1017,23 @@ state 49
 
 state 50
 
-    (16) imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER . PTCOMA
+    (16) imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER . def_instr_prima
+    (22) def_instr_prima -> . PTCOMA
+    (23) def_instr_prima -> . empty
+    (24) empty -> .
 
-    PTCOMA          shift and go to state 70
+    PTCOMA          shift and go to state 38
+    MAIN            reduce using rule 24 (empty -> .)
+    PRINT           reduce using rule 24 (empty -> .)
+    VAR             reduce using rule 24 (empty -> .)
+    ID              reduce using rule 24 (empty -> .)
+    MIENTRAS        reduce using rule 24 (empty -> .)
+    IF              reduce using rule 24 (empty -> .)
+    $end            reduce using rule 24 (empty -> .)
+    LLAVDER         reduce using rule 24 (empty -> .)
 
+    def_instr_prima                shift and go to state 70
+    empty                          shift and go to state 39
 
 state 51
 
@@ -1388,7 +1401,7 @@ state 68
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
@@ -1441,16 +1454,16 @@ state 69
 
 state 70
 
-    (16) imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .
+    (16) imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima .
 
-    MAIN            reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .)
-    PRINT           reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .)
-    VAR             reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .)
-    ID              reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .)
-    MIENTRAS        reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .)
-    IF              reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .)
-    $end            reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .)
-    LLAVDER         reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER PTCOMA .)
+    MAIN            reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima .)
+    PRINT           reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima .)
+    VAR             reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima .)
+    ID              reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima .)
+    MIENTRAS        reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima .)
+    IF              reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima .)
+    $end            reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima .)
+    LLAVDER         reduce using rule 16 (imprimir_instr -> PRINT PARIZQ print_expresion_general PARDER def_instr_prima .)
 
 
 state 71
@@ -1662,7 +1675,7 @@ state 78
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
@@ -1763,7 +1776,7 @@ state 83
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
@@ -1816,7 +1829,7 @@ state 85
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
@@ -1856,7 +1869,7 @@ state 86
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
@@ -1933,7 +1946,7 @@ state 90
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima
@@ -1972,7 +1985,7 @@ state 91
     (10) instruccion -> . if_instr
     (11) instruccion -> . if_else_instr
     (15) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER PTCOMA
+    (16) imprimir_instr -> . PRINT PARIZQ print_expresion_general PARDER def_instr_prima
     (21) definicion_instr -> . VAR ID def_instr_prima
     (25) asignacion_instr -> . ID IGUAL asign_expresion_general def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL asign_def_expresion_general def_instr_prima

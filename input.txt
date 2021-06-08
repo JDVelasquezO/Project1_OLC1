@@ -1,4 +1,3 @@
-
 # Declaración y asignación de variables globales
 var global_a;             # Declara una variable con valor nulo
 var global_b              # Declara una variable con valor nulo
@@ -23,7 +22,10 @@ main () {
       comentarios multilínea
     *#
 
-    var variable
+    var variable1 = 10
+    var variable2 = 20.1
+    print(variable1 + variable2)
+
     var cadena1 = "Hola a \n\t todos";
     print(cadena1);
     VaR global_b=100;

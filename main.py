@@ -97,7 +97,17 @@ def resolver_expresion_aritmetica(expNum, ts):
     if isinstance(expNum, ExpresionBinaria):
         exp1 = resolver_expresion_aritmetica(expNum.exp1, ts)
         exp2 = resolver_expresion_aritmetica(expNum.exp2, ts)
-        if expNum.operador == OPERACION_ARITMETICA.MAS: return exp1 + exp2
+        if expNum.operador == OPERACION_ARITMETICA.MAS:
+            if isinstance(exp1, int) and isinstance(exp2, str):
+                return exp1 + int(exp2)
+            elif isinstance(exp1, float) and isinstance(exp2, str):
+                return exp1 + float(exp2)
+            elif isinstance(exp1, str) and isinstance(exp2, int):
+                return int(exp1) + exp2
+            elif isinstance(exp1, str) and isinstance(exp2, float):
+                return float(exp1) + exp2
+            return exp1 + exp2
+
         if expNum.operador == OPERACION_ARITMETICA.MENOS: return exp1 - exp2
         if expNum.operador == OPERACION_ARITMETICA.POR: return exp1 * exp2
         if expNum.operador == OPERACION_ARITMETICA.DIVIDIDO: return exp1 / exp2
