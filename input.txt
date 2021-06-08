@@ -1,85 +1,88 @@
-# Archivo de prueba
 
-# Comentario de una sola línea
+main () {
+    # Archivo de prueba
 
-#*
-  De esta manera se
-  representan los
-  comentarios multilínea
-*#
+    # Comentario de una sola línea
 
-var variable
-var cadena1 = "Hola a \n\t todos";
-print(cadena1);
-VaR global_b=100;
-var global_B=50;
-print(global_b & " - " & "10 = " & global_b - 10);
+    #*
+      De esta manera se
+      representan los
+      comentarios multilínea
+    *#
 
-var global_a;             # Declara una variable con valor nulo
-var global_b              # Declara una variable con valor nulo
-var global_int = 25;      # Declara una variable de tipo entero
-var global_dou = 25.45;    # Declara una variable de tipo double
-var global_cad = "cadena" # Declara una variable de tipo string
-var GlObAl_A;             # Error: La variable ya está definida
-var global_salto = "Cadena con\nsalto de línea";
-#var global_barra = "Cadena con \\ barra invertida";
-#var global_comilla_doble = "Cadena con \"comilla doble\"";
-var global_tab = "Cadena con \t tabulación";
-var global_commilla_simple = "Cadena con \'comilla simple\'";
+    var variable
+    var cadena1 = "Hola a \n\t todos";
+    print(cadena1);
+    VaR global_b=100;
+    var global_B=50;
+    print(global_b & " - " & "10 = " & global_b - 10);
 
-# Se asigna a la variable a el valor 0
-global_a = 0;
-print("Numero a imprimir: \n" & "\t" & global_dou + 6);
+    var global_a;             # Declara una variable con valor nulo
+    var global_b              # Declara una variable con valor nulo
+    var global_int = 25;      # Declara una variable de tipo entero
+    var global_dou = 25.45;    # Declara una variable de tipo double
+    var global_cad = "cadena" # Declara una variable de tipo string
+    var GlObAl_A;             # Error: La variable ya está definida
+    var global_salto = "Cadena con\nsalto de línea";
+    #var global_barra = "Cadena con \\ barra invertida";
+    #var global_comilla_doble = "Cadena con \"comilla doble\"";
+    var global_tab = "Cadena con \t tabulación";
+    var global_commilla_simple = "Cadena con \'comilla simple\'";
 
-print("Tablas de \n" & " multiplicar");
-# Se declara la variable c, de tipo numero
-var c;
-# Se asigna a la variable c el valor 0
-c=1;
-# Se imprime un separador
-print("----------------");
-#*
- * Se imprimen las tablas del 1 al 5 y
- * para cada tabla, se imprimen los resultados
- * desde el uno hasta el 5, esto se hace con
- * dos ciclos while anidados.
-*#
-var b;
-mientras(global_a<4+c){
-	global_a = global_a + 1;
-	b=0;
-	mientras(b<4+c){
-		b=b+1;
-		print(global_a & " * " & b & " = " & global_a * b);
-	}
-	print("----------------");
-}
+    # Se asigna a la variable a el valor 0
+    global_a = 0;
+    print("Numero a imprimir: \n" & "\t" & global_dou + 6);
 
-# Se asigna a la variable a el valor de 11
-global_a=11;
-#*
- * La variable b ya había sido declarada pero
- * dentro del ámbito del primer ciclo while,
- * entonces no existe en este ámbito por lo que
- * debe declararse.
-*#
-var d;
-# Se asigna valor de 12 a b y valor de 13 a c
-d=12;
-c=13;
-#*
- Se evalua si el valor de la variable a es
- mayor que 10, si el b es mayor que 11 y si
- el de c es mayor que 12.
-*#
-If(global_a>10){
-	print("a es mayor que 10.");
-	if(d>11){
-		print("a es mayor que 10 y b es mayor que 11.");
-		if(c>12){
-			print("a es mayor que 10, b es mayor que 11 y c es mayor que 12.");
-		}
-	}
-}else{
-	print("a es menor o igual que 10.");
+    print("Tablas de \n" & " multiplicar");
+    # Se declara la variable c, de tipo numero
+    var c;
+    # Se asigna a la variable c el valor 0
+    c=1;
+    # Se imprime un separador
+    print("----------------");
+    #*
+     * Se imprimen las tablas del 1 al 5 y
+     * para cada tabla, se imprimen los resultados
+     * desde el uno hasta el 5, esto se hace con
+     * dos ciclos while anidados.
+    *#
+    var b;
+    mientras(global_a<4+c){
+        global_a = global_a + 1;
+        b=0;
+        mientras(b<4+c){
+            b=b+1;
+            print(global_a & " * " & b & " = " & global_a * b);
+        }
+        print("----------------");
+    }
+
+    # Se asigna a la variable a el valor de 11
+    global_a=11;
+    #*
+     * La variable b ya había sido declarada pero
+     * dentro del ámbito del primer ciclo while,
+     * entonces no existe en este ámbito por lo que
+     * debe declararse.
+    *#
+    var d;
+    # Se asigna valor de 12 a b y valor de 13 a c
+    d=12;
+    c=13;
+    #*
+     Se evalua si el valor de la variable a es
+     mayor que 10, si el b es mayor que 11 y si
+     el de c es mayor que 12.
+    *#
+    If(global_a>10){
+        print("a es mayor que 10.");
+        if(d>11){
+            print("a es mayor que 10 y b es mayor que 11.");
+            if(c>12){
+                print("a es mayor que 10, b es mayor que 11 y c es mayor que 12.");
+            }
+        }
+    }else{
+        print("a es menor o igual que 10.");
+    }
 }

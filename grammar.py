@@ -7,6 +7,7 @@ reservadas = {
     'var': 'VAR',
     'print': 'PRINT',
     'mientras': 'MIENTRAS',
+    'main': 'MAIN',
     'if': 'IF',
     'else': 'ELSE'
 }
@@ -134,8 +135,13 @@ precedence = (
 # Definición de la gramática
 
 def p_init(t):
-    'init            : instrucciones'
+    'init            : func_main'
     t[0] = t[1]
+
+
+def p_main(t):
+    'func_main  : MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER'
+    t[0] = t[5]
 
 
 def p_instrucciones_lista(t):
