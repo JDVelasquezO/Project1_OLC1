@@ -60,6 +60,11 @@ def procesar_if_else(instr, ts, console):
         procesar_instrucciones(instr.instrIfFalso, ts_local, console)
 
 
+def procesar_func_main(instr, ts, console):
+    ts_local = TS.TablaDeSimbolos(ts.simbolos)
+    procesar_instrucciones(instr, ts_local, console)
+
+
 def resolver_cadena(expCad, ts):
     if isinstance(expCad, ExpresionConcatenar):
         exp1 = resolver_cadena(expCad.exp1, ts)
@@ -122,6 +127,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             procesar_if(instr, ts, console)
         elif isinstance(instr, IfElse):
             procesar_if_else(instr, ts, console)
+        elif isinstance(instr, Funcion_Main):
+            procesar_func_main(instr.instrucciones, ts, console)
         else:
             print('Error: instrucción no válida')
 

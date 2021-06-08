@@ -1,4 +1,17 @@
 
+# Declaración y asignación de variables globales
+var global_a;             # Declara una variable con valor nulo
+var global_b              # Declara una variable con valor nulo
+var global_int = 25;      # Declara una variable de tipo entero
+var global_dou = 25.45;    # Declara una variable de tipo double
+var global_cad = "cadena" # Declara una variable de tipo string
+var GlObAl_A;             # Error: La variable ya está definida
+var global_salto = "Cadena con\nsalto de línea";
+#var global_barra = "Cadena con \\ barra invertida";
+#var global_comilla_doble = "Cadena con \"comilla doble\"";
+var global_tab = "Cadena con \t tabulación";
+var global_commilla_simple = "Cadena con \'comilla simple\'";
+
 main () {
     # Archivo de prueba
 
@@ -16,18 +29,6 @@ main () {
     VaR global_b=100;
     var global_B=50;
     print(global_b & " - " & "10 = " & global_b - 10);
-
-    var global_a;             # Declara una variable con valor nulo
-    var global_b              # Declara una variable con valor nulo
-    var global_int = 25;      # Declara una variable de tipo entero
-    var global_dou = 25.45;    # Declara una variable de tipo double
-    var global_cad = "cadena" # Declara una variable de tipo string
-    var GlObAl_A;             # Error: La variable ya está definida
-    var global_salto = "Cadena con\nsalto de línea";
-    #var global_barra = "Cadena con \\ barra invertida";
-    #var global_comilla_doble = "Cadena con \"comilla doble\"";
-    var global_tab = "Cadena con \t tabulación";
-    var global_commilla_simple = "Cadena con \'comilla simple\'";
 
     # Se asigna a la variable a el valor 0
     global_a = 0;

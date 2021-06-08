@@ -135,13 +135,8 @@ precedence = (
 # Definición de la gramática
 
 def p_init(t):
-    'init            : func_main'
+    'init       : instrucciones'
     t[0] = t[1]
-
-
-def p_main(t):
-    'func_main  : MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER'
-    t[0] = t[5]
 
 
 def p_instrucciones_lista(t):
@@ -156,7 +151,8 @@ def p_instrucciones_instruccion(t):
 
 
 def p_instruccion(t):
-    '''instruccion      : imprimir_instr
+    '''instruccion      : func_main
+                        | imprimir_instr
                         | definicion_instr
                         | asignacion_instr
                         | def_asig_instr
@@ -164,6 +160,18 @@ def p_instruccion(t):
                         | if_instr
                         | if_else_instr'''
     t[0] = t[1]
+
+
+def p_beforeOfMain(t):
+    '''def_funcs_vars   : definicion_instr
+                        | asignacion_instr
+                        | empty'''
+    t[0] = t[1]
+
+
+def p_func_main(t):
+    'func_main  : MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER'
+    t[0] = Funcion_Main(t[5])
 
 
 def p_instruccion_imprimir(t):
