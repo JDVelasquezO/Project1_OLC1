@@ -23,10 +23,16 @@ def procesar_definicion(instr, ts, signal=False):
 
 def procesar_asignacion(instr, ts):
     val = resolver_expresion_aritmetica(instr.expression, ts)
+    simbolo = None
 
     if val is None:
         val = resolver_cadena(instr.expression, ts)
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
+    elif isinstance(val, str):
+        if val.lower() == "true":
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True)
+        elif val.lower() == "false":
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False)
     else:
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val)
 
@@ -118,6 +124,8 @@ def resolver_expresion_aritmetica(expNum, ts):
     elif isinstance(expNum, ExpresionNumero):
         return expNum.val
     elif isinstance(expNum, ExpresionIdentificador):
+        if expNum.id.lower() == "true" or expNum.id.lower() == "false":
+            return expNum.id
         return ts.obtener(expNum.id).valor
 
 

@@ -9,9 +9,7 @@ reservadas = {
     'mientras': 'MIENTRAS',
     'main': 'MAIN',
     'if': 'IF',
-    'else': 'ELSE',
-    'true': 'TRUE',
-    'false': 'FALSE'
+    'else': 'ELSE'
 }
 
 tokens = [
@@ -34,7 +32,8 @@ tokens = [
              'DECIMAL',
              'ENTERO',
              'CADENA',
-             'BOOLEAN',
+             'TRUE',
+             'FALSE',
              'ID'
          ] + list(reservadas.values())
 
@@ -189,7 +188,8 @@ def p_instruccion_imprimir(t):
 def p_expresionGeneralImprimir(t):
     '''print_expresion_general  :  expresion_numerica
                                 | expresion_cadena
-                                | expresion_id'''
+                                | expresion_id
+                                | expresion_boolean'''
     t[0] = Imprimir(t[1])
 
 
@@ -198,10 +198,11 @@ def p_expresionId(t):
     t[0] = ExpresionIdentificador(t[1])
 
 
-# def p_expresionBoolean(t):
-#     '''expresion_boolean  : true
-#                           | false'''
-#     t[0] = ExpresionBoolean(t[1])
+def p_expresionBoolean(t):
+    '''expresion_boolean  : TRUE
+                          | FALSE'''
+
+    t[0] = ExpresionBoolean(t[1])
 
 
 def p_instruccion_definicion(t):
@@ -228,7 +229,8 @@ def p_asignacion_instr(t):
 def p_expresionGeneralAsignar(t):
     '''asign_expresion_general  :  expresion_numerica
                             | expresion_cadena
-                            | expresion_id'''
+                            | expresion_id
+                            | expresion_boolean'''
     t[0] = t[1]
 
 
@@ -239,8 +241,9 @@ def p_definicion_asignacion(t):
 
 def p_expresionGeneralDefAsign(t):
     '''asign_def_expresion_general  :  expresion_numerica
-                                | expresion_cadena
-                                | expresion_id'''
+                                    | expresion_cadena
+                                    | expresion_id
+                                    | expresion_boolean'''
     t[0] = t[1]
 
 
