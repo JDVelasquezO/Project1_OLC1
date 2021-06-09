@@ -9,7 +9,9 @@ reservadas = {
     'mientras': 'MIENTRAS',
     'main': 'MAIN',
     'if': 'IF',
-    'else': 'ELSE'
+    'else': 'ELSE',
+    'true': 'TRUE',
+    'false': 'FALSE'
 }
 
 tokens = [
@@ -23,6 +25,7 @@ tokens = [
              'MENOS',
              'POR',
              'DIVIDIDO',
+             'ELEVADO',
              'CONCAT',
              'MENQUE',
              'MAYQUE',
@@ -31,6 +34,7 @@ tokens = [
              'DECIMAL',
              'ENTERO',
              'CADENA',
+             'BOOLEAN',
              'ID'
          ] + list(reservadas.values())
 
@@ -44,6 +48,7 @@ t_IGUAL = r'='
 t_MAS = r'\+'
 t_MENOS = r'-'
 t_POR = r'\*'
+t_ELEVADO = r'\*\*'
 t_DIVIDIDO = r'/'
 t_CONCAT = r'&'
 t_MENQUE = r'<'
@@ -86,8 +91,8 @@ def t_CADENA(t):
         t.value = t.value.replace('\\t', '\t')
     if '\\n' in t.value:
         t.value = t.value.replace('\\n', '\n')
-    if '\\\'' in t.value:
-        t.value = t.value.replace('\\\'', '\\')
+    if '\\\\' in t.value:
+        t.value = t.value.replace('\\\\', '\\')
     if '\\"' in t.value:
         t.value = t.value.replace('\\"', '\"')
 
@@ -128,6 +133,7 @@ precedence = (
     ('left', 'CONCAT'),
     ('left', 'MAS', 'MENOS'),
     ('left', 'POR', 'DIVIDIDO'),
+    ('left', 'ELEVADO'),
     ('right', 'UMENOS'),
 )
 
@@ -146,7 +152,8 @@ def p_instrucciones_lista(t):
 
 
 def p_instrucciones_instruccion(t):
-    'instrucciones    : instruccion '
+    '''instrucciones    : instruccion
+                         | empty'''
     t[0] = [t[1]]
 
 
@@ -181,14 +188,20 @@ def p_instruccion_imprimir(t):
 
 def p_expresionGeneralImprimir(t):
     '''print_expresion_general  :  expresion_numerica
-                            | expresion_cadena
-                            | expresion_id'''
+                                | expresion_cadena
+                                | expresion_id'''
     t[0] = Imprimir(t[1])
 
 
 def p_expresionId(t):
     'expresion_id   : ID'
     t[0] = ExpresionIdentificador(t[1])
+
+
+# def p_expresionBoolean(t):
+#     '''expresion_boolean  : true
+#                           | false'''
+#     t[0] = ExpresionBoolean(t[1])
 
 
 def p_instruccion_definicion(t):
@@ -250,7 +263,8 @@ def p_expresion_binaria(t):
     '''expresion_numerica : expresion_numerica MAS expresion_numerica
                         | expresion_numerica MENOS expresion_numerica
                         | expresion_numerica POR expresion_numerica
-                        | expresion_numerica DIVIDIDO expresion_numerica'''
+                        | expresion_numerica DIVIDIDO expresion_numerica
+                        | expresion_numerica ELEVADO expresion_numerica'''
     if t[2] == '+':
         t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
     elif t[2] == '-':
@@ -259,6 +273,13 @@ def p_expresion_binaria(t):
         t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POR)
     elif t[2] == '/':
         t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIVIDIDO)
+    elif t[2] == '**':
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POTENCIA)
+
+
+def expresion_potencia(t):
+    '''expresion_potencia   : expresion_numerica ELEVADO A expresion_numerica'''
+    t[0] = ExpresionBinaria(t[1], t[4], OPERACION_ARITMETICA.POTENCIA)
 
 
 def p_expresion_unaria(t):

@@ -4,6 +4,9 @@ from enum import Enum
 class TIPO_DATO(Enum):
     NUMERO = 1
     CADENA = 2
+    BOOLEAN = 3
+    CHAR = 4
+    NULL = 5
 
 
 class Simbolo:

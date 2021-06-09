@@ -11,7 +11,9 @@ var global_salto = "Cadena con\nsalto de línea";
 var global_tab = "Cadena con \t tabulación";
 var global_commilla_simple = "Cadena con \'comilla simple\'";
 
+var calculo = 5 ** 3
 main () {
+    print(calculo);
     # Archivo de prueba
 
     # Comentario de una sola línea

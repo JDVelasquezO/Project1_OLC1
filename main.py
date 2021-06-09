@@ -111,6 +111,7 @@ def resolver_expresion_aritmetica(expNum, ts):
         if expNum.operador == OPERACION_ARITMETICA.MENOS: return exp1 - exp2
         if expNum.operador == OPERACION_ARITMETICA.POR: return exp1 * exp2
         if expNum.operador == OPERACION_ARITMETICA.DIVIDIDO: return exp1 / exp2
+        if expNum.operador == OPERACION_ARITMETICA.POTENCIA: return exp1 ** exp2
     elif isinstance(expNum, ExpresionNegativo):
         exp = resolver_expresion_aritmetica(expNum.exp, ts)
         return exp * -1

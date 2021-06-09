@@ -6,6 +6,7 @@ class OPERACION_ARITMETICA(Enum):
     MENOS = 2
     POR = 3
     DIVIDIDO = 4
+    POTENCIA = 5
 
 
 class OPERACION_LOGICA(Enum):
@@ -98,7 +99,7 @@ class ExpresionCadenaNumerico(ExpresionCadena):
         self.exp = exp
 
 
-class ExpresionLogica():
+class ExpresionLogica:
     '''
         Esta clase representa la expresión lógica.
         Esta clase recibe los operandos y el operador
@@ -108,3 +109,8 @@ class ExpresionLogica():
         self.exp1 = exp1
         self.exp2 = exp2
         self.operador = operador
+
+
+class ExpresionBoolean:
+    def __init__(self, exp):
+        self.exp = exp
