@@ -1,4 +1,5 @@
 # Declaración y asignación de variables globales
+var global_cha = 'g'      # Declara una variable de tipo char
 var global_boo     # Declara una variable de tipo boolean
 global_boo = true;
 var global_a;             # Declara una variable con valor nulo
@@ -15,7 +16,8 @@ var global_commilla_simple = "Cadena con \'comilla simple\'";
 var calculo = 5 ** 3
 
 main () {
-    print(global_boo * 3+2)
+    print(global_cha);
+    print(global_boo * 3.5+2)
     print(calculo);
     # Archivo de prueba
 

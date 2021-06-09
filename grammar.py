@@ -34,6 +34,7 @@ tokens = [
              'CADENA',
              'TRUE',
              'FALSE',
+             'CHAR',
              'ID'
          ] + list(reservadas.values())
 
@@ -86,14 +87,24 @@ def t_CADENA(t):
     r'\".*?\"'
     t.value = t.value[1:-1]  # remuevo las comillas
 
-    if '\\t' in t.value:
-        t.value = t.value.replace('\\t', '\t')
-    if '\\n' in t.value:
-        t.value = t.value.replace('\\n', '\n')
-    if '\\\\' in t.value:
-        t.value = t.value.replace('\\\\', '\\')
-    if '\\"' in t.value:
-        t.value = t.value.replace('\\"', '\"')
+    t.value = t.value.replace('\\t', '\t')
+    t.value = t.value.replace('\\n', '\n')
+    t.value = t.value.replace('\\"', '\"')
+    t.value = t.value.replace("\\'", "\'")
+    t.value = t.value.replace('\\\\', '\\\\')
+
+    return t
+
+
+def t_CHAR(t):
+    r'\'(\\\'|\\"|\t|\n|\\\\|.)\''
+    t.value = t.value[1:-1]
+
+    t.value = t.value.replace('\\t', '\t')
+    t.value = t.value.replace('\\n', '\n')
+    t.value = t.value.replace('\\"', '\"')
+    t.value = t.value.replace("\\'", "\'")
+    t.value = t.value.replace('\\\\', '\\\\')
 
     return t
 
@@ -189,7 +200,8 @@ def p_expresionGeneralImprimir(t):
     '''print_expresion_general  :  expresion_numerica
                                 | expresion_cadena
                                 | expresion_id
-                                | expresion_boolean'''
+                                | expresion_boolean
+                                | expresion_char'''
     t[0] = Imprimir(t[1])
 
 
@@ -230,7 +242,8 @@ def p_expresionGeneralAsignar(t):
     '''asign_expresion_general  :  expresion_numerica
                             | expresion_cadena
                             | expresion_id
-                            | expresion_boolean'''
+                            | expresion_boolean
+                            | expresion_char'''
     t[0] = t[1]
 
 
@@ -243,7 +256,8 @@ def p_expresionGeneralDefAsign(t):
     '''asign_def_expresion_general  :  expresion_numerica
                                     | expresion_cadena
                                     | expresion_id
-                                    | expresion_boolean'''
+                                    | expresion_boolean
+                                    | expresion_char'''
     t[0] = t[1]
 
 
@@ -304,6 +318,11 @@ def p_expresion_number(t):
 def p_expresion_id(t):
     'expresion_numerica   : ID'
     t[0] = ExpresionIdentificador(t[1])
+
+
+def p_expresion_char(t):
+    'expresion_char   : CHAR'
+    t[0] = ExpresionSimpleComilla(t[1])
 
 
 def p_expresion_concatenacion(t):

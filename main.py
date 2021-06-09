@@ -27,7 +27,10 @@ def procesar_asignacion(instr, ts):
 
     if val is None:
         val = resolver_cadena(instr.expression, ts)
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
+        if isinstance(instr.expression, ExpresionSimpleComilla):
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
+        elif isinstance(instr.expression, ExpresionDobleComilla):
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
     elif isinstance(val, str):
         if val.lower() == "true":
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True)
@@ -86,6 +89,8 @@ def resolver_cadena(expCad, ts):
         return ts.obtener(expCad.id).valor
     elif isinstance(expCad, ExpresionBinaria):
         return resolver_expresion_aritmetica(expCad, ts)
+    elif isinstance(expCad, ExpresionSimpleComilla):
+        return expCad.val
     else:
         print('Error: Expresión cadena no válida')
 

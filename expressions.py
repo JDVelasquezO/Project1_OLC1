@@ -114,3 +114,12 @@ class ExpresionLogica:
 class ExpresionBoolean:
     def __init__(self, exp):
         self.exp = exp
+
+
+class ExpresionChar:
+    ''' Abstract class for chars '''
+
+
+class ExpresionSimpleComilla(ExpresionChar):
+    def __init__(self, val):
+        self.val = val
