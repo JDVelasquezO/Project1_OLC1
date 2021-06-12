@@ -78,7 +78,7 @@ def resolver_cadena(expCad, ts):
     if isinstance(expCad, ExpresionConcatenar):
         exp1 = resolver_cadena(expCad.exp1, ts)
         exp2 = resolver_cadena(expCad.exp2, ts)
-        return exp1 + exp2
+        return str(exp1) + str(exp2)
     elif isinstance(expCad, ExpresionDobleComilla):
         return expCad.val
     elif isinstance(expCad, ExpresionCadenaNumerico):
@@ -86,6 +86,10 @@ def resolver_cadena(expCad, ts):
     elif isinstance(expCad, ExpresionNumero):
         return str(expCad.val)
     elif isinstance(expCad, ExpresionIdentificador):
+        if expCad.id.lower() == "true":
+            return 1
+        elif expCad.id.lower() == "false":
+            return 0
         return ts.obtener(expCad.id).valor
     elif isinstance(expCad, ExpresionBinaria):
         return resolver_expresion_aritmetica(expCad, ts)
@@ -110,13 +114,20 @@ def resolver_expresion_aritmetica(expNum, ts):
         exp2 = resolver_expresion_aritmetica(expNum.exp2, ts)
         if expNum.operador == OPERACION_ARITMETICA.MAS:
             if isinstance(exp1, int) and isinstance(exp2, str):
-                return exp1 + int(exp2)
+                if isinstance(exp1, bool):
+                    return f"1{exp2}"
+                return str(exp1) + exp2
             elif isinstance(exp1, float) and isinstance(exp2, str):
-                return exp1 + float(exp2)
+                return str(exp1) + exp2
             elif isinstance(exp1, str) and isinstance(exp2, int):
-                return int(exp1) + exp2
+                if isinstance(exp2, bool):
+                    return f"{exp1}1"
+                return exp1 + str(exp2)
             elif isinstance(exp1, str) and isinstance(exp2, float):
-                return float(exp1) + exp2
+                return exp1 + str(exp2)
+            elif isinstance(exp1, str) and isinstance(exp2, bool):
+                return f"1{exp1}"
+
             return exp1 + exp2
 
         if expNum.operador == OPERACION_ARITMETICA.MENOS: return exp1 - exp2

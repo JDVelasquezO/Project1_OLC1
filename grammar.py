@@ -50,7 +50,7 @@ t_MENOS = r'-'
 t_POR = r'\*'
 t_ELEVADO = r'\*\*'
 t_DIVIDIDO = r'/'
-t_CONCAT = r'&'
+# t_CONCAT = r'&'
 t_MENQUE = r'<'
 t_MAYQUE = r'>'
 t_IGUALQUE = r'=='
@@ -281,7 +281,8 @@ def p_expresion_binaria(t):
                         | expresion_numerica MENOS expresion_numerica
                         | expresion_numerica POR expresion_numerica
                         | expresion_numerica DIVIDIDO expresion_numerica
-                        | expresion_numerica ELEVADO expresion_numerica'''
+                        | expresion_numerica ELEVADO expresion_numerica
+                        | expresion_id MAS expresion_id'''
     if t[2] == '+':
         t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
     elif t[2] == '-':
@@ -326,7 +327,9 @@ def p_expresion_char(t):
 
 
 def p_expresion_concatenacion(t):
-    'expresion_cadena     : expresion_cadena CONCAT expresion_cadena'
+    '''expresion_cadena     : expresion_cadena MAS expresion_cadena
+                            | expresion_numerica MAS expresion_cadena
+                            | expresion_cadena MAS expresion_numerica'''
     t[0] = ExpresionConcatenar(t[1], t[3])
 
 
