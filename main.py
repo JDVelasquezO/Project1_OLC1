@@ -81,20 +81,20 @@ def resolver_cadena(expCad, ts):
         return str(exp1) + str(exp2)
     elif isinstance(expCad, ExpresionDobleComilla):
         return expCad.val
+    elif isinstance(expCad, ExpresionSimpleComilla):
+        return expCad.val
     elif isinstance(expCad, ExpresionCadenaNumerico):
         return str(resolver_expresion_aritmetica(expCad.exp, ts))
     elif isinstance(expCad, ExpresionNumero):
         return str(expCad.val)
     elif isinstance(expCad, ExpresionIdentificador):
         if expCad.id.lower() == "true":
-            return 1
+            return "true"
         elif expCad.id.lower() == "false":
-            return 0
+            return "false"
         return ts.obtener(expCad.id).valor
     elif isinstance(expCad, ExpresionBinaria):
         return resolver_expresion_aritmetica(expCad, ts)
-    elif isinstance(expCad, ExpresionSimpleComilla):
-        return expCad.val
     else:
         print('Error: Expresión cadena no válida')
 
@@ -140,8 +140,10 @@ def resolver_expresion_aritmetica(expNum, ts):
     elif isinstance(expNum, ExpresionNumero):
         return expNum.val
     elif isinstance(expNum, ExpresionIdentificador):
-        if expNum.id.lower() == "true" or expNum.id.lower() == "false":
-            return expNum.id
+        if expNum.id.lower() == "true":
+            return True
+        elif expNum.id.lower() == "false":
+            return False
         return ts.obtener(expNum.id).valor
 
 

@@ -281,8 +281,7 @@ def p_expresion_binaria(t):
                         | expresion_numerica MENOS expresion_numerica
                         | expresion_numerica POR expresion_numerica
                         | expresion_numerica DIVIDIDO expresion_numerica
-                        | expresion_numerica ELEVADO expresion_numerica
-                        | expresion_id MAS expresion_id'''
+                        | expresion_numerica ELEVADO expresion_numerica'''
     if t[2] == '+':
         t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
     elif t[2] == '-':
@@ -327,10 +326,15 @@ def p_expresion_char(t):
 
 
 def p_expresion_concatenacion(t):
-    '''expresion_cadena     : expresion_cadena MAS expresion_cadena
-                            | expresion_numerica MAS expresion_cadena
-                            | expresion_cadena MAS expresion_numerica'''
+    'expresion_cadena     : var_concatenar MAS var_concatenar'
     t[0] = ExpresionConcatenar(t[1], t[3])
+
+
+def p_expresion_varConcatenar(t):
+    '''var_concatenar     : expresion_cadena
+                            | expresion_numerica
+                            | expresion_char'''
+    t[0] = t[1]
 
 
 def p_expresion_cadena(t):
