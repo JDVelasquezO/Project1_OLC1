@@ -203,7 +203,8 @@ def p_expresionGeneralImprimir(t):
                                 | expresion_cadena
                                 | expresion_id
                                 | expresion_boolean
-                                | expresion_char'''
+                                | expresion_char
+                                | expresion_logica'''
     t[0] = Imprimir(t[1])
 
 
@@ -362,7 +363,7 @@ def p_expresion_cadena_numerico(t):
 def p_expresion_logica(t):
     '''expresion_logica : expresion_numerica MAYQUE expresion_numerica
                         | expresion_numerica MENQUE expresion_numerica
-                        | expresion_numerica IGUALQUE expresion_numerica
+                        | asign_def_expresion_general IGUALQUE asign_def_expresion_general
                         | expresion_numerica NIGUALQUE expresion_numerica'''
     if t[2] == '>':
         t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.MAYOR_QUE)

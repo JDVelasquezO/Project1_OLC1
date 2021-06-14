@@ -209,8 +209,8 @@ class TableErrors:
                 self.e.insert(END, lst2[i][j])
 
 
-tableSymbols = TableSymbols(tables1)
-tableErrors = TableErrors(tables2)
+# tableSymbols = TableSymbols(tables1)
+# tableErrors = TableErrors(tables2)
 
 # Monitor inferior
 mensaje = StringVar()

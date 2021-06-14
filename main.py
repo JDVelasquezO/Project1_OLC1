@@ -93,6 +93,11 @@ def resolver_cadena(expCad, ts):
         return ts.obtener(expCad.id).valor
     elif isinstance(expCad, ExpresionBinaria):
         return resolver_expresion_aritmetica(expCad, ts)
+    elif isinstance(expCad, ExpresionLogica):
+        val = resolver_expreision_logica(expCad, ts)
+        if val:
+            return True
+        return False
     else:
         print('Error: Expresión cadena no válida')
 
@@ -102,7 +107,24 @@ def resolver_expreision_logica(expLog, ts):
     exp2 = resolver_expresion_aritmetica(expLog.exp2, ts)
     if expLog.operador == OPERACION_LOGICA.MAYOR_QUE: return exp1 > exp2
     if expLog.operador == OPERACION_LOGICA.MENOR_QUE: return exp1 < exp2
-    if expLog.operador == OPERACION_LOGICA.IGUAL: return exp1 == exp2
+    if expLog.operador == OPERACION_LOGICA.IGUAL:
+        if isinstance(exp1, bool) and isinstance(exp2, str):
+            if exp1:
+                temp = "true"
+                return temp == exp2
+            else:
+                temp = "false"
+                return temp == exp2
+        elif isinstance(exp2, bool) and isinstance(exp1, str):
+            if exp2:
+                temp = "true"
+                return temp == exp1
+            else:
+                temp = "false"
+                return temp == exp1
+        elif isinstance(exp1, bool) and isinstance(exp2, bool):
+            return exp1 == exp2
+        return str(exp1) == str(exp2)
     if expLog.operador == OPERACION_LOGICA.DIFERENTE: return exp1 != exp2
 
 
