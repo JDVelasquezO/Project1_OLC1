@@ -25,12 +25,10 @@ def procesar_asignacion(instr, ts):
     val = resolver_expresion_aritmetica(instr.expression, ts)
     simbolo = None
 
-    if val is None:
-        val = resolver_cadena(instr.expression, ts)
-        if isinstance(instr.expression, ExpresionSimpleComilla):
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
-        elif isinstance(instr.expression, ExpresionDobleComilla):
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
+    if isinstance(instr.expression, ExpresionSimpleComilla):
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
+    elif isinstance(instr.expression, ExpresionDobleComilla):
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
     elif isinstance(val, str):
         if val.lower() == "true":
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True)
@@ -134,17 +132,24 @@ def resolver_expresion_aritmetica(expNum, ts):
         if expNum.operador == OPERACION_ARITMETICA.POR: return exp1 * exp2
         if expNum.operador == OPERACION_ARITMETICA.DIVIDIDO: return exp1 / exp2
         if expNum.operador == OPERACION_ARITMETICA.POTENCIA: return exp1 ** exp2
+        if expNum.operador == OPERACION_ARITMETICA.MODULO: return exp1 % exp2
     elif isinstance(expNum, ExpresionNegativo):
         exp = resolver_expresion_aritmetica(expNum.exp, ts)
         return exp * -1
     elif isinstance(expNum, ExpresionNumero):
         return expNum.val
+    elif isinstance(expNum, ExpresionCadenaNumerico):
+        return expNum.exp
     elif isinstance(expNum, ExpresionIdentificador):
         if expNum.id.lower() == "true":
             return True
         elif expNum.id.lower() == "false":
             return False
         return ts.obtener(expNum.id).valor
+    elif isinstance(expNum, ExpresionDobleComilla):
+        return expNum.val
+    elif isinstance(expNum, ExpresionSimpleComilla):
+        return expNum.val
 
 
 def procesar_instrucciones(instrucciones, ts, console):

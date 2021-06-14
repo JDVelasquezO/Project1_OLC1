@@ -23,6 +23,7 @@ tokens = [
              'MENOS',
              'POR',
              'DIVIDIDO',
+             'MOD',
              'ELEVADO',
              'CONCAT',
              'MENQUE',
@@ -49,6 +50,7 @@ t_MAS = r'\+'
 t_MENOS = r'-'
 t_POR = r'\*'
 t_ELEVADO = r'\*\*'
+t_MOD = r'%'
 t_DIVIDIDO = r'/'
 # t_CONCAT = r'&'
 t_MENQUE = r'<'
@@ -142,7 +144,7 @@ lexer = lex.lex()
 precedence = (
     ('left', 'CONCAT'),
     ('left', 'MAS', 'MENOS'),
-    ('left', 'POR', 'DIVIDIDO'),
+    ('left', 'POR', 'DIVIDIDO', 'MOD'),
     ('left', 'ELEVADO'),
     ('right', 'UMENOS'),
 )
@@ -179,11 +181,11 @@ def p_instruccion(t):
     t[0] = t[1]
 
 
-def p_beforeOfMain(t):
-    '''def_funcs_vars   : definicion_instr
-                        | asignacion_instr
-                        | empty'''
-    t[0] = t[1]
+# def p_beforeOfMain(t):
+#     '''def_funcs_vars   : definicion_instr
+#                         | asignacion_instr
+#                         | empty'''
+#     t[0] = t[1]
 
 
 def p_func_main(t):
@@ -281,7 +283,16 @@ def p_expresion_binaria(t):
                         | expresion_numerica MENOS expresion_numerica
                         | expresion_numerica POR expresion_numerica
                         | expresion_numerica DIVIDIDO expresion_numerica
-                        | expresion_numerica ELEVADO expresion_numerica'''
+                        | expresion_numerica ELEVADO expresion_numerica
+                        | expresion_numerica MOD expresion_numerica
+                        | expresion_numerica MAS expresion_char
+                        | expresion_cadena MAS expresion_cadena
+                        | expresion_cadena MAS expresion_numerica
+                        | expresion_cadena MAS expresion_char
+                        | expresion_numerica MAS expresion_cadena
+                        | expresion_char MAS expresion_char
+                        | expresion_char MAS expresion_cadena
+                        | expresion_char MAS expresion_numerica'''
     if t[2] == '+':
         t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
     elif t[2] == '-':
@@ -292,6 +303,8 @@ def p_expresion_binaria(t):
         t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIVIDIDO)
     elif t[2] == '**':
         t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POTENCIA)
+    elif t[2] == '%':
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MODULO)
 
 
 def expresion_potencia(t):
@@ -325,16 +338,15 @@ def p_expresion_char(t):
     t[0] = ExpresionSimpleComilla(t[1])
 
 
-def p_expresion_concatenacion(t):
-    'expresion_cadena     : var_concatenar MAS var_concatenar'
-    t[0] = ExpresionConcatenar(t[1], t[3])
-
-
-def p_expresion_varConcatenar(t):
-    '''var_concatenar     : expresion_cadena
-                            | expresion_numerica
-                            | expresion_char'''
-    t[0] = t[1]
+# def p_expresion_concatenacion(t):
+#     '''expresion_cadena     : expresion_cadena MAS expresion_cadena
+#                             | expresion_cadena MAS expresion_numerica
+#                             | expresion_cadena MAS expresion_char
+#                             | expresion_cadena MAS expresion_id
+#                             | expresion_numerica MAS expresion_cadena
+#                             | expresion_char MAS expresion_cadena
+#                             | expresion_id MAS expresion_cadena'''
+#     t[0] = ExpresionConcatenar(t[1], t[3])
 
 
 def p_expresion_cadena(t):

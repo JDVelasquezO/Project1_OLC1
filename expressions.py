@@ -7,6 +7,7 @@ class OPERACION_ARITMETICA(Enum):
     POR = 3
     DIVIDIDO = 4
     POTENCIA = 5
+    MODULO = 6
 
 
 class OPERACION_LOGICA(Enum):
