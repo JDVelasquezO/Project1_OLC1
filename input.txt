@@ -1,4 +1,5 @@
+var global = 1;
 
-main () {
-    print(true == 1)
+main() {
+   print("Hola")
 }

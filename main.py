@@ -81,6 +81,8 @@ def resolver_cadena(expCad, ts):
         return expCad.val
     elif isinstance(expCad, ExpresionSimpleComilla):
         return expCad.val
+    elif isinstance(expCad, ExpresionIncrement):
+        pass
     elif isinstance(expCad, ExpresionCadenaNumerico):
         return str(resolver_expresion_aritmetica(expCad.exp, ts))
     elif isinstance(expCad, ExpresionNumero):
@@ -98,6 +100,9 @@ def resolver_cadena(expCad, ts):
         if val:
             return True
         return False
+    elif isinstance(expCad, ExpresionOperacionLogica):
+        val = resolver_operador_logico(expCad, ts)
+        return val
     else:
         print('Error: Expresión cadena no válida')
 
@@ -107,6 +112,8 @@ def resolver_expreision_logica(expLog, ts):
     exp2 = resolver_expresion_aritmetica(expLog.exp2, ts)
     if expLog.operador == OPERACION_LOGICA.MAYOR_QUE: return exp1 > exp2
     if expLog.operador == OPERACION_LOGICA.MENOR_QUE: return exp1 < exp2
+    if expLog.operador == OPERACION_LOGICA.MENORIGUAL_QUE: return exp1 <= exp2
+    if expLog.operador == OPERACION_LOGICA.MAYORIGUAL_QUE: return exp1 >= exp2
     if expLog.operador == OPERACION_LOGICA.IGUAL:
         if isinstance(exp1, bool) and isinstance(exp2, str):
             if exp1:
@@ -126,6 +133,22 @@ def resolver_expreision_logica(expLog, ts):
             return exp1 == exp2
         return str(exp1) == str(exp2)
     if expLog.operador == OPERACION_LOGICA.DIFERENTE: return exp1 != exp2
+
+
+def resolver_operador_logico(expLog, ts):
+    exp1 = resolver_expreision_logica(expLog.exp1, ts)
+    if expLog.operador == OPERADOR_LOGICO.NOT:
+        if not exp1:
+            return True
+    else:
+        exp2 = resolver_expreision_logica(expLog.exp2, ts)
+        if expLog.operador == OPERADOR_LOGICO.AND:
+            if exp1 and exp2:
+                return True
+        if expLog.operador == OPERADOR_LOGICO.OR:
+            if exp1 or exp2:
+                return True
+    return False
 
 
 def resolver_expresion_aritmetica(expNum, ts):
@@ -155,21 +178,27 @@ def resolver_expresion_aritmetica(expNum, ts):
         if expNum.operador == OPERACION_ARITMETICA.DIVIDIDO: return exp1 / exp2
         if expNum.operador == OPERACION_ARITMETICA.POTENCIA: return exp1 ** exp2
         if expNum.operador == OPERACION_ARITMETICA.MODULO: return exp1 % exp2
+
     elif isinstance(expNum, ExpresionNegativo):
         exp = resolver_expresion_aritmetica(expNum.exp, ts)
         return exp * -1
+
     elif isinstance(expNum, ExpresionNumero):
         return expNum.val
+
     elif isinstance(expNum, ExpresionCadenaNumerico):
         return expNum.exp
+
     elif isinstance(expNum, ExpresionIdentificador):
         if expNum.id.lower() == "true":
             return True
         elif expNum.id.lower() == "false":
             return False
         return ts.obtener(expNum.id).valor
+
     elif isinstance(expNum, ExpresionDobleComilla):
         return expNum.val
+
     elif isinstance(expNum, ExpresionSimpleComilla):
         return expNum.val
 

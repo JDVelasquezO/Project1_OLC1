@@ -13,8 +13,16 @@ class OPERACION_ARITMETICA(Enum):
 class OPERACION_LOGICA(Enum):
     MAYOR_QUE = 1
     MENOR_QUE = 2
-    IGUAL = 3
-    DIFERENTE = 4
+    MAYORIGUAL_QUE = 3
+    MENORIGUAL_QUE = 4
+    IGUAL = 5
+    DIFERENTE = 6
+
+
+class OPERADOR_LOGICO(Enum):
+    AND = 1
+    OR = 2
+    NOT = 3
 
 
 class ExpresionNumerica:
@@ -41,6 +49,11 @@ class ExpresionNegativo(ExpresionNumerica):
         Esta clase recibe la expresion
     '''
 
+    def __init__(self, exp):
+        self.exp = exp
+
+
+class ExpresionIncrement(ExpresionNumerica):
     def __init__(self, exp):
         self.exp = exp
 
@@ -110,6 +123,22 @@ class ExpresionLogica:
         self.exp1 = exp1
         self.exp2 = exp2
         self.operador = operador
+
+
+class ExpresionOperacionLogica:
+    def __init__(self, exp1, exp2, operador):
+        self.exp1 = exp1
+        self.exp2 = exp2
+        self.operador = operador
+    # def __init__(self, *args):
+    #     if len(args) == 3:
+    #         self.exp1 = args[0]
+    #         self.exp2 = args[1]
+    #         self.operador = args[2]
+    #
+    #     if len(args) == 2:
+    #         self.exp1 = args[0]
+    #         self.operador = args[1]
 
 
 class ExpresionBoolean:
