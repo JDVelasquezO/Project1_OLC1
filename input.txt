@@ -1,5 +1,28 @@
-var global = 1;
 
-main() {
-   print("Hola")
+main () {
+  var if_1 = 25;
+  print("---------- SENTENCIA ELSE-IF ----------");
+  if(if_1 > 50)
+  {
+    print("esto no debería de estar aquí");
+  }
+  else if (if_1 <= 50 && if_1 >= 0)
+  {
+    print("if_1 se encuentra entre 0 y 50");
+    if (if_1 > 10)
+    {
+      print("if_1 es mayor a 10");
+    }
+    else
+    {
+      print("esto no debería de estar aquí");
+    }
+  }
+  else
+  {
+    print("esto no debería de estar aquí");
+  }
+    # Salida de esta sección
+    # if_1 se encuentra entre 0 y 50
+    # if_1 es mayor a 10
 }

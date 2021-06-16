@@ -130,15 +130,12 @@ class ExpresionOperacionLogica:
         self.exp1 = exp1
         self.exp2 = exp2
         self.operador = operador
-    # def __init__(self, *args):
-    #     if len(args) == 3:
-    #         self.exp1 = args[0]
-    #         self.exp2 = args[1]
-    #         self.operador = args[2]
-    #
-    #     if len(args) == 2:
-    #         self.exp1 = args[0]
-    #         self.operador = args[1]
+
+
+class ExpresionLogicaNot:
+    def __init__(self, exp1, operador):
+        self.exp1 = exp1
+        self.operador = operador
 
 
 class ExpresionBoolean:

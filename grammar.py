@@ -98,7 +98,7 @@ def t_ID(t):
 
 
 def t_CADENA(t):
-    r'\".*?\"'
+    r'\"(\\"|.)*?\"'
     t.value = t.value[1:-1]  # remuevo las comillas
 
     t.value = t.value.replace('\\t', '\t')
@@ -155,7 +155,7 @@ lexer = lex.lex()
 # Asociación de operadores y precedencia
 precedence = (
     ('left', 'OR', 'AND'),
-    ('right', 'NOT'),
+    ('right', 'UNOT'),
     ('left', 'MENQUE', 'MAYQUE', 'MENIGUALQUE', 'MAYIGUALQUE', 'IGUALQUE', 'NIGUALQUE'),
     ('left', 'MAS', 'MENOS'),
     ('left', 'POR', 'DIVIDIDO', 'MOD'),
@@ -191,8 +191,7 @@ def p_instruccion(t):
                         | asignacion_instr
                         | def_asig_instr
                         | mientras_instr
-                        | if_instr
-                        | if_else_instr'''
+                        | if_instr'''
     t[0] = t[1]
 
 
@@ -231,8 +230,13 @@ def p_if_instr(t):
 
 
 def p_if_else_instr(t):
-    'if_else_instr      : IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER'
+    'if_instr      : IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER'
     t[0] = IfElse(t[3], t[6], t[10])
+
+
+def p_else_if(t):
+    'if_instr       : IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr'
+    t[0] = ElseIf(t[3], t[6], t[9])
 
 
 # ------------------------------ WHILE -----------------------------
@@ -295,6 +299,11 @@ def expresion_potencia(t):
 def p_expresion_unaria(t):
     'expresion      : MENOS expresion %prec UMENOS'
     t[0] = ExpresionNegativo(t[2])
+
+
+def p_expresion_negar(t):
+    'expresion      : NOT expresion %prec UNOT'
+    t[0] = ExpresionLogicaNot(t[2], OPERADOR_LOGICO.NOT)
 
 
 def p_expresion_agrupacion(t):

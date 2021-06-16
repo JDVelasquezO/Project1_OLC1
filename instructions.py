@@ -80,3 +80,10 @@ class IfElse(Instruccion):
         self.expLogica = expLogica
         self.instrIfVerdadero = instrIfVerdadero
         self.instrIfFalso = instrIfFalso
+
+
+class ElseIf(Instruccion):
+    def __init__(self, expLogica, instrIfVerdadero=[], instrElse=[]):
+        self.expLogica = expLogica
+        self.instrIfVerdadero = instrIfVerdadero
+        self.instrElse = instrElse

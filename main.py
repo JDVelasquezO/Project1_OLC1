@@ -29,11 +29,15 @@ def procesar_asignacion(instr, ts):
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
     elif isinstance(instr.expression, ExpresionDobleComilla):
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
+    elif isinstance(instr.expression, ExpresionLogica):
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, val)
     elif isinstance(val, str):
         if val.lower() == "true":
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True)
         elif val.lower() == "false":
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False)
+        else:
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
     else:
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val)
 
@@ -65,6 +69,17 @@ def procesar_if_else(instr, ts, console):
     else:
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
         procesar_instrucciones(instr.instrIfFalso, ts_local, console)
+
+
+def procesar_else_if(instr, ts, console):
+    val = resolver_expreision_logica(instr.expLogica, ts)
+    if val:
+        ts_local = TS.TablaDeSimbolos(ts.simbolos)
+        procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
+    else:
+        # for instruction in instr.instrElse.instrIfVerdadero:
+        ts_local = TS.TablaDeSimbolos(ts.simbolos)
+        procesar_instrucciones(instr.instrElse.instrIfVerdadero, ts_local, console)
 
 
 def procesar_func_main(instr, ts, console):
@@ -136,18 +151,27 @@ def resolver_expreision_logica(expLog, ts):
 
 
 def resolver_operador_logico(expLog, ts):
-    exp1 = resolver_expreision_logica(expLog.exp1, ts)
+    if expLog.exp1.id or expLog.exp2.id:
+        exp1 = True if expLog.exp1.id == 'true' else False
+        exp2 = True if expLog.exp2.id == 'true' else False
+    else:
+        exp1 = resolver_expreision_logica(expLog.exp1, ts)
+        exp2 = resolver_expreision_logica(expLog.exp2, ts)
+
+    if expLog.operador == OPERADOR_LOGICO.AND:
+        if exp1 and exp2:
+            return True
+    if expLog.operador == OPERADOR_LOGICO.OR:
+        if exp1 or exp2:
+            return True
+    return False
+
+
+def resolver_operador_not(expLog, ts):
     if expLog.operador == OPERADOR_LOGICO.NOT:
+        exp1 = ts.obtener(expLog.exp1.id).valor
         if not exp1:
             return True
-    else:
-        exp2 = resolver_expreision_logica(expLog.exp2, ts)
-        if expLog.operador == OPERADOR_LOGICO.AND:
-            if exp1 and exp2:
-                return True
-        if expLog.operador == OPERADOR_LOGICO.OR:
-            if exp1 or exp2:
-                return True
     return False
 
 
@@ -158,18 +182,27 @@ def resolver_expresion_aritmetica(expNum, ts):
         if expNum.operador == OPERACION_ARITMETICA.MAS:
             if isinstance(exp1, int) and isinstance(exp2, str):
                 if isinstance(exp1, bool):
-                    return f"1{exp2}"
+                    if exp1:
+                        return f"true{exp2}"
+                    else:
+                        return f"false{exp2}"
                 return str(exp1) + exp2
             elif isinstance(exp1, float) and isinstance(exp2, str):
                 return str(exp1) + exp2
             elif isinstance(exp1, str) and isinstance(exp2, int):
                 if isinstance(exp2, bool):
-                    return f"{exp1}1"
+                    if exp2:
+                        return f"{exp1}true"
+                    else:
+                        return f"{exp1}false"
                 return exp1 + str(exp2)
             elif isinstance(exp1, str) and isinstance(exp2, float):
                 return exp1 + str(exp2)
             elif isinstance(exp1, str) and isinstance(exp2, bool):
-                return f"1{exp1}"
+                if exp2:
+                    return f"true{exp1}"
+                else:
+                    return f"false{exp1}"
 
             return exp1 + exp2
 
@@ -202,6 +235,15 @@ def resolver_expresion_aritmetica(expNum, ts):
     elif isinstance(expNum, ExpresionSimpleComilla):
         return expNum.val
 
+    elif isinstance(expNum, ExpresionLogica):
+        return resolver_expreision_logica(expNum, ts)
+
+    elif isinstance(expNum, ExpresionLogicaNot):
+        return resolver_operador_not(expNum, ts)
+
+    elif isinstance(expNum, ExpresionOperacionLogica):
+        return resolver_operador_logico(expNum, ts)
+
 
 def procesar_instrucciones(instrucciones, ts, console):
     # lista de instrucciones recolectadas
@@ -220,6 +262,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             procesar_if(instr, ts, console)
         elif isinstance(instr, IfElse):
             procesar_if_else(instr, ts, console)
+        elif isinstance(instr, ElseIf):
+            procesar_else_if(instr, ts, console)
         elif isinstance(instr, Funcion_Main):
             procesar_func_main(instr.instrucciones, ts, console)
         else:
