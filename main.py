@@ -48,7 +48,7 @@ def procesar_definicion_asignacion(instr, ts):
     procesar_definicion(instr, ts, True)
 
 
-def procesar_mientras(instr, ts, console):
+def procesar_while(instr, ts, console):
     while resolver_expreision_logica(instr.expLogica, ts):
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
         procesar_instrucciones(instr.instrucciones, ts_local, console)
@@ -256,8 +256,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             procesar_asignacion(instr, ts)
         elif isinstance(instr, Definicion_Asignacion):
             procesar_definicion_asignacion(instr, ts)
-        elif isinstance(instr, Mientras):
-            procesar_mientras(instr, ts, console)
+        elif isinstance(instr, While):
+            procesar_while(instr, ts, console)
         elif isinstance(instr, If):
             procesar_if(instr, ts, console)
         elif isinstance(instr, IfElse):

@@ -45,7 +45,7 @@ main(){
   print("-> Comilla simple:");
   print(global_comilla_simple);
   print("-------------------------------------------");
-  
+
   # Sumas de prueba
   print("---------- SUMAS DE PRUEBA ----------");
   var suma_1 = global_int + 5;

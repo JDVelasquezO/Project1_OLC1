@@ -17,7 +17,7 @@ Rule 6     instruccion -> imprimir_instr
 Rule 7     instruccion -> definicion_instr
 Rule 8     instruccion -> asignacion_instr
 Rule 9     instruccion -> def_asig_instr
-Rule 10    instruccion -> mientras_instr
+Rule 10    instruccion -> while_instr
 Rule 11    instruccion -> if_instr
 Rule 12    func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
 Rule 13    imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima
@@ -27,7 +27,7 @@ Rule 16    def_asig_instr -> VAR ID IGUAL expresion def_instr_prima
 Rule 17    if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
 Rule 18    if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 Rule 19    if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
-Rule 20    mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+Rule 20    while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
 Rule 21    expresion -> expresion MAS expresion
 Rule 22    expresion -> expresion MENOS expresion
 Rule 23    expresion -> expresion POR expresion
@@ -83,7 +83,6 @@ MAYQUE               : 29
 MENIGUALQUE          : 32
 MENOS                : 22 35
 MENQUE               : 30
-MIENTRAS             : 20
 MOD                  : 26
 NIGUALQUE            : 34
 NOT                  : 36
@@ -95,6 +94,7 @@ PRINT                : 13
 PTCOMA               : 46
 TRUE                 : 43
 VAR                  : 14 16
+WHILE                : 20
 error                : 
 
 Nonterminals, with rules where they appear
@@ -111,7 +111,7 @@ imprimir_instr       : 6
 init                 : 0
 instruccion          : 2 3
 instrucciones        : 1 2 12 17 18 18 19 20
-mientras_instr       : 10
+while_instr          : 10
 
 Parsing method: LALR
 
@@ -127,7 +127,7 @@ state 0
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (48) empty -> .
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
@@ -135,7 +135,7 @@ state 0
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -144,21 +144,21 @@ state 0
   ! shift/reduce conflict for PRINT resolved as shift
   ! shift/reduce conflict for VAR resolved as shift
   ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for MIENTRAS resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for IF resolved as shift
     $end            reduce using rule 48 (empty -> .)
     MAIN            shift and go to state 12
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
   ! MAIN            [ reduce using rule 48 (empty -> .) ]
   ! PRINT           [ reduce using rule 48 (empty -> .) ]
   ! VAR             [ reduce using rule 48 (empty -> .) ]
   ! ID              [ reduce using rule 48 (empty -> .) ]
-  ! MIENTRAS        [ reduce using rule 48 (empty -> .) ]
+  ! WHILE           [ reduce using rule 48 (empty -> .) ]
   ! IF              [ reduce using rule 48 (empty -> .) ]
 
     init                           shift and go to state 1
@@ -170,7 +170,7 @@ state 0
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
     if_instr                       shift and go to state 11
 
 state 1
@@ -188,14 +188,14 @@ state 2
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
     (13) imprimir_instr -> . PRINT PARIZQ expresion PARDER def_instr_prima
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -205,7 +205,7 @@ state 2
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
     instruccion                    shift and go to state 18
@@ -214,7 +214,7 @@ state 2
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
     if_instr                       shift and go to state 11
 
 state 3
@@ -225,7 +225,7 @@ state 3
     PRINT           reduce using rule 3 (instrucciones -> instruccion .)
     VAR             reduce using rule 3 (instrucciones -> instruccion .)
     ID              reduce using rule 3 (instrucciones -> instruccion .)
-    MIENTRAS        reduce using rule 3 (instrucciones -> instruccion .)
+    WHILE           reduce using rule 3 (instrucciones -> instruccion .)
     IF              reduce using rule 3 (instrucciones -> instruccion .)
     $end            reduce using rule 3 (instrucciones -> instruccion .)
     LLAVDER         reduce using rule 3 (instrucciones -> instruccion .)
@@ -239,7 +239,7 @@ state 4
     PRINT           reduce using rule 4 (instrucciones -> empty .)
     VAR             reduce using rule 4 (instrucciones -> empty .)
     ID              reduce using rule 4 (instrucciones -> empty .)
-    MIENTRAS        reduce using rule 4 (instrucciones -> empty .)
+    WHILE           reduce using rule 4 (instrucciones -> empty .)
     IF              reduce using rule 4 (instrucciones -> empty .)
     $end            reduce using rule 4 (instrucciones -> empty .)
     LLAVDER         reduce using rule 4 (instrucciones -> empty .)
@@ -253,7 +253,7 @@ state 5
     PRINT           reduce using rule 5 (instruccion -> func_main .)
     VAR             reduce using rule 5 (instruccion -> func_main .)
     ID              reduce using rule 5 (instruccion -> func_main .)
-    MIENTRAS        reduce using rule 5 (instruccion -> func_main .)
+    WHILE           reduce using rule 5 (instruccion -> func_main .)
     IF              reduce using rule 5 (instruccion -> func_main .)
     $end            reduce using rule 5 (instruccion -> func_main .)
     LLAVDER         reduce using rule 5 (instruccion -> func_main .)
@@ -267,7 +267,7 @@ state 6
     PRINT           reduce using rule 6 (instruccion -> imprimir_instr .)
     VAR             reduce using rule 6 (instruccion -> imprimir_instr .)
     ID              reduce using rule 6 (instruccion -> imprimir_instr .)
-    MIENTRAS        reduce using rule 6 (instruccion -> imprimir_instr .)
+    WHILE           reduce using rule 6 (instruccion -> imprimir_instr .)
     IF              reduce using rule 6 (instruccion -> imprimir_instr .)
     $end            reduce using rule 6 (instruccion -> imprimir_instr .)
     LLAVDER         reduce using rule 6 (instruccion -> imprimir_instr .)
@@ -281,7 +281,7 @@ state 7
     PRINT           reduce using rule 7 (instruccion -> definicion_instr .)
     VAR             reduce using rule 7 (instruccion -> definicion_instr .)
     ID              reduce using rule 7 (instruccion -> definicion_instr .)
-    MIENTRAS        reduce using rule 7 (instruccion -> definicion_instr .)
+    WHILE           reduce using rule 7 (instruccion -> definicion_instr .)
     IF              reduce using rule 7 (instruccion -> definicion_instr .)
     $end            reduce using rule 7 (instruccion -> definicion_instr .)
     LLAVDER         reduce using rule 7 (instruccion -> definicion_instr .)
@@ -295,7 +295,7 @@ state 8
     PRINT           reduce using rule 8 (instruccion -> asignacion_instr .)
     VAR             reduce using rule 8 (instruccion -> asignacion_instr .)
     ID              reduce using rule 8 (instruccion -> asignacion_instr .)
-    MIENTRAS        reduce using rule 8 (instruccion -> asignacion_instr .)
+    WHILE           reduce using rule 8 (instruccion -> asignacion_instr .)
     IF              reduce using rule 8 (instruccion -> asignacion_instr .)
     $end            reduce using rule 8 (instruccion -> asignacion_instr .)
     LLAVDER         reduce using rule 8 (instruccion -> asignacion_instr .)
@@ -309,7 +309,7 @@ state 9
     PRINT           reduce using rule 9 (instruccion -> def_asig_instr .)
     VAR             reduce using rule 9 (instruccion -> def_asig_instr .)
     ID              reduce using rule 9 (instruccion -> def_asig_instr .)
-    MIENTRAS        reduce using rule 9 (instruccion -> def_asig_instr .)
+    WHILE           reduce using rule 9 (instruccion -> def_asig_instr .)
     IF              reduce using rule 9 (instruccion -> def_asig_instr .)
     $end            reduce using rule 9 (instruccion -> def_asig_instr .)
     LLAVDER         reduce using rule 9 (instruccion -> def_asig_instr .)
@@ -317,16 +317,16 @@ state 9
 
 state 10
 
-    (10) instruccion -> mientras_instr .
+    (10) instruccion -> while_instr .
 
-    MAIN            reduce using rule 10 (instruccion -> mientras_instr .)
-    PRINT           reduce using rule 10 (instruccion -> mientras_instr .)
-    VAR             reduce using rule 10 (instruccion -> mientras_instr .)
-    ID              reduce using rule 10 (instruccion -> mientras_instr .)
-    MIENTRAS        reduce using rule 10 (instruccion -> mientras_instr .)
-    IF              reduce using rule 10 (instruccion -> mientras_instr .)
-    $end            reduce using rule 10 (instruccion -> mientras_instr .)
-    LLAVDER         reduce using rule 10 (instruccion -> mientras_instr .)
+    MAIN            reduce using rule 10 (instruccion -> while_instr .)
+    PRINT           reduce using rule 10 (instruccion -> while_instr .)
+    VAR             reduce using rule 10 (instruccion -> while_instr .)
+    ID              reduce using rule 10 (instruccion -> while_instr .)
+    WHILE           reduce using rule 10 (instruccion -> while_instr .)
+    IF              reduce using rule 10 (instruccion -> while_instr .)
+    $end            reduce using rule 10 (instruccion -> while_instr .)
+    LLAVDER         reduce using rule 10 (instruccion -> while_instr .)
 
 
 state 11
@@ -337,7 +337,7 @@ state 11
     PRINT           reduce using rule 11 (instruccion -> if_instr .)
     VAR             reduce using rule 11 (instruccion -> if_instr .)
     ID              reduce using rule 11 (instruccion -> if_instr .)
-    MIENTRAS        reduce using rule 11 (instruccion -> if_instr .)
+    WHILE           reduce using rule 11 (instruccion -> if_instr .)
     IF              reduce using rule 11 (instruccion -> if_instr .)
     $end            reduce using rule 11 (instruccion -> if_instr .)
     LLAVDER         reduce using rule 11 (instruccion -> if_instr .)
@@ -374,7 +374,7 @@ state 15
 
 state 16
 
-    (20) mientras_instr -> MIENTRAS . PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> WHILE . PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
 
     PARIZQ          shift and go to state 23
 
@@ -396,7 +396,7 @@ state 18
     PRINT           reduce using rule 2 (instrucciones -> instrucciones instruccion .)
     VAR             reduce using rule 2 (instrucciones -> instrucciones instruccion .)
     ID              reduce using rule 2 (instrucciones -> instrucciones instruccion .)
-    MIENTRAS        reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+    WHILE           reduce using rule 2 (instrucciones -> instrucciones instruccion .)
     IF              reduce using rule 2 (instrucciones -> instrucciones instruccion .)
     $end            reduce using rule 2 (instrucciones -> instrucciones instruccion .)
     LLAVDER         reduce using rule 2 (instrucciones -> instrucciones instruccion .)
@@ -465,7 +465,7 @@ state 21
     PRINT           reduce using rule 48 (empty -> .)
     VAR             reduce using rule 48 (empty -> .)
     ID              reduce using rule 48 (empty -> .)
-    MIENTRAS        reduce using rule 48 (empty -> .)
+    WHILE           reduce using rule 48 (empty -> .)
     IF              reduce using rule 48 (empty -> .)
     $end            reduce using rule 48 (empty -> .)
     LLAVDER         reduce using rule 48 (empty -> .)
@@ -517,7 +517,7 @@ state 22
 
 state 23
 
-    (20) mientras_instr -> MIENTRAS PARIZQ . expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> WHILE PARIZQ . expresion PARDER LLAVIZQ instrucciones LLAVDER
     (21) expresion -> . expresion MAS expresion
     (22) expresion -> . expresion MENOS expresion
     (23) expresion -> . expresion POR expresion
@@ -825,7 +825,7 @@ state 30
     PRINT           reduce using rule 38 (expresion -> ID .)
     VAR             reduce using rule 38 (expresion -> ID .)
     ID              reduce using rule 38 (expresion -> ID .)
-    MIENTRAS        reduce using rule 38 (expresion -> ID .)
+    WHILE           reduce using rule 38 (expresion -> ID .)
     IF              reduce using rule 38 (expresion -> ID .)
     $end            reduce using rule 38 (expresion -> ID .)
     LLAVDER         reduce using rule 38 (expresion -> ID .)
@@ -855,7 +855,7 @@ state 31
     PRINT           reduce using rule 39 (expresion -> ENTERO .)
     VAR             reduce using rule 39 (expresion -> ENTERO .)
     ID              reduce using rule 39 (expresion -> ENTERO .)
-    MIENTRAS        reduce using rule 39 (expresion -> ENTERO .)
+    WHILE           reduce using rule 39 (expresion -> ENTERO .)
     IF              reduce using rule 39 (expresion -> ENTERO .)
     $end            reduce using rule 39 (expresion -> ENTERO .)
     LLAVDER         reduce using rule 39 (expresion -> ENTERO .)
@@ -885,7 +885,7 @@ state 32
     PRINT           reduce using rule 40 (expresion -> DECIMAL .)
     VAR             reduce using rule 40 (expresion -> DECIMAL .)
     ID              reduce using rule 40 (expresion -> DECIMAL .)
-    MIENTRAS        reduce using rule 40 (expresion -> DECIMAL .)
+    WHILE           reduce using rule 40 (expresion -> DECIMAL .)
     IF              reduce using rule 40 (expresion -> DECIMAL .)
     $end            reduce using rule 40 (expresion -> DECIMAL .)
     LLAVDER         reduce using rule 40 (expresion -> DECIMAL .)
@@ -915,7 +915,7 @@ state 33
     PRINT           reduce using rule 41 (expresion -> CADENA .)
     VAR             reduce using rule 41 (expresion -> CADENA .)
     ID              reduce using rule 41 (expresion -> CADENA .)
-    MIENTRAS        reduce using rule 41 (expresion -> CADENA .)
+    WHILE           reduce using rule 41 (expresion -> CADENA .)
     IF              reduce using rule 41 (expresion -> CADENA .)
     $end            reduce using rule 41 (expresion -> CADENA .)
     LLAVDER         reduce using rule 41 (expresion -> CADENA .)
@@ -945,7 +945,7 @@ state 34
     PRINT           reduce using rule 42 (expresion -> CHAR .)
     VAR             reduce using rule 42 (expresion -> CHAR .)
     ID              reduce using rule 42 (expresion -> CHAR .)
-    MIENTRAS        reduce using rule 42 (expresion -> CHAR .)
+    WHILE           reduce using rule 42 (expresion -> CHAR .)
     IF              reduce using rule 42 (expresion -> CHAR .)
     $end            reduce using rule 42 (expresion -> CHAR .)
     LLAVDER         reduce using rule 42 (expresion -> CHAR .)
@@ -975,7 +975,7 @@ state 35
     PRINT           reduce using rule 43 (expresion -> TRUE .)
     VAR             reduce using rule 43 (expresion -> TRUE .)
     ID              reduce using rule 43 (expresion -> TRUE .)
-    MIENTRAS        reduce using rule 43 (expresion -> TRUE .)
+    WHILE           reduce using rule 43 (expresion -> TRUE .)
     IF              reduce using rule 43 (expresion -> TRUE .)
     $end            reduce using rule 43 (expresion -> TRUE .)
     LLAVDER         reduce using rule 43 (expresion -> TRUE .)
@@ -1005,7 +1005,7 @@ state 36
     PRINT           reduce using rule 44 (expresion -> FALSE .)
     VAR             reduce using rule 44 (expresion -> FALSE .)
     ID              reduce using rule 44 (expresion -> FALSE .)
-    MIENTRAS        reduce using rule 44 (expresion -> FALSE .)
+    WHILE           reduce using rule 44 (expresion -> FALSE .)
     IF              reduce using rule 44 (expresion -> FALSE .)
     $end            reduce using rule 44 (expresion -> FALSE .)
     LLAVDER         reduce using rule 44 (expresion -> FALSE .)
@@ -1019,7 +1019,7 @@ state 37
     PRINT           reduce using rule 14 (definicion_instr -> VAR ID def_instr_prima .)
     VAR             reduce using rule 14 (definicion_instr -> VAR ID def_instr_prima .)
     ID              reduce using rule 14 (definicion_instr -> VAR ID def_instr_prima .)
-    MIENTRAS        reduce using rule 14 (definicion_instr -> VAR ID def_instr_prima .)
+    WHILE           reduce using rule 14 (definicion_instr -> VAR ID def_instr_prima .)
     IF              reduce using rule 14 (definicion_instr -> VAR ID def_instr_prima .)
     $end            reduce using rule 14 (definicion_instr -> VAR ID def_instr_prima .)
     LLAVDER         reduce using rule 14 (definicion_instr -> VAR ID def_instr_prima .)
@@ -1075,7 +1075,7 @@ state 39
     PRINT           reduce using rule 46 (def_instr_prima -> PTCOMA .)
     VAR             reduce using rule 46 (def_instr_prima -> PTCOMA .)
     ID              reduce using rule 46 (def_instr_prima -> PTCOMA .)
-    MIENTRAS        reduce using rule 46 (def_instr_prima -> PTCOMA .)
+    WHILE           reduce using rule 46 (def_instr_prima -> PTCOMA .)
     IF              reduce using rule 46 (def_instr_prima -> PTCOMA .)
     $end            reduce using rule 46 (def_instr_prima -> PTCOMA .)
     LLAVDER         reduce using rule 46 (def_instr_prima -> PTCOMA .)
@@ -1089,7 +1089,7 @@ state 40
     PRINT           reduce using rule 47 (def_instr_prima -> empty .)
     VAR             reduce using rule 47 (def_instr_prima -> empty .)
     ID              reduce using rule 47 (def_instr_prima -> empty .)
-    MIENTRAS        reduce using rule 47 (def_instr_prima -> empty .)
+    WHILE           reduce using rule 47 (def_instr_prima -> empty .)
     IF              reduce using rule 47 (def_instr_prima -> empty .)
     $end            reduce using rule 47 (def_instr_prima -> empty .)
     LLAVDER         reduce using rule 47 (def_instr_prima -> empty .)
@@ -1136,7 +1136,7 @@ state 41
   ! reduce/reduce conflict for PRINT resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for ID resolved using rule 45 (expresion -> expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 45 (expresion -> expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for IF resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for $end resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 45 (expresion -> expresion .)
@@ -1158,7 +1158,7 @@ state 41
     PRINT           reduce using rule 45 (expresion -> expresion .)
     VAR             reduce using rule 45 (expresion -> expresion .)
     ID              reduce using rule 45 (expresion -> expresion .)
-    MIENTRAS        reduce using rule 45 (expresion -> expresion .)
+    WHILE           reduce using rule 45 (expresion -> expresion .)
     IF              reduce using rule 45 (expresion -> expresion .)
     $end            reduce using rule 45 (expresion -> expresion .)
     LLAVDER         reduce using rule 45 (expresion -> expresion .)
@@ -1183,7 +1183,7 @@ state 41
   ! PRINT           [ reduce using rule 48 (empty -> .) ]
   ! VAR             [ reduce using rule 48 (empty -> .) ]
   ! ID              [ reduce using rule 48 (empty -> .) ]
-  ! MIENTRAS        [ reduce using rule 48 (empty -> .) ]
+  ! WHILE           [ reduce using rule 48 (empty -> .) ]
   ! IF              [ reduce using rule 48 (empty -> .) ]
   ! $end            [ reduce using rule 48 (empty -> .) ]
   ! LLAVDER         [ reduce using rule 48 (empty -> .) ]
@@ -1193,7 +1193,7 @@ state 41
 
 state 42
 
-    (20) mientras_instr -> MIENTRAS PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> WHILE PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER
     (21) expresion -> expresion . MAS expresion
     (22) expresion -> expresion . MENOS expresion
     (23) expresion -> expresion . POR expresion
@@ -1338,7 +1338,7 @@ state 44
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (48) empty -> .
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
@@ -1346,7 +1346,7 @@ state 44
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -1355,21 +1355,21 @@ state 44
   ! shift/reduce conflict for PRINT resolved as shift
   ! shift/reduce conflict for VAR resolved as shift
   ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for MIENTRAS resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for IF resolved as shift
     LLAVDER         reduce using rule 48 (empty -> .)
     MAIN            shift and go to state 12
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
   ! MAIN            [ reduce using rule 48 (empty -> .) ]
   ! PRINT           [ reduce using rule 48 (empty -> .) ]
   ! VAR             [ reduce using rule 48 (empty -> .) ]
   ! ID              [ reduce using rule 48 (empty -> .) ]
-  ! MIENTRAS        [ reduce using rule 48 (empty -> .) ]
+  ! WHILE           [ reduce using rule 48 (empty -> .) ]
   ! IF              [ reduce using rule 48 (empty -> .) ]
 
     instrucciones                  shift and go to state 67
@@ -1380,7 +1380,7 @@ state 44
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
     if_instr                       shift and go to state 11
 
 state 45
@@ -1462,7 +1462,7 @@ state 46
     PRINT           reduce using rule 48 (empty -> .)
     VAR             reduce using rule 48 (empty -> .)
     ID              reduce using rule 48 (empty -> .)
-    MIENTRAS        reduce using rule 48 (empty -> .)
+    WHILE           reduce using rule 48 (empty -> .)
     IF              reduce using rule 48 (empty -> .)
     $end            reduce using rule 48 (empty -> .)
     LLAVDER         reduce using rule 48 (empty -> .)
@@ -2097,7 +2097,7 @@ state 61
   ! reduce/reduce conflict for PRINT resolved using rule 35 (expresion -> MENOS expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 35 (expresion -> MENOS expresion .)
   ! reduce/reduce conflict for ID resolved using rule 35 (expresion -> MENOS expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 35 (expresion -> MENOS expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 35 (expresion -> MENOS expresion .)
   ! reduce/reduce conflict for IF resolved using rule 35 (expresion -> MENOS expresion .)
   ! reduce/reduce conflict for $end resolved using rule 35 (expresion -> MENOS expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 35 (expresion -> MENOS expresion .)
@@ -2121,7 +2121,7 @@ state 61
     PRINT           reduce using rule 35 (expresion -> MENOS expresion .)
     VAR             reduce using rule 35 (expresion -> MENOS expresion .)
     ID              reduce using rule 35 (expresion -> MENOS expresion .)
-    MIENTRAS        reduce using rule 35 (expresion -> MENOS expresion .)
+    WHILE           reduce using rule 35 (expresion -> MENOS expresion .)
     IF              reduce using rule 35 (expresion -> MENOS expresion .)
     $end            reduce using rule 35 (expresion -> MENOS expresion .)
     LLAVDER         reduce using rule 35 (expresion -> MENOS expresion .)
@@ -2160,7 +2160,7 @@ state 61
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -2205,7 +2205,7 @@ state 62
   ! reduce/reduce conflict for PRINT resolved using rule 36 (expresion -> NOT expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 36 (expresion -> NOT expresion .)
   ! reduce/reduce conflict for ID resolved using rule 36 (expresion -> NOT expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 36 (expresion -> NOT expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 36 (expresion -> NOT expresion .)
   ! reduce/reduce conflict for IF resolved using rule 36 (expresion -> NOT expresion .)
   ! reduce/reduce conflict for $end resolved using rule 36 (expresion -> NOT expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 36 (expresion -> NOT expresion .)
@@ -2217,7 +2217,7 @@ state 62
     PRINT           reduce using rule 36 (expresion -> NOT expresion .)
     VAR             reduce using rule 36 (expresion -> NOT expresion .)
     ID              reduce using rule 36 (expresion -> NOT expresion .)
-    MIENTRAS        reduce using rule 36 (expresion -> NOT expresion .)
+    WHILE           reduce using rule 36 (expresion -> NOT expresion .)
     IF              reduce using rule 36 (expresion -> NOT expresion .)
     $end            reduce using rule 36 (expresion -> NOT expresion .)
     LLAVDER         reduce using rule 36 (expresion -> NOT expresion .)
@@ -2268,7 +2268,7 @@ state 62
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -2315,7 +2315,7 @@ state 63
   ! reduce/reduce conflict for PRINT resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for ID resolved using rule 45 (expresion -> expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 45 (expresion -> expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for IF resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for $end resolved using rule 45 (expresion -> expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 45 (expresion -> expresion .)
@@ -2337,7 +2337,7 @@ state 63
     PRINT           reduce using rule 45 (expresion -> expresion .)
     VAR             reduce using rule 45 (expresion -> expresion .)
     ID              reduce using rule 45 (expresion -> expresion .)
-    MIENTRAS        reduce using rule 45 (expresion -> expresion .)
+    WHILE           reduce using rule 45 (expresion -> expresion .)
     IF              reduce using rule 45 (expresion -> expresion .)
     $end            reduce using rule 45 (expresion -> expresion .)
     LLAVDER         reduce using rule 45 (expresion -> expresion .)
@@ -2362,7 +2362,7 @@ state 63
   ! PRINT           [ reduce using rule 48 (empty -> .) ]
   ! VAR             [ reduce using rule 48 (empty -> .) ]
   ! ID              [ reduce using rule 48 (empty -> .) ]
-  ! MIENTRAS        [ reduce using rule 48 (empty -> .) ]
+  ! WHILE           [ reduce using rule 48 (empty -> .) ]
   ! IF              [ reduce using rule 48 (empty -> .) ]
   ! $end            [ reduce using rule 48 (empty -> .) ]
   ! LLAVDER         [ reduce using rule 48 (empty -> .) ]
@@ -2378,7 +2378,7 @@ state 64
     PRINT           reduce using rule 15 (asignacion_instr -> ID IGUAL expresion def_instr_prima .)
     VAR             reduce using rule 15 (asignacion_instr -> ID IGUAL expresion def_instr_prima .)
     ID              reduce using rule 15 (asignacion_instr -> ID IGUAL expresion def_instr_prima .)
-    MIENTRAS        reduce using rule 15 (asignacion_instr -> ID IGUAL expresion def_instr_prima .)
+    WHILE           reduce using rule 15 (asignacion_instr -> ID IGUAL expresion def_instr_prima .)
     IF              reduce using rule 15 (asignacion_instr -> ID IGUAL expresion def_instr_prima .)
     $end            reduce using rule 15 (asignacion_instr -> ID IGUAL expresion def_instr_prima .)
     LLAVDER         reduce using rule 15 (asignacion_instr -> ID IGUAL expresion def_instr_prima .)
@@ -2386,7 +2386,7 @@ state 64
 
 state 65
 
-    (20) mientras_instr -> MIENTRAS PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> WHILE PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER
 
     LLAVIZQ         shift and go to state 85
 
@@ -2409,14 +2409,14 @@ state 67
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
     (13) imprimir_instr -> . PRINT PARIZQ expresion PARDER def_instr_prima
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -2426,7 +2426,7 @@ state 67
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
     instruccion                    shift and go to state 18
@@ -2435,7 +2435,7 @@ state 67
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
     if_instr                       shift and go to state 11
 
 state 68
@@ -2462,7 +2462,7 @@ state 68
     PRINT           reduce using rule 37 (expresion -> PARIZQ expresion PARDER .)
     VAR             reduce using rule 37 (expresion -> PARIZQ expresion PARDER .)
     ID              reduce using rule 37 (expresion -> PARIZQ expresion PARDER .)
-    MIENTRAS        reduce using rule 37 (expresion -> PARIZQ expresion PARDER .)
+    WHILE           reduce using rule 37 (expresion -> PARIZQ expresion PARDER .)
     IF              reduce using rule 37 (expresion -> PARIZQ expresion PARDER .)
     $end            reduce using rule 37 (expresion -> PARIZQ expresion PARDER .)
     LLAVDER         reduce using rule 37 (expresion -> PARIZQ expresion PARDER .)
@@ -2476,7 +2476,7 @@ state 69
     PRINT           reduce using rule 13 (imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .)
     VAR             reduce using rule 13 (imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .)
     ID              reduce using rule 13 (imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .)
-    MIENTRAS        reduce using rule 13 (imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .)
+    WHILE           reduce using rule 13 (imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .)
     IF              reduce using rule 13 (imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .)
     $end            reduce using rule 13 (imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .)
     LLAVDER         reduce using rule 13 (imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .)
@@ -2521,7 +2521,7 @@ state 70
   ! reduce/reduce conflict for PRINT resolved using rule 21 (expresion -> expresion MAS expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 21 (expresion -> expresion MAS expresion .)
   ! reduce/reduce conflict for ID resolved using rule 21 (expresion -> expresion MAS expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 21 (expresion -> expresion MAS expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 21 (expresion -> expresion MAS expresion .)
   ! reduce/reduce conflict for IF resolved using rule 21 (expresion -> expresion MAS expresion .)
   ! reduce/reduce conflict for $end resolved using rule 21 (expresion -> expresion MAS expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 21 (expresion -> expresion MAS expresion .)
@@ -2541,7 +2541,7 @@ state 70
     PRINT           reduce using rule 21 (expresion -> expresion MAS expresion .)
     VAR             reduce using rule 21 (expresion -> expresion MAS expresion .)
     ID              reduce using rule 21 (expresion -> expresion MAS expresion .)
-    MIENTRAS        reduce using rule 21 (expresion -> expresion MAS expresion .)
+    WHILE           reduce using rule 21 (expresion -> expresion MAS expresion .)
     IF              reduce using rule 21 (expresion -> expresion MAS expresion .)
     $end            reduce using rule 21 (expresion -> expresion MAS expresion .)
     LLAVDER         reduce using rule 21 (expresion -> expresion MAS expresion .)
@@ -2584,7 +2584,7 @@ state 70
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -2629,7 +2629,7 @@ state 71
   ! reduce/reduce conflict for PRINT resolved using rule 22 (expresion -> expresion MENOS expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 22 (expresion -> expresion MENOS expresion .)
   ! reduce/reduce conflict for ID resolved using rule 22 (expresion -> expresion MENOS expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 22 (expresion -> expresion MENOS expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 22 (expresion -> expresion MENOS expresion .)
   ! reduce/reduce conflict for IF resolved using rule 22 (expresion -> expresion MENOS expresion .)
   ! reduce/reduce conflict for $end resolved using rule 22 (expresion -> expresion MENOS expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 22 (expresion -> expresion MENOS expresion .)
@@ -2649,7 +2649,7 @@ state 71
     PRINT           reduce using rule 22 (expresion -> expresion MENOS expresion .)
     VAR             reduce using rule 22 (expresion -> expresion MENOS expresion .)
     ID              reduce using rule 22 (expresion -> expresion MENOS expresion .)
-    MIENTRAS        reduce using rule 22 (expresion -> expresion MENOS expresion .)
+    WHILE           reduce using rule 22 (expresion -> expresion MENOS expresion .)
     IF              reduce using rule 22 (expresion -> expresion MENOS expresion .)
     $end            reduce using rule 22 (expresion -> expresion MENOS expresion .)
     LLAVDER         reduce using rule 22 (expresion -> expresion MENOS expresion .)
@@ -2692,7 +2692,7 @@ state 71
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -2737,7 +2737,7 @@ state 72
   ! reduce/reduce conflict for PRINT resolved using rule 23 (expresion -> expresion POR expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 23 (expresion -> expresion POR expresion .)
   ! reduce/reduce conflict for ID resolved using rule 23 (expresion -> expresion POR expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 23 (expresion -> expresion POR expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 23 (expresion -> expresion POR expresion .)
   ! reduce/reduce conflict for IF resolved using rule 23 (expresion -> expresion POR expresion .)
   ! reduce/reduce conflict for $end resolved using rule 23 (expresion -> expresion POR expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 23 (expresion -> expresion POR expresion .)
@@ -2760,7 +2760,7 @@ state 72
     PRINT           reduce using rule 23 (expresion -> expresion POR expresion .)
     VAR             reduce using rule 23 (expresion -> expresion POR expresion .)
     ID              reduce using rule 23 (expresion -> expresion POR expresion .)
-    MIENTRAS        reduce using rule 23 (expresion -> expresion POR expresion .)
+    WHILE           reduce using rule 23 (expresion -> expresion POR expresion .)
     IF              reduce using rule 23 (expresion -> expresion POR expresion .)
     $end            reduce using rule 23 (expresion -> expresion POR expresion .)
     LLAVDER         reduce using rule 23 (expresion -> expresion POR expresion .)
@@ -2800,7 +2800,7 @@ state 72
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -2845,7 +2845,7 @@ state 73
   ! reduce/reduce conflict for PRINT resolved using rule 24 (expresion -> expresion DIVIDIDO expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 24 (expresion -> expresion DIVIDIDO expresion .)
   ! reduce/reduce conflict for ID resolved using rule 24 (expresion -> expresion DIVIDIDO expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 24 (expresion -> expresion DIVIDIDO expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 24 (expresion -> expresion DIVIDIDO expresion .)
   ! reduce/reduce conflict for IF resolved using rule 24 (expresion -> expresion DIVIDIDO expresion .)
   ! reduce/reduce conflict for $end resolved using rule 24 (expresion -> expresion DIVIDIDO expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 24 (expresion -> expresion DIVIDIDO expresion .)
@@ -2868,7 +2868,7 @@ state 73
     PRINT           reduce using rule 24 (expresion -> expresion DIVIDIDO expresion .)
     VAR             reduce using rule 24 (expresion -> expresion DIVIDIDO expresion .)
     ID              reduce using rule 24 (expresion -> expresion DIVIDIDO expresion .)
-    MIENTRAS        reduce using rule 24 (expresion -> expresion DIVIDIDO expresion .)
+    WHILE           reduce using rule 24 (expresion -> expresion DIVIDIDO expresion .)
     IF              reduce using rule 24 (expresion -> expresion DIVIDIDO expresion .)
     $end            reduce using rule 24 (expresion -> expresion DIVIDIDO expresion .)
     LLAVDER         reduce using rule 24 (expresion -> expresion DIVIDIDO expresion .)
@@ -2908,7 +2908,7 @@ state 73
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -2953,7 +2953,7 @@ state 74
   ! reduce/reduce conflict for PRINT resolved using rule 25 (expresion -> expresion ELEVADO expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 25 (expresion -> expresion ELEVADO expresion .)
   ! reduce/reduce conflict for ID resolved using rule 25 (expresion -> expresion ELEVADO expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 25 (expresion -> expresion ELEVADO expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 25 (expresion -> expresion ELEVADO expresion .)
   ! reduce/reduce conflict for IF resolved using rule 25 (expresion -> expresion ELEVADO expresion .)
   ! reduce/reduce conflict for $end resolved using rule 25 (expresion -> expresion ELEVADO expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 25 (expresion -> expresion ELEVADO expresion .)
@@ -2977,7 +2977,7 @@ state 74
     PRINT           reduce using rule 25 (expresion -> expresion ELEVADO expresion .)
     VAR             reduce using rule 25 (expresion -> expresion ELEVADO expresion .)
     ID              reduce using rule 25 (expresion -> expresion ELEVADO expresion .)
-    MIENTRAS        reduce using rule 25 (expresion -> expresion ELEVADO expresion .)
+    WHILE           reduce using rule 25 (expresion -> expresion ELEVADO expresion .)
     IF              reduce using rule 25 (expresion -> expresion ELEVADO expresion .)
     $end            reduce using rule 25 (expresion -> expresion ELEVADO expresion .)
     LLAVDER         reduce using rule 25 (expresion -> expresion ELEVADO expresion .)
@@ -3016,7 +3016,7 @@ state 74
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -3061,7 +3061,7 @@ state 75
   ! reduce/reduce conflict for PRINT resolved using rule 26 (expresion -> expresion MOD expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 26 (expresion -> expresion MOD expresion .)
   ! reduce/reduce conflict for ID resolved using rule 26 (expresion -> expresion MOD expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 26 (expresion -> expresion MOD expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 26 (expresion -> expresion MOD expresion .)
   ! reduce/reduce conflict for IF resolved using rule 26 (expresion -> expresion MOD expresion .)
   ! reduce/reduce conflict for $end resolved using rule 26 (expresion -> expresion MOD expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 26 (expresion -> expresion MOD expresion .)
@@ -3084,7 +3084,7 @@ state 75
     PRINT           reduce using rule 26 (expresion -> expresion MOD expresion .)
     VAR             reduce using rule 26 (expresion -> expresion MOD expresion .)
     ID              reduce using rule 26 (expresion -> expresion MOD expresion .)
-    MIENTRAS        reduce using rule 26 (expresion -> expresion MOD expresion .)
+    WHILE           reduce using rule 26 (expresion -> expresion MOD expresion .)
     IF              reduce using rule 26 (expresion -> expresion MOD expresion .)
     $end            reduce using rule 26 (expresion -> expresion MOD expresion .)
     LLAVDER         reduce using rule 26 (expresion -> expresion MOD expresion .)
@@ -3124,7 +3124,7 @@ state 75
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -3169,7 +3169,7 @@ state 76
   ! reduce/reduce conflict for PRINT resolved using rule 27 (expresion -> expresion AND expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 27 (expresion -> expresion AND expresion .)
   ! reduce/reduce conflict for ID resolved using rule 27 (expresion -> expresion AND expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 27 (expresion -> expresion AND expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 27 (expresion -> expresion AND expresion .)
   ! reduce/reduce conflict for IF resolved using rule 27 (expresion -> expresion AND expresion .)
   ! reduce/reduce conflict for $end resolved using rule 27 (expresion -> expresion AND expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 27 (expresion -> expresion AND expresion .)
@@ -3181,7 +3181,7 @@ state 76
     PRINT           reduce using rule 27 (expresion -> expresion AND expresion .)
     VAR             reduce using rule 27 (expresion -> expresion AND expresion .)
     ID              reduce using rule 27 (expresion -> expresion AND expresion .)
-    MIENTRAS        reduce using rule 27 (expresion -> expresion AND expresion .)
+    WHILE           reduce using rule 27 (expresion -> expresion AND expresion .)
     IF              reduce using rule 27 (expresion -> expresion AND expresion .)
     $end            reduce using rule 27 (expresion -> expresion AND expresion .)
     LLAVDER         reduce using rule 27 (expresion -> expresion AND expresion .)
@@ -3232,7 +3232,7 @@ state 76
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -3277,7 +3277,7 @@ state 77
   ! reduce/reduce conflict for PRINT resolved using rule 28 (expresion -> expresion OR expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 28 (expresion -> expresion OR expresion .)
   ! reduce/reduce conflict for ID resolved using rule 28 (expresion -> expresion OR expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 28 (expresion -> expresion OR expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 28 (expresion -> expresion OR expresion .)
   ! reduce/reduce conflict for IF resolved using rule 28 (expresion -> expresion OR expresion .)
   ! reduce/reduce conflict for $end resolved using rule 28 (expresion -> expresion OR expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 28 (expresion -> expresion OR expresion .)
@@ -3289,7 +3289,7 @@ state 77
     PRINT           reduce using rule 28 (expresion -> expresion OR expresion .)
     VAR             reduce using rule 28 (expresion -> expresion OR expresion .)
     ID              reduce using rule 28 (expresion -> expresion OR expresion .)
-    MIENTRAS        reduce using rule 28 (expresion -> expresion OR expresion .)
+    WHILE           reduce using rule 28 (expresion -> expresion OR expresion .)
     IF              reduce using rule 28 (expresion -> expresion OR expresion .)
     $end            reduce using rule 28 (expresion -> expresion OR expresion .)
     LLAVDER         reduce using rule 28 (expresion -> expresion OR expresion .)
@@ -3340,7 +3340,7 @@ state 77
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -3385,7 +3385,7 @@ state 78
   ! reduce/reduce conflict for PRINT resolved using rule 29 (expresion -> expresion MAYQUE expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 29 (expresion -> expresion MAYQUE expresion .)
   ! reduce/reduce conflict for ID resolved using rule 29 (expresion -> expresion MAYQUE expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 29 (expresion -> expresion MAYQUE expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 29 (expresion -> expresion MAYQUE expresion .)
   ! reduce/reduce conflict for IF resolved using rule 29 (expresion -> expresion MAYQUE expresion .)
   ! reduce/reduce conflict for $end resolved using rule 29 (expresion -> expresion MAYQUE expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 29 (expresion -> expresion MAYQUE expresion .)
@@ -3403,7 +3403,7 @@ state 78
     PRINT           reduce using rule 29 (expresion -> expresion MAYQUE expresion .)
     VAR             reduce using rule 29 (expresion -> expresion MAYQUE expresion .)
     ID              reduce using rule 29 (expresion -> expresion MAYQUE expresion .)
-    MIENTRAS        reduce using rule 29 (expresion -> expresion MAYQUE expresion .)
+    WHILE           reduce using rule 29 (expresion -> expresion MAYQUE expresion .)
     IF              reduce using rule 29 (expresion -> expresion MAYQUE expresion .)
     $end            reduce using rule 29 (expresion -> expresion MAYQUE expresion .)
     LLAVDER         reduce using rule 29 (expresion -> expresion MAYQUE expresion .)
@@ -3448,7 +3448,7 @@ state 78
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -3493,7 +3493,7 @@ state 79
   ! reduce/reduce conflict for PRINT resolved using rule 30 (expresion -> expresion MENQUE expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 30 (expresion -> expresion MENQUE expresion .)
   ! reduce/reduce conflict for ID resolved using rule 30 (expresion -> expresion MENQUE expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 30 (expresion -> expresion MENQUE expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 30 (expresion -> expresion MENQUE expresion .)
   ! reduce/reduce conflict for IF resolved using rule 30 (expresion -> expresion MENQUE expresion .)
   ! reduce/reduce conflict for $end resolved using rule 30 (expresion -> expresion MENQUE expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 30 (expresion -> expresion MENQUE expresion .)
@@ -3511,7 +3511,7 @@ state 79
     PRINT           reduce using rule 30 (expresion -> expresion MENQUE expresion .)
     VAR             reduce using rule 30 (expresion -> expresion MENQUE expresion .)
     ID              reduce using rule 30 (expresion -> expresion MENQUE expresion .)
-    MIENTRAS        reduce using rule 30 (expresion -> expresion MENQUE expresion .)
+    WHILE           reduce using rule 30 (expresion -> expresion MENQUE expresion .)
     IF              reduce using rule 30 (expresion -> expresion MENQUE expresion .)
     $end            reduce using rule 30 (expresion -> expresion MENQUE expresion .)
     LLAVDER         reduce using rule 30 (expresion -> expresion MENQUE expresion .)
@@ -3556,7 +3556,7 @@ state 79
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -3601,7 +3601,7 @@ state 80
   ! reduce/reduce conflict for PRINT resolved using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
   ! reduce/reduce conflict for ID resolved using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
   ! reduce/reduce conflict for IF resolved using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
   ! reduce/reduce conflict for $end resolved using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
@@ -3619,7 +3619,7 @@ state 80
     PRINT           reduce using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
     VAR             reduce using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
     ID              reduce using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
-    MIENTRAS        reduce using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
+    WHILE           reduce using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
     IF              reduce using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
     $end            reduce using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
     LLAVDER         reduce using rule 31 (expresion -> expresion MAYIGUALQUE expresion .)
@@ -3664,7 +3664,7 @@ state 80
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -3709,7 +3709,7 @@ state 81
   ! reduce/reduce conflict for PRINT resolved using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
   ! reduce/reduce conflict for ID resolved using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
   ! reduce/reduce conflict for IF resolved using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
   ! reduce/reduce conflict for $end resolved using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
@@ -3727,7 +3727,7 @@ state 81
     PRINT           reduce using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
     VAR             reduce using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
     ID              reduce using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
-    MIENTRAS        reduce using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
+    WHILE           reduce using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
     IF              reduce using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
     $end            reduce using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
     LLAVDER         reduce using rule 32 (expresion -> expresion MENIGUALQUE expresion .)
@@ -3772,7 +3772,7 @@ state 81
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -3817,7 +3817,7 @@ state 82
   ! reduce/reduce conflict for PRINT resolved using rule 33 (expresion -> expresion IGUALQUE expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 33 (expresion -> expresion IGUALQUE expresion .)
   ! reduce/reduce conflict for ID resolved using rule 33 (expresion -> expresion IGUALQUE expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 33 (expresion -> expresion IGUALQUE expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 33 (expresion -> expresion IGUALQUE expresion .)
   ! reduce/reduce conflict for IF resolved using rule 33 (expresion -> expresion IGUALQUE expresion .)
   ! reduce/reduce conflict for $end resolved using rule 33 (expresion -> expresion IGUALQUE expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 33 (expresion -> expresion IGUALQUE expresion .)
@@ -3835,7 +3835,7 @@ state 82
     PRINT           reduce using rule 33 (expresion -> expresion IGUALQUE expresion .)
     VAR             reduce using rule 33 (expresion -> expresion IGUALQUE expresion .)
     ID              reduce using rule 33 (expresion -> expresion IGUALQUE expresion .)
-    MIENTRAS        reduce using rule 33 (expresion -> expresion IGUALQUE expresion .)
+    WHILE           reduce using rule 33 (expresion -> expresion IGUALQUE expresion .)
     IF              reduce using rule 33 (expresion -> expresion IGUALQUE expresion .)
     $end            reduce using rule 33 (expresion -> expresion IGUALQUE expresion .)
     LLAVDER         reduce using rule 33 (expresion -> expresion IGUALQUE expresion .)
@@ -3880,7 +3880,7 @@ state 82
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -3925,7 +3925,7 @@ state 83
   ! reduce/reduce conflict for PRINT resolved using rule 34 (expresion -> expresion NIGUALQUE expresion .)
   ! reduce/reduce conflict for VAR resolved using rule 34 (expresion -> expresion NIGUALQUE expresion .)
   ! reduce/reduce conflict for ID resolved using rule 34 (expresion -> expresion NIGUALQUE expresion .)
-  ! reduce/reduce conflict for MIENTRAS resolved using rule 34 (expresion -> expresion NIGUALQUE expresion .)
+  ! reduce/reduce conflict for WHILE resolved using rule 34 (expresion -> expresion NIGUALQUE expresion .)
   ! reduce/reduce conflict for IF resolved using rule 34 (expresion -> expresion NIGUALQUE expresion .)
   ! reduce/reduce conflict for $end resolved using rule 34 (expresion -> expresion NIGUALQUE expresion .)
   ! reduce/reduce conflict for LLAVDER resolved using rule 34 (expresion -> expresion NIGUALQUE expresion .)
@@ -3943,7 +3943,7 @@ state 83
     PRINT           reduce using rule 34 (expresion -> expresion NIGUALQUE expresion .)
     VAR             reduce using rule 34 (expresion -> expresion NIGUALQUE expresion .)
     ID              reduce using rule 34 (expresion -> expresion NIGUALQUE expresion .)
-    MIENTRAS        reduce using rule 34 (expresion -> expresion NIGUALQUE expresion .)
+    WHILE           reduce using rule 34 (expresion -> expresion NIGUALQUE expresion .)
     IF              reduce using rule 34 (expresion -> expresion NIGUALQUE expresion .)
     $end            reduce using rule 34 (expresion -> expresion NIGUALQUE expresion .)
     LLAVDER         reduce using rule 34 (expresion -> expresion NIGUALQUE expresion .)
@@ -3988,7 +3988,7 @@ state 83
   ! PRINT           [ reduce using rule 45 (expresion -> expresion .) ]
   ! VAR             [ reduce using rule 45 (expresion -> expresion .) ]
   ! ID              [ reduce using rule 45 (expresion -> expresion .) ]
-  ! MIENTRAS        [ reduce using rule 45 (expresion -> expresion .) ]
+  ! WHILE           [ reduce using rule 45 (expresion -> expresion .) ]
   ! IF              [ reduce using rule 45 (expresion -> expresion .) ]
   ! $end            [ reduce using rule 45 (expresion -> expresion .) ]
   ! LLAVDER         [ reduce using rule 45 (expresion -> expresion .) ]
@@ -4002,7 +4002,7 @@ state 84
     PRINT           reduce using rule 16 (def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .)
     VAR             reduce using rule 16 (def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .)
     ID              reduce using rule 16 (def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .)
-    MIENTRAS        reduce using rule 16 (def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .)
+    WHILE           reduce using rule 16 (def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .)
     IF              reduce using rule 16 (def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .)
     $end            reduce using rule 16 (def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .)
     LLAVDER         reduce using rule 16 (def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .)
@@ -4010,7 +4010,7 @@ state 84
 
 state 85
 
-    (20) mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ . instrucciones LLAVDER
+    (20) while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ . instrucciones LLAVDER
     (2) instrucciones -> . instrucciones instruccion
     (3) instrucciones -> . instruccion
     (4) instrucciones -> . empty
@@ -4019,7 +4019,7 @@ state 85
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (48) empty -> .
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
@@ -4027,7 +4027,7 @@ state 85
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -4036,21 +4036,21 @@ state 85
   ! shift/reduce conflict for PRINT resolved as shift
   ! shift/reduce conflict for VAR resolved as shift
   ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for MIENTRAS resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for IF resolved as shift
     LLAVDER         reduce using rule 48 (empty -> .)
     MAIN            shift and go to state 12
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
   ! MAIN            [ reduce using rule 48 (empty -> .) ]
   ! PRINT           [ reduce using rule 48 (empty -> .) ]
   ! VAR             [ reduce using rule 48 (empty -> .) ]
   ! ID              [ reduce using rule 48 (empty -> .) ]
-  ! MIENTRAS        [ reduce using rule 48 (empty -> .) ]
+  ! WHILE           [ reduce using rule 48 (empty -> .) ]
   ! IF              [ reduce using rule 48 (empty -> .) ]
 
     instrucciones                  shift and go to state 88
@@ -4061,7 +4061,7 @@ state 85
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
     if_instr                       shift and go to state 11
 
 state 86
@@ -4077,7 +4077,7 @@ state 86
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (48) empty -> .
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
@@ -4085,7 +4085,7 @@ state 86
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -4094,21 +4094,21 @@ state 86
   ! shift/reduce conflict for PRINT resolved as shift
   ! shift/reduce conflict for VAR resolved as shift
   ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for MIENTRAS resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for IF resolved as shift
     LLAVDER         reduce using rule 48 (empty -> .)
     MAIN            shift and go to state 12
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
   ! MAIN            [ reduce using rule 48 (empty -> .) ]
   ! PRINT           [ reduce using rule 48 (empty -> .) ]
   ! VAR             [ reduce using rule 48 (empty -> .) ]
   ! ID              [ reduce using rule 48 (empty -> .) ]
-  ! MIENTRAS        [ reduce using rule 48 (empty -> .) ]
+  ! WHILE           [ reduce using rule 48 (empty -> .) ]
   ! IF              [ reduce using rule 48 (empty -> .) ]
 
     instrucciones                  shift and go to state 89
@@ -4120,7 +4120,7 @@ state 86
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
 
 state 87
 
@@ -4130,7 +4130,7 @@ state 87
     PRINT           reduce using rule 12 (func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
     VAR             reduce using rule 12 (func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
     ID              reduce using rule 12 (func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
-    MIENTRAS        reduce using rule 12 (func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
+    WHILE           reduce using rule 12 (func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
     IF              reduce using rule 12 (func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
     $end            reduce using rule 12 (func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
     LLAVDER         reduce using rule 12 (func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
@@ -4138,21 +4138,21 @@ state 87
 
 state 88
 
-    (20) mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones . LLAVDER
+    (20) while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones . LLAVDER
     (2) instrucciones -> instrucciones . instruccion
     (5) instruccion -> . func_main
     (6) instruccion -> . imprimir_instr
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
     (13) imprimir_instr -> . PRINT PARIZQ expresion PARDER def_instr_prima
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -4162,7 +4162,7 @@ state 88
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
     instruccion                    shift and go to state 18
@@ -4171,7 +4171,7 @@ state 88
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
     if_instr                       shift and go to state 11
 
 state 89
@@ -4185,14 +4185,14 @@ state 89
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
     (13) imprimir_instr -> . PRINT PARIZQ expresion PARDER def_instr_prima
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -4202,7 +4202,7 @@ state 89
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
     if_instr                       shift and go to state 11
@@ -4212,20 +4212,20 @@ state 89
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
 
 state 90
 
-    (20) mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .
+    (20) while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .
 
-    MAIN            reduce using rule 20 (mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
-    PRINT           reduce using rule 20 (mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
-    VAR             reduce using rule 20 (mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
-    ID              reduce using rule 20 (mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
-    MIENTRAS        reduce using rule 20 (mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
-    IF              reduce using rule 20 (mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
-    $end            reduce using rule 20 (mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
-    LLAVDER         reduce using rule 20 (mientras_instr -> MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
+    MAIN            reduce using rule 20 (while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
+    PRINT           reduce using rule 20 (while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
+    VAR             reduce using rule 20 (while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
+    ID              reduce using rule 20 (while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
+    WHILE           reduce using rule 20 (while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
+    IF              reduce using rule 20 (while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
+    $end            reduce using rule 20 (while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
+    LLAVDER         reduce using rule 20 (while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
 
 
 state 91
@@ -4238,7 +4238,7 @@ state 91
     PRINT           reduce using rule 17 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
     VAR             reduce using rule 17 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
     ID              reduce using rule 17 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
-    MIENTRAS        reduce using rule 17 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
+    WHILE           reduce using rule 17 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
     IF              reduce using rule 17 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
     $end            reduce using rule 17 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
     LLAVDER         reduce using rule 17 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
@@ -4269,7 +4269,7 @@ state 93
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (48) empty -> .
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
@@ -4277,7 +4277,7 @@ state 93
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -4286,21 +4286,21 @@ state 93
   ! shift/reduce conflict for PRINT resolved as shift
   ! shift/reduce conflict for VAR resolved as shift
   ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for MIENTRAS resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for IF resolved as shift
     LLAVDER         reduce using rule 48 (empty -> .)
     MAIN            shift and go to state 12
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
   ! MAIN            [ reduce using rule 48 (empty -> .) ]
   ! PRINT           [ reduce using rule 48 (empty -> .) ]
   ! VAR             [ reduce using rule 48 (empty -> .) ]
   ! ID              [ reduce using rule 48 (empty -> .) ]
-  ! MIENTRAS        [ reduce using rule 48 (empty -> .) ]
+  ! WHILE           [ reduce using rule 48 (empty -> .) ]
   ! IF              [ reduce using rule 48 (empty -> .) ]
 
     instrucciones                  shift and go to state 95
@@ -4311,7 +4311,7 @@ state 93
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
     if_instr                       shift and go to state 11
 
 state 94
@@ -4322,7 +4322,7 @@ state 94
     PRINT           reduce using rule 19 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
     VAR             reduce using rule 19 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
     ID              reduce using rule 19 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    MIENTRAS        reduce using rule 19 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    WHILE           reduce using rule 19 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
     IF              reduce using rule 19 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
     $end            reduce using rule 19 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
     LLAVDER         reduce using rule 19 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
@@ -4337,14 +4337,14 @@ state 95
     (7) instruccion -> . definicion_instr
     (8) instruccion -> . asignacion_instr
     (9) instruccion -> . def_asig_instr
-    (10) instruccion -> . mientras_instr
+    (10) instruccion -> . while_instr
     (11) instruccion -> . if_instr
     (12) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
     (13) imprimir_instr -> . PRINT PARIZQ expresion PARDER def_instr_prima
     (14) definicion_instr -> . VAR ID def_instr_prima
     (15) asignacion_instr -> . ID IGUAL expresion def_instr_prima
     (16) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (20) mientras_instr -> . MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (20) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (17) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
     (18) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (19) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
@@ -4354,7 +4354,7 @@ state 95
     PRINT           shift and go to state 13
     VAR             shift and go to state 14
     ID              shift and go to state 15
-    MIENTRAS        shift and go to state 16
+    WHILE           shift and go to state 16
     IF              shift and go to state 17
 
     instruccion                    shift and go to state 18
@@ -4363,7 +4363,7 @@ state 95
     definicion_instr               shift and go to state 7
     asignacion_instr               shift and go to state 8
     def_asig_instr                 shift and go to state 9
-    mientras_instr                 shift and go to state 10
+    while_instr                    shift and go to state 10
     if_instr                       shift and go to state 11
 
 state 96
@@ -4374,7 +4374,7 @@ state 96
     PRINT           reduce using rule 18 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
     VAR             reduce using rule 18 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
     ID              reduce using rule 18 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
-    MIENTRAS        reduce using rule 18 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
+    WHILE           reduce using rule 18 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
     IF              reduce using rule 18 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
     $end            reduce using rule 18 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
     LLAVDER         reduce using rule 18 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
@@ -4386,7 +4386,7 @@ WARNING: shift/reduce conflict for MAIN in state 0 resolved as shift
 WARNING: shift/reduce conflict for PRINT in state 0 resolved as shift
 WARNING: shift/reduce conflict for VAR in state 0 resolved as shift
 WARNING: shift/reduce conflict for ID in state 0 resolved as shift
-WARNING: shift/reduce conflict for MIENTRAS in state 0 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 0 resolved as shift
 WARNING: shift/reduce conflict for IF in state 0 resolved as shift
 WARNING: shift/reduce conflict for PARDER in state 27 resolved as shift
 WARNING: shift/reduce conflict for MAS in state 27 resolved as shift
@@ -4452,7 +4452,7 @@ WARNING: shift/reduce conflict for MAIN in state 44 resolved as shift
 WARNING: shift/reduce conflict for PRINT in state 44 resolved as shift
 WARNING: shift/reduce conflict for VAR in state 44 resolved as shift
 WARNING: shift/reduce conflict for ID in state 44 resolved as shift
-WARNING: shift/reduce conflict for MIENTRAS in state 44 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 44 resolved as shift
 WARNING: shift/reduce conflict for IF in state 44 resolved as shift
 WARNING: shift/reduce conflict for PARDER in state 45 resolved as shift
 WARNING: shift/reduce conflict for MAS in state 45 resolved as shift
@@ -4571,19 +4571,19 @@ WARNING: shift/reduce conflict for MAIN in state 85 resolved as shift
 WARNING: shift/reduce conflict for PRINT in state 85 resolved as shift
 WARNING: shift/reduce conflict for VAR in state 85 resolved as shift
 WARNING: shift/reduce conflict for ID in state 85 resolved as shift
-WARNING: shift/reduce conflict for MIENTRAS in state 85 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 85 resolved as shift
 WARNING: shift/reduce conflict for IF in state 85 resolved as shift
 WARNING: shift/reduce conflict for MAIN in state 86 resolved as shift
 WARNING: shift/reduce conflict for PRINT in state 86 resolved as shift
 WARNING: shift/reduce conflict for VAR in state 86 resolved as shift
 WARNING: shift/reduce conflict for ID in state 86 resolved as shift
-WARNING: shift/reduce conflict for MIENTRAS in state 86 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 86 resolved as shift
 WARNING: shift/reduce conflict for IF in state 86 resolved as shift
 WARNING: shift/reduce conflict for MAIN in state 93 resolved as shift
 WARNING: shift/reduce conflict for PRINT in state 93 resolved as shift
 WARNING: shift/reduce conflict for VAR in state 93 resolved as shift
 WARNING: shift/reduce conflict for ID in state 93 resolved as shift
-WARNING: shift/reduce conflict for MIENTRAS in state 93 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 93 resolved as shift
 WARNING: shift/reduce conflict for IF in state 93 resolved as shift
 WARNING: reduce/reduce conflict in state 41 resolved using rule (expresion -> expresion)
 WARNING: rejected rule (empty -> <empty>) in state 41

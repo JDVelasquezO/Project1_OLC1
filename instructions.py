@@ -12,7 +12,7 @@ class Imprimir(Instruccion):
         self.cad = cad
 
 
-class Mientras(Instruccion):
+class While(Instruccion):
     '''
         Esta clase representa la instrucción mientras.
         La instrucción mientras recibe como parámetro una expresión lógica y la lista

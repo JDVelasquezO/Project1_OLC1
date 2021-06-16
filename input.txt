@@ -1,28 +1,11 @@
 
 main () {
-  var if_1 = 25;
-  print("---------- SENTENCIA ELSE-IF ----------");
-  if(if_1 > 50)
-  {
-    print("esto no debería de estar aquí");
-  }
-  else if (if_1 <= 50 && if_1 >= 0)
-  {
-    print("if_1 se encuentra entre 0 y 50");
-    if (if_1 > 10)
-    {
-      print("if_1 es mayor a 10");
-    }
-    else
-    {
-      print("esto no debería de estar aquí");
-    }
-  }
-  else
-  {
-    print("esto no debería de estar aquí");
-  }
-    # Salida de esta sección
-    # if_1 se encuentra entre 0 y 50
-    # if_1 es mayor a 10
+  # Prueba de incremento de variables
+  print("---------- PRUEBA DE INCREMENTO DE VARIABLES ----------");
+  var inc_1 = 10;
+  inc_1++;
+  print("variable incrementada = " + inc_1); # "variable incrementada = 11"
+  var inc_2 = 10.7;
+  inc_2++;
+  print("variable incrementada = " + inc_2); # "variable incrementada = 11.7"
 }

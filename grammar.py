@@ -6,7 +6,7 @@ from instructions import *
 reservadas = {
     'var': 'VAR',
     'print': 'PRINT',
-    'mientras': 'MIENTRAS',
+    'while': 'WHILE',
     'main': 'MAIN',
     'if': 'IF',
     'else': 'ELSE'
@@ -190,7 +190,7 @@ def p_instruccion(t):
                         | definicion_instr
                         | asignacion_instr
                         | def_asig_instr
-                        | mientras_instr
+                        | while_instr
                         | if_instr'''
     t[0] = t[1]
 
@@ -240,9 +240,9 @@ def p_else_if(t):
 
 
 # ------------------------------ WHILE -----------------------------
-def p_mientras_instr(t):
-    'mientras_instr     : MIENTRAS PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'
-    t[0] = Mientras(t[3], t[6])
+def p_while_instr(t):
+    'while_instr     : WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'
+    t[0] = While(t[3], t[6])
 
 
 # ------------------------------ EXPRESIONES -----------------------------
