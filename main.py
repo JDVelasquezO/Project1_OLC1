@@ -7,7 +7,7 @@ from Exception import Excepcion
 
 
 def procesar_imprimir(instr, ts, console):
-    console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
+    # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
     print('> ', resolver_cadena(instr.cad, ts))
 
 
@@ -89,7 +89,30 @@ def procesar_else_if(instr, ts, console):
 
 
 def procesar_switch(instr, ts, console):
-    val = resolver_expreision_logica(instr.expLogica, ts)
+    val = ts.obtener(instr.expLogica.id).valor
+    for case in instr.cases:
+        if val == case.expression.val:
+            procesar_instrucciones(case.instrucciones, ts, console)
+            if case.break_instr.col:
+                return
+    procesar_instrucciones(instr.default.instrucciones, ts, console)
+
+
+# def procesar_switch(instr, ts, console):
+#     val = None
+#     if isinstance(instr.expLogica, ExpresionBoolean):
+#         if instr.expLogica.exp == 'true': val = True
+#         elif instr.expLogica.exp == 'false': val = False
+#     else:
+#         val = ts.obtener(instr.expLogica.id).valor
+#     for case in instr.cases:
+#         if isinstance(case.expression, ExpresionBoolean):
+#             valBool = True if case.expression.exp == 'true' else False
+#             if val == valBool:
+#                 procesar_instrucciones(case.instrucciones, ts, console)
+#         elif val == case.expression.val:
+#             procesar_instrucciones(case.instrucciones, ts, console)
+#     procesar_instrucciones(instr.default.instrucciones, ts, console)
 
 
 def procesar_func_main(instr, ts, console):
@@ -297,10 +320,10 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-# f = open("input.txt", "r")
-# input = f.read()
-#
-# instrucciones = g.parse(input)
-# ts_global = TS.TablaDeSimbolos()
-#
-# procesar_instrucciones(instrucciones, ts_global, None)
+f = open("input.txt", "r")
+input = f.read()
+
+instrucciones = g.parse(input)
+ts_global = TS.TablaDeSimbolos()
+
+procesar_instrucciones(instrucciones, ts_global, None)

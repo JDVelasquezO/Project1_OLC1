@@ -143,7 +143,7 @@ class ExpresionLogicaNot:
 
 class ExpresionBoolean:
     def __init__(self, exp):
-        self.exp = exp
+        self.val = exp
 
 
 class ExpresionChar:

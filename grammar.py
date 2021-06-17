@@ -13,7 +13,9 @@ reservadas = {
     'switch': 'SWITCH',
     'break': 'BREAK',
     'case': 'CASE',
-    'default': 'DEFAULT'
+    'default': 'DEFAULT',
+    'true': 'TRUE',
+    'false': 'FALSE'
 }
 
 tokens = [
@@ -40,8 +42,6 @@ tokens = [
              'DECIMAL',
              'ENTERO',
              'CADENA',
-             'TRUE',
-             'FALSE',
              'CHAR',
              'ID',
              'OR',
@@ -258,7 +258,8 @@ def p_while_instr(t):
 
 # ----------------------------- SWITCH y BREAK -----------------------------
 def p_break_instr(t):
-    'break_instr    : BREAK'
+    '''break_instr    : BREAK
+                    | empty'''
     t[0] = Break(t[1])
 
 
@@ -293,13 +294,13 @@ def p_cases_recursive(t):
 
 
 def p_case(t):
-    'case_instr     : CASE expresion DOSPUNTOS instrucciones'
-    t[0] = Case(t[2], t[4])
+    'case_instr     : CASE expresion DOSPUNTOS instrucciones break_instr def_instr_prima'
+    t[0] = Case(t[2], t[4], t[5])
 
 
 def p_default(t):
-    'default_instr    : DEFAULT DOSPUNTOS instrucciones'
-    t[0] = Case(None, t[2])
+    'default_instr    : DEFAULT DOSPUNTOS instrucciones break_instr def_instr_prima'
+    t[0] = Case(None, t[3], t[4])
 
 
 # ------------------------------ EXPRESIONES -----------------------------

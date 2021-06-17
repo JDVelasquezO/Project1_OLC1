@@ -95,9 +95,10 @@ class Break(Instruccion):
 
 
 class Case(Instruccion):
-    def __init__(self, expression, instrucciones=[]):
+    def __init__(self, expression, instrucciones=[], break_instr=None):
         self.expression = expression
         self.instrucciones = instrucciones
+        self.break_instr = break_instr
 
 
 class Switch(Instruccion):
