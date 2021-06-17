@@ -1,11 +1,11 @@
 
 main () {
   var a = "true"
-  switch(a){
+  switch(true){
     case "cadena":
         print("Hola")
         break;
-    case "true":
+    case true:
         print("addios")
     case "cadena":
         print("Hola")

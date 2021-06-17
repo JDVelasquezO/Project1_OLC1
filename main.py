@@ -89,30 +89,16 @@ def procesar_else_if(instr, ts, console):
 
 
 def procesar_switch(instr, ts, console):
-    val = ts.obtener(instr.expLogica.id).valor
+    if isinstance(instr.expLogica, ExpresionIdentificador):
+        val = ts.obtener(instr.expLogica.id).valor
+    else:
+        val = instr.expLogica.val
     for case in instr.cases:
         if val == case.expression.val:
             procesar_instrucciones(case.instrucciones, ts, console)
             if case.break_instr.col:
                 return
     procesar_instrucciones(instr.default.instrucciones, ts, console)
-
-
-# def procesar_switch(instr, ts, console):
-#     val = None
-#     if isinstance(instr.expLogica, ExpresionBoolean):
-#         if instr.expLogica.exp == 'true': val = True
-#         elif instr.expLogica.exp == 'false': val = False
-#     else:
-#         val = ts.obtener(instr.expLogica.id).valor
-#     for case in instr.cases:
-#         if isinstance(case.expression, ExpresionBoolean):
-#             valBool = True if case.expression.exp == 'true' else False
-#             if val == valBool:
-#                 procesar_instrucciones(case.instrucciones, ts, console)
-#         elif val == case.expression.val:
-#             procesar_instrucciones(case.instrucciones, ts, console)
-#     procesar_instrucciones(instr.default.instrucciones, ts, console)
 
 
 def procesar_func_main(instr, ts, console):
