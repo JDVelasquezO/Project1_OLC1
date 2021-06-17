@@ -183,12 +183,13 @@ def resolver_operador_not(expLog, ts):
 
 def resolver_expresion_increment(expLog, ts):
     if expLog.operation == OPERACION_ARITMETICA.INCREMENTO:
-        val = ts.obtener(expLog.exp.id).valor + 1
+        val = ts.obtener(expLog.expression.id).valor + 1
     else:
-        val = ts.obtener(expLog.exp.id).valor - 1
+        val = ts.obtener(expLog.expression.id).valor - 1
 
-    simbolo = TS.Simbolo(expLog.exp.id, TS.TIPO_DATO.NUMERO, val)
+    simbolo = TS.Simbolo(expLog.expression.id, TS.TIPO_DATO.NUMERO, val)
     ts.actualizar(simbolo)
+    return val
 
 
 def resolver_expresion_aritmetica(expNum, ts):
@@ -219,7 +220,6 @@ def resolver_expresion_aritmetica(expNum, ts):
                     return f"true{exp1}"
                 else:
                     return f"false{exp1}"
-
             return exp1 + exp2
 
         if expNum.operador == OPERACION_ARITMETICA.MENOS: return exp1 - exp2
@@ -259,6 +259,9 @@ def resolver_expresion_aritmetica(expNum, ts):
 
     elif isinstance(expNum, ExpresionOperacionLogica):
         return resolver_operador_logico(expNum, ts)
+
+    elif isinstance(expNum, ExpresionIncrement):
+        return resolver_expresion_increment(expNum, ts)
 
 
 def procesar_instrucciones(instrucciones, ts, console):

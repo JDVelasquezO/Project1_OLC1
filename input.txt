@@ -9,7 +9,7 @@ main () {
   inc_2++;
   print("variable incrementada = " + inc_2); # "variable incrementada = 11.7"
 
-    # Prueba de decremento de variables
+  # Prueba de decremento de variables
   print("---------- PRUEBA DE DECREMENTO DE VARIABLES ----------");
   var dec_1 = 10;
   dec_1--;

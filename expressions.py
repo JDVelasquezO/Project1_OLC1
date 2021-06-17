@@ -56,8 +56,8 @@ class ExpresionNegativo(ExpresionNumerica):
 
 
 class ExpresionIncrement(ExpresionNumerica):
-    def __init__(self, exp, operation):
-        self.exp = exp
+    def __init__(self, expression, operation):
+        self.expression = expression
         self.operation = operation
 
 
