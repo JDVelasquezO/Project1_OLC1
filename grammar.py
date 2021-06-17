@@ -9,7 +9,11 @@ reservadas = {
     'while': 'WHILE',
     'main': 'MAIN',
     'if': 'IF',
-    'else': 'ELSE'
+    'else': 'ELSE',
+    'switch': 'SWITCH',
+    'break': 'BREAK',
+    'case': 'CASE',
+    'default': 'DEFAULT'
 }
 
 tokens = [
@@ -42,7 +46,8 @@ tokens = [
              'ID',
              'OR',
              'AND',
-             'NOT'
+             'NOT',
+             'DOSPUNTOS'
          ] + list(reservadas.values())
 
 # Tokens
@@ -69,6 +74,7 @@ t_NIGUALQUE = r'=!'
 t_AND = r'&&'
 t_OR = r'\|\|'
 t_NOT = r'!'
+t_DOSPUNTOS = r':'
 
 
 def t_DECIMAL(t):
@@ -195,6 +201,7 @@ def p_instruccion(t):
                         | def_asig_instr
                         | while_instr
                         | if_instr
+                        | switch_instr
                         | expresion'''
     t[0] = t[1]
 
@@ -247,6 +254,52 @@ def p_else_if(t):
 def p_while_instr(t):
     'while_instr     : WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'
     t[0] = While(t[3], t[6])
+
+
+# ----------------------------- SWITCH y BREAK -----------------------------
+def p_break_instr(t):
+    'break_instr    : BREAK'
+    t[0] = Break(t[1])
+
+
+def p_switch(t):
+    'switch_instr   : SWITCH PARIZQ expresion PARDER LLAVIZQ cases LLAVDER'
+    t[0] = Switch(t[3], t[6], None)
+
+
+def p_switch_default(t):
+    'switch_instr   : SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr LLAVDER'
+    t[0] = Switch(t[3], None, t[6])
+
+
+def p_switch_cases(t):
+    'switch_instr   : SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr LLAVDER'
+    t[0] = Switch(t[3], t[6], t[7])
+
+
+def p_cases(t):
+    'cases      :   cases case_instr'
+    if t[2] != "":
+        t[1].append(t[2])
+    t[0] = t[1]
+
+
+def p_cases_recursive(t):
+    'cases      : case_instr'
+    if t[1] == "":
+        t[0] = []
+    else:
+        t[0] = [t[1]]
+
+
+def p_case(t):
+    'case_instr     : CASE expresion DOSPUNTOS instrucciones'
+    t[0] = Case(t[2], t[4])
+
+
+def p_default(t):
+    'default_instr    : DEFAULT DOSPUNTOS instrucciones'
+    t[0] = Case(None, t[2])
 
 
 # ------------------------------ EXPRESIONES -----------------------------

@@ -87,3 +87,21 @@ class ElseIf(Instruccion):
         self.expLogica = expLogica
         self.instrIfVerdadero = instrIfVerdadero
         self.instrElse = instrElse
+
+
+class Break(Instruccion):
+    def __init__(self, col):
+        self.col = col
+
+
+class Case(Instruccion):
+    def __init__(self, expression, instrucciones=[]):
+        self.expression = expression
+        self.instrucciones = instrucciones
+
+
+class Switch(Instruccion):
+    def __init__(self, expLogica, cases, default):
+        self.expLogica = expLogica
+        self.cases = cases
+        self.default = default

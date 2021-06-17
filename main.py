@@ -7,7 +7,7 @@ from Exception import Excepcion
 
 
 def procesar_imprimir(instr, ts, console):
-    # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
+    console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
     print('> ', resolver_cadena(instr.cad, ts))
 
 
@@ -86,6 +86,10 @@ def procesar_else_if(instr, ts, console):
         # for instruction in instr.instrElse.instrIfVerdadero:
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
         procesar_instrucciones(instr.instrElse.instrIfVerdadero, ts_local, console)
+
+
+def procesar_switch(instr, ts, console):
+    val = resolver_expreision_logica(instr.expLogica, ts)
 
 
 def procesar_func_main(instr, ts, console):
@@ -283,6 +287,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             procesar_if_else(instr, ts, console)
         elif isinstance(instr, ElseIf):
             procesar_else_if(instr, ts, console)
+        elif isinstance(instr, Switch):
+            procesar_switch(instr, ts, console)
         elif isinstance(instr, Funcion_Main):
             procesar_func_main(instr.instrucciones, ts, console)
         elif isinstance(instr, ExpresionIncrement):
@@ -291,10 +297,10 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-f = open("input.txt", "r")
-input = f.read()
-
-instrucciones = g.parse(input)
-ts_global = TS.TablaDeSimbolos()
-
-procesar_instrucciones(instrucciones, ts_global, None)
+# f = open("input.txt", "r")
+# input = f.read()
+#
+# instrucciones = g.parse(input)
+# ts_global = TS.TablaDeSimbolos()
+#
+# procesar_instrucciones(instrucciones, ts_global, None)
