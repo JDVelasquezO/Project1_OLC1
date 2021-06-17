@@ -8,6 +8,8 @@ class OPERACION_ARITMETICA(Enum):
     DIVIDIDO = 4
     POTENCIA = 5
     MODULO = 6
+    INCREMENTO = 7
+    DISMINUCION = 8
 
 
 class OPERACION_LOGICA(Enum):
@@ -54,8 +56,9 @@ class ExpresionNegativo(ExpresionNumerica):
 
 
 class ExpresionIncrement(ExpresionNumerica):
-    def __init__(self, exp):
+    def __init__(self, exp, operation):
         self.exp = exp
+        self.operation = operation
 
 
 class ExpresionNumero(ExpresionNumerica):

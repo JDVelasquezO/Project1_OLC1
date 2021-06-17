@@ -19,6 +19,8 @@ tokens = [
              'PARIZQ',
              'PARDER',
              'IGUAL',
+             'INCREMENT',
+             'DECREMENT',
              'MAS',
              'MENOS',
              'POR',
@@ -40,9 +42,7 @@ tokens = [
              'ID',
              'OR',
              'AND',
-             'NOT',
-             'INCREMENT',
-             'DECREMENT'
+             'NOT'
          ] + list(reservadas.values())
 
 # Tokens
@@ -52,6 +52,8 @@ t_LLAVDER = r'}'
 t_PARIZQ = r'\('
 t_PARDER = r'\)'
 t_IGUAL = r'='
+t_INCREMENT = r'\+\+'
+t_DECREMENT = r'--'
 t_MAS = r'\+'
 t_MENOS = r'-'
 t_POR = r'\*'
@@ -67,8 +69,6 @@ t_NIGUALQUE = r'=!'
 t_AND = r'&&'
 t_OR = r'\|\|'
 t_NOT = r'!'
-t_INCREMENT = r'\+\+'
-t_DECREMENT = r'--'
 
 
 def t_DECIMAL(t):
@@ -153,6 +153,8 @@ def t_error(t):
 lexer = lex.lex()
 
 # Asociación de operadores y precedencia
+
+
 precedence = (
     ('left', 'OR', 'AND'),
     ('right', 'UNOT'),
@@ -161,6 +163,7 @@ precedence = (
     ('left', 'POR', 'DIVIDIDO', 'MOD'),
     ('left', 'ELEVADO'),
     ('right', 'UMENOS'),
+    ('left', 'INCREMENT', 'DECREMENT'),
 )
 
 
@@ -191,7 +194,8 @@ def p_instruccion(t):
                         | asignacion_instr
                         | def_asig_instr
                         | while_instr
-                        | if_instr'''
+                        | if_instr
+                        | expresion'''
     t[0] = t[1]
 
 
@@ -246,6 +250,15 @@ def p_while_instr(t):
 
 
 # ------------------------------ EXPRESIONES -----------------------------
+def p_increment(t):
+    '''expresion        : expresion INCREMENT def_instr_prima
+                        | expresion DECREMENT def_instr_prima '''
+    if t[2] == "++":
+        t[0] = ExpresionIncrement(t[1], OPERACION_ARITMETICA.INCREMENTO)
+    elif t[2] == "--":
+        t[0] = ExpresionIncrement(t[1], OPERACION_ARITMETICA.DISMINUCION)
+
+
 def p_expresion_binaria(t):
     '''expresion        : expresion MAS expresion
                         | expresion MENOS expresion
@@ -336,16 +349,6 @@ def p_expresionBoolean(t):
     '''expresion          : TRUE
                           | FALSE'''
     t[0] = ExpresionBoolean(t[1])
-
-
-def p_expresion_cadena_numerico(t):
-    'expresion          : expresion'
-    t[0] = ExpresionCadenaNumerico(t[1])
-
-
-# def p_increment(t):
-#     'increment   : ID INCREMENT'
-#     t[0] = ExpresionIdentificador(t[2])
 
 
 def p_instrDef_prima(t):

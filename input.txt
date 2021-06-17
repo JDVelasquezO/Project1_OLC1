@@ -8,4 +8,13 @@ main () {
   var inc_2 = 10.7;
   inc_2++;
   print("variable incrementada = " + inc_2); # "variable incrementada = 11.7"
+
+    # Prueba de decremento de variables
+  print("---------- PRUEBA DE DECREMENTO DE VARIABLES ----------");
+  var dec_1 = 10;
+  dec_1--;
+  print("variable decrementada = " + dec_1); # "variable decrementada = 9"
+  var dec_2 = 10.7;
+  dec_2--;
+  print("variable decrementada = " + dec_2); # "variable decrementada = 9.7"
 }

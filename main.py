@@ -23,7 +23,6 @@ def procesar_definicion(instr, ts, signal=False):
 
 def procesar_asignacion(instr, ts):
     val = resolver_expresion_aritmetica(instr.expression, ts)
-    simbolo = None
 
     if isinstance(instr.expression, ExpresionSimpleComilla):
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
@@ -38,6 +37,13 @@ def procesar_asignacion(instr, ts):
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False)
         else:
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
+    elif isinstance(instr.expression, ExpresionIncrement):
+        if instr.expression.operation == OPERACION_ARITMETICA.INCREMENTO:
+            val = ts.obtener(instr.id).valor + 1
+        else:
+            val = ts.obtener(instr.id).valor - 1
+
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val)
     else:
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val)
 
@@ -50,7 +56,7 @@ def procesar_definicion_asignacion(instr, ts):
 
 def procesar_while(instr, ts, console):
     while resolver_expreision_logica(instr.expLogica, ts):
-        ts_local = TS.TablaDeSimbolos(ts.simbolos)
+        ts_local = TS.TablaDeSimbolos()
         procesar_instrucciones(instr.instrucciones, ts_local, console)
 
 
@@ -175,6 +181,16 @@ def resolver_operador_not(expLog, ts):
     return False
 
 
+def resolver_expresion_increment(expLog, ts):
+    if expLog.operation == OPERACION_ARITMETICA.INCREMENTO:
+        val = ts.obtener(expLog.exp.id).valor + 1
+    else:
+        val = ts.obtener(expLog.exp.id).valor - 1
+
+    simbolo = TS.Simbolo(expLog.exp.id, TS.TIPO_DATO.NUMERO, val)
+    ts.actualizar(simbolo)
+
+
 def resolver_expresion_aritmetica(expNum, ts):
     if isinstance(expNum, ExpresionBinaria):
         exp1 = resolver_expresion_aritmetica(expNum.exp1, ts)
@@ -266,6 +282,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             procesar_else_if(instr, ts, console)
         elif isinstance(instr, Funcion_Main):
             procesar_func_main(instr.instrucciones, ts, console)
+        elif isinstance(instr, ExpresionIncrement):
+            resolver_expresion_increment(instr, ts)
         else:
             print('Error: instrucción no válida')
 
