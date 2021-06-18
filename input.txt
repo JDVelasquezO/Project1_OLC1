@@ -1,13 +1,4 @@
 main () {
-      # Sentencias de control
-  print("---------- SENTENCIA IF ----------");
-  var if_1 = 25;
-  if(3>2)
-  {
-    print("Entro al if");
-  } else {
-    print("Entro al else");
-  }
-    # Salida de esta sección
-    # if_1 es menor que 50
+   var a = 10;
+   print(!true);
 }

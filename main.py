@@ -61,10 +61,13 @@ def procesar_while(instr, ts, console):
 
 
 def procesar_if(instr, ts, console):
-    if isinstance(instr.expLogica, ExpresionBoolean):
-        val = True if instr.expLogica.val == 'true' else False
-    else:
+    val = True
+    if isinstance(instr.expLogica, ExpresionOperacionLogica):
+        val = resolver_operador_logico(instr.expLogica, ts)
+    elif isinstance(instr.expLogica, ExpresionLogica):
         val = resolver_expreision_logica(instr.expLogica, ts)
+    elif isinstance(instr.expLogica, ExpresionLogicaNot):
+        val = resolver_operador_not(instr.expLogica, ts)
     if val:
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
         procesar_instrucciones(instr.instrucciones, ts_local, console)
@@ -87,7 +90,13 @@ def procesar_if_else(instr, ts, console):
 
 
 def procesar_else_if(instr, ts, console):
-    val = resolver_expreision_logica(instr.expLogica, ts)
+    val = True
+    if isinstance(instr.expLogica, ExpresionOperacionLogica):
+        val = resolver_operador_logico(instr.expLogica, ts)
+    elif isinstance(instr.expLogica, ExpresionLogica):
+        val = resolver_expreision_logica(instr.expLogica, ts)
+    elif isinstance(instr.expLogica, ExpresionLogicaNot):
+        val = resolver_operador_not(instr.expLogica, ts)
     if val:
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
         procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
@@ -136,6 +145,8 @@ def resolver_cadena(expCad, ts):
         elif expCad.id.lower() == "false":
             return "false"
         return ts.obtener(expCad.id).valor
+    elif isinstance(expCad, ExpresionBoolean):
+        return True if expCad.val == 'true' else False
     elif isinstance(expCad, ExpresionBinaria):
         return resolver_expresion_aritmetica(expCad, ts)
     elif isinstance(expCad, ExpresionLogica):
@@ -145,6 +156,9 @@ def resolver_cadena(expCad, ts):
         return False
     elif isinstance(expCad, ExpresionOperacionLogica):
         val = resolver_operador_logico(expCad, ts)
+        return val
+    elif isinstance(expCad, ExpresionLogicaNot):
+        val = resolver_operador_not(expCad, ts)
         return val
     else:
         print('Error: Expresión cadena no válida')
@@ -196,9 +210,6 @@ def resolver_operador_logico(expLog, ts):
         exp2 = resolver_expreision_logica(expLog.exp2, ts)
     elif isinstance(expLog.exp2, ExpresionLogicaNot):
         exp2 = resolver_operador_not(expLog.exp2, ts)
-    # if expLog.exp1.id or expLog.exp2.id:
-    #     exp1 = True if expLog.exp1.id == 'true' else False
-    #     exp2 = True if expLog.exp2.id == 'true' else False
 
     if expLog.operador == OPERADOR_LOGICO.AND:
         if exp1 and exp2:
@@ -212,6 +223,8 @@ def resolver_operador_logico(expLog, ts):
 def resolver_operador_not(expLog, ts):
     if isinstance(expLog, ExpresionLogica):
         exp1 = resolver_expreision_logica(expLog, ts)
+    elif isinstance(expLog.exp1, ExpresionLogica):
+        exp1 = resolver_expreision_logica(expLog.exp1, ts)
     else:
         exp1 = resolver_operador_logico(expLog.exp1, ts)
     # else:
