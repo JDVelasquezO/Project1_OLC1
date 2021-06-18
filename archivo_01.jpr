@@ -303,6 +303,30 @@ main(){
     # Salida de esta sección
     # switch case funcionando correctamente
     # acción por defecto
+    
+    var a = "true"
+    switch(true){
+        case "cadena":
+            print("Hola")
+            break;
+        case true:
+            print("addios")
+        case "cadena":
+            print("Hola")
+            break;
+        case "true":
+            print("addios")
+            break
+        case "cadena":
+            print("Hola")
+            break;
+        case "true":
+            print("addios")
+            break;
+        default:
+            print("default")
+            break;
+        }
 
   # Sentencias cíclicas
   print("---------- SENTENCIA WHILE ----------");

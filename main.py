@@ -61,14 +61,23 @@ def procesar_while(instr, ts, console):
 
 
 def procesar_if(instr, ts, console):
-    val = resolver_expreision_logica(instr.expLogica, ts)
+    if isinstance(instr.expLogica, ExpresionBoolean):
+        val = True if instr.expLogica.val == 'true' else False
+    else:
+        val = resolver_expreision_logica(instr.expLogica, ts)
     if val:
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
         procesar_instrucciones(instr.instrucciones, ts_local, console)
 
 
 def procesar_if_else(instr, ts, console):
-    val = resolver_expreision_logica(instr.expLogica, ts)
+    val = True
+    if isinstance(instr.expLogica, ExpresionOperacionLogica):
+        val = resolver_operador_logico(instr.expLogica, ts)
+    elif isinstance(instr.expLogica, ExpresionLogica):
+        val = resolver_expreision_logica(instr.expLogica, ts)
+    elif isinstance(instr.expLogica, ExpresionLogicaNot):
+        val = resolver_operador_not(instr.expLogica, ts)
     if val:
         ts_local = TS.TablaDeSimbolos(ts.simbolos)
         procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
@@ -170,12 +179,26 @@ def resolver_expreision_logica(expLog, ts):
 
 
 def resolver_operador_logico(expLog, ts):
-    if expLog.exp1.id or expLog.exp2.id:
-        exp1 = True if expLog.exp1.id == 'true' else False
-        exp2 = True if expLog.exp2.id == 'true' else False
-    else:
+    exp1 = True
+    exp2 = True
+    if isinstance(expLog, ExpresionBoolean):
+        return resolver_operador_bool(expLog)
+    elif isinstance(expLog.exp1, ExpresionOperacionLogica):
+        exp1 = resolver_operador_logico(expLog.exp1, ts)
+    elif isinstance(expLog.exp1, ExpresionLogica):
         exp1 = resolver_expreision_logica(expLog.exp1, ts)
+    elif isinstance(expLog.exp1, ExpresionLogicaNot):
+        exp1 = resolver_operador_not(expLog.exp1.exp1, ts)
+
+    if isinstance(expLog.exp2, ExpresionOperacionLogica):
+        exp2 = resolver_operador_logico(expLog.exp2, ts)
+    elif isinstance(expLog.exp2, ExpresionLogica):
         exp2 = resolver_expreision_logica(expLog.exp2, ts)
+    elif isinstance(expLog.exp2, ExpresionLogicaNot):
+        exp2 = resolver_operador_not(expLog.exp2, ts)
+    # if expLog.exp1.id or expLog.exp2.id:
+    #     exp1 = True if expLog.exp1.id == 'true' else False
+    #     exp2 = True if expLog.exp2.id == 'true' else False
 
     if expLog.operador == OPERADOR_LOGICO.AND:
         if exp1 and exp2:
@@ -187,10 +210,20 @@ def resolver_operador_logico(expLog, ts):
 
 
 def resolver_operador_not(expLog, ts):
-    if expLog.operador == OPERADOR_LOGICO.NOT:
-        exp1 = ts.obtener(expLog.exp1.id).valor
-        if not exp1:
-            return True
+    if isinstance(expLog, ExpresionLogica):
+        exp1 = resolver_expreision_logica(expLog, ts)
+    else:
+        exp1 = resolver_operador_logico(expLog.exp1, ts)
+    # else:
+    #     exp1 = ts.obtener(expLog.exp1.id).valor
+    if not exp1:
+        return True
+    return False
+
+
+def resolver_operador_bool(expLog):
+    if expLog.val == 'true':
+        return True
     return False
 
 
