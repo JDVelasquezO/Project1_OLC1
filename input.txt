@@ -1,15 +1,17 @@
+var a = 0;
 main () {
-  print("---------- SENTENCIA WHILE DENTRO DE FOR ----------");
-  var whi_4
-  for(var i = 1; i <= 3; i++)
+  print("---------- SENTENCIA WHILE ANIDADA ----------");
+  var whi_2 = 1;
+  while(whi_2 <= 3)
   {
-    print("ejecución número: " + i);
-    whi_4 = 1;
-    while(whi_4 <= 3)
+    print("ejecución número: " + whi_2);
+    var whi_2_anidado = 1;
+    while(whi_2_anidado <= 3)
     {
-      print("ejecución anidada número: " + whi_4);
-      whi_4++;
+      print("ejecución anidada número: " + whi_2_anidado);
+      whi_2_anidado++;
     }
+    whi_2++;
   }
     # Salida de esta sección
     # ejecución número: 1

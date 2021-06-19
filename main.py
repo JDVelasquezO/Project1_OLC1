@@ -13,12 +13,15 @@ def procesar_imprimir(instr, ts, console):
 
 def procesar_definicion(instr, ts, signal=False):
     simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, 0)  # inicializamos con 0 como valor por defecto
-    if simbolo.id in ts.simbolos:
-        print(Excepcion("Semántico", f"Variable {simbolo.id} ya existe", 0, 0).toString())
-    else:
-        ts.agregar(simbolo)
-        if signal:
-            procesar_asignacion(instr, ts)
+    # if simbolo.id in ts.simbolos:
+    #     print(Excepcion("Semántico", f"Variable {simbolo.id} ya existe", 0, 0).toString())
+    # else:
+    val = ts.agregar(simbolo)
+    if isinstance(val, Exception):
+        print(val)
+        return val
+    if signal:
+        procesar_asignacion(instr, ts)
 
 
 def procesar_asignacion(instr, ts):
@@ -56,7 +59,7 @@ def procesar_definicion_asignacion(instr, ts):
 
 def procesar_while(instr, ts, console):
     while resolver_expreision_logica(instr.expLogica, ts):
-        ts_local = TS.TablaDeSimbolos(ts.simbolos)
+        ts_local = TS.TablaDeSimbolos(ts)
         procesar_instrucciones(instr.instrucciones, ts_local, console)
 
 
@@ -69,7 +72,7 @@ def procesar_if(instr, ts, console):
     elif isinstance(instr.expLogica, ExpresionLogicaNot):
         val = resolver_operador_not(instr.expLogica, ts)
     if val:
-        ts_local = TS.TablaDeSimbolos(ts.simbolos)
+        ts_local = TS.TablaDeSimbolos(ts)
         procesar_instrucciones(instr.instrucciones, ts_local, console)
 
 
@@ -82,10 +85,10 @@ def procesar_if_else(instr, ts, console):
     elif isinstance(instr.expLogica, ExpresionLogicaNot):
         val = resolver_operador_not(instr.expLogica, ts)
     if val:
-        ts_local = TS.TablaDeSimbolos(ts.simbolos)
+        ts_local = TS.TablaDeSimbolos(ts)
         procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
     else:
-        ts_local = TS.TablaDeSimbolos(ts.simbolos)
+        ts_local = TS.TablaDeSimbolos(ts)
         procesar_instrucciones(instr.instrIfFalso, ts_local, console)
 
 
@@ -98,11 +101,11 @@ def procesar_else_if(instr, ts, console):
     elif isinstance(instr.expLogica, ExpresionLogicaNot):
         val = resolver_operador_not(instr.expLogica, ts)
     if val:
-        ts_local = TS.TablaDeSimbolos(ts.simbolos)
+        ts_local = TS.TablaDeSimbolos(ts)
         procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
     else:
         # for instruction in instr.instrElse.instrIfVerdadero:
-        ts_local = TS.TablaDeSimbolos(ts.simbolos)
+        ts_local = TS.TablaDeSimbolos(ts)
         procesar_instrucciones(instr.instrElse.instrIfVerdadero, ts_local, console)
 
 
@@ -145,7 +148,7 @@ def procesar_for(instr, ts, console):
 
 
 def procesar_func_main(instr, ts, console):
-    ts_local = TS.TablaDeSimbolos(ts.simbolos)
+    ts_local = TS.TablaDeSimbolos(ts)
     procesar_instrucciones(instr, ts_local, console)
 
 

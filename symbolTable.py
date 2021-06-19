@@ -23,23 +23,37 @@ class Simbolo:
 class TablaDeSimbolos:
     'Esta clase representa la tabla de simbolos'
 
-    def __init__(self, simbolos={}):
-        self.simbolos = simbolos
+    def __init__(self, before=None):
+        self.simbolos = {}
+        self.before = before
 
     def agregar(self, simbolo):
-        self.simbolos[simbolo.id] = simbolo
+        if simbolo.id.lower() in self.simbolos:
+            return Exception("Semantico", f"Variable {simbolo.id} ya existe", 0, 0)
+        else:
+            self.simbolos[simbolo.id.lower()] = simbolo
+            return True
 
     def obtener(self, id):
-        if not id in self.simbolos:
-            print('Error: variable ', id, ' no definida.')
+        actualTable = self
+        while actualTable is not None:
+            if id.lower() in actualTable.simbolos:
+                return actualTable.simbolos[id]
+            else:
+                actualTable = actualTable.before
+                if actualTable is None: return None
 
-        return self.simbolos[id]
+        return None
 
     def actualizar(self, simbolo):
-        if not simbolo.id in self.simbolos:
-            print('Error: variable ', simbolo.id, ' no definida.')
-        else:
-            self.simbolos[simbolo.id] = simbolo
+        actualTable = self
+        while actualTable is not None:
+            if simbolo.id in actualTable.simbolos:
+                actualTable.simbolos[simbolo.id] = simbolo
+                return
+            else:
+                actualTable = actualTable.before
+        return Exception("Semantico", "Tipo de dato  diferente")
 
     def isEmpty(self):
         pass
