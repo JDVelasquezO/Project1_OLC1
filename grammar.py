@@ -15,7 +15,8 @@ reservadas = {
     'case': 'CASE',
     'default': 'DEFAULT',
     'true': 'TRUE',
-    'false': 'FALSE'
+    'false': 'FALSE',
+    'for': 'FOR'
 }
 
 tokens = [
@@ -202,8 +203,20 @@ def p_instruccion(t):
                         | while_instr
                         | if_instr
                         | switch_instr
+                        | for_instr
                         | expresion'''
     t[0] = t[1]
+
+
+def p_instrDef_prima(t):
+    '''def_instr_prima   : PTCOMA
+                        | empty'''
+    t[0] = t[1]
+
+
+def p_empty(t):
+    'empty :'
+    pass
 
 
 # ------------------------------ MAIN -----------------------------
@@ -301,6 +314,19 @@ def p_case(t):
 def p_default(t):
     'default_instr    : DEFAULT DOSPUNTOS instrucciones break_instr def_instr_prima'
     t[0] = Case(None, t[3], t[4])
+
+
+# ------------------------------ FOR -----------------------------
+def p_for(t):
+    'for_instr : FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER'
+    t[0] = For(t[3], t[5], t[7], t[10])
+
+
+def p_def_asign_for(t):
+    '''def_asign_for  : ID
+                        | asignacion_instr
+                        | def_asig_instr'''
+    t[0] = t[1]
 
 
 # ------------------------------ EXPRESIONES -----------------------------
@@ -403,17 +429,6 @@ def p_expresionBoolean(t):
     '''expresion          : TRUE
                           | FALSE'''
     t[0] = ExpresionBoolean(t[1])
-
-
-def p_instrDef_prima(t):
-    '''def_instr_prima   : PTCOMA
-                        | empty'''
-    t[0] = t[1]
-
-
-def p_empty(t):
-    'empty :'
-    pass
 
 
 def p_error(t):

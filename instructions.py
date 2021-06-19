@@ -106,3 +106,11 @@ class Switch(Instruccion):
         self.expLogica = expLogica
         self.cases = cases
         self.default = default
+
+
+class For(Instruccion):
+    def __init__(self, exp1, expLogica, reAsign, instrucciones = []):
+        self.exp1 = exp1
+        self.expLogica = expLogica
+        self.reAsign = reAsign
+        self.instrucciones = instrucciones

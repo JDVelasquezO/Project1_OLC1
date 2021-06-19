@@ -56,7 +56,7 @@ def procesar_definicion_asignacion(instr, ts):
 
 def procesar_while(instr, ts, console):
     while resolver_expreision_logica(instr.expLogica, ts):
-        ts_local = TS.TablaDeSimbolos()
+        ts_local = TS.TablaDeSimbolos(ts.simbolos)
         procesar_instrucciones(instr.instrucciones, ts_local, console)
 
 
@@ -119,6 +119,31 @@ def procesar_switch(instr, ts, console):
     procesar_instrucciones(instr.default.instrucciones, ts, console)
 
 
+def procesar_for(instr, ts, console):
+    val = True
+    if isinstance(instr.exp1, Definicion_Asignacion):
+        procesar_definicion_asignacion(instr.exp1, ts)
+    elif isinstance(instr.exp1, Asignacion):
+        procesar_asignacion(instr.exp1, ts)
+
+    if isinstance(instr.expLogica, ExpresionLogica):
+        val = resolver_expreision_logica(instr.expLogica, ts)
+    elif isinstance(instr.expLogica, ExpresionOperacionLogica):
+        val = resolver_operador_logico(instr.expLogica, ts)
+
+    while val:
+        procesar_instrucciones(instr.instrucciones, ts, console)
+        counter = resolver_expresion_increment(instr.reAsign, ts)
+
+        num = ExpresionNumero(counter)
+        logic = ExpresionLogica(num, instr.expLogica.exp2, instr.expLogica.operador)
+
+        if isinstance(instr.expLogica, ExpresionLogica):
+            val = resolver_expreision_logica(logic, ts)
+        elif isinstance(instr.expLogica, ExpresionOperacionLogica):
+            val = resolver_operador_logico(logic, ts)
+
+
 def procesar_func_main(instr, ts, console):
     ts_local = TS.TablaDeSimbolos(ts.simbolos)
     procesar_instrucciones(instr, ts_local, console)
@@ -144,7 +169,7 @@ def resolver_cadena(expCad, ts):
             return "true"
         elif expCad.id.lower() == "false":
             return "false"
-        return ts.obtener(expCad.id).valor
+        return ts.obtener(expCad.id.lower()).valor
     elif isinstance(expCad, ExpresionBoolean):
         return True if expCad.val == 'true' else False
     elif isinstance(expCad, ExpresionBinaria):
@@ -302,7 +327,7 @@ def resolver_expresion_aritmetica(expNum, ts):
             return True
         elif expNum.id.lower() == "false":
             return False
-        return ts.obtener(expNum.id).valor
+        return ts.obtener(expNum.id.lower()).valor
 
     elif isinstance(expNum, ExpresionDobleComilla):
         return expNum.val
@@ -348,6 +373,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             procesar_func_main(instr.instrucciones, ts, console)
         elif isinstance(instr, ExpresionIncrement):
             resolver_expresion_increment(instr, ts)
+        elif isinstance(instr, For):
+            procesar_for(instr, ts, console)
         else:
             print('Error: instrucción no válida')
 
