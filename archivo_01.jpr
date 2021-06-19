@@ -344,10 +344,11 @@ main(){
 
   print("---------- SENTENCIA WHILE ANIDADA ----------");
   var whi_2 = 1;
+  var whi_2_anidado
   while(whi_2 <= 3)
   {
     print("ejecución número: " + whi_2);
-    var whi_2_anidado = 1;
+    whi_2_anidado = 1;
     while(whi_2_anidado <= 3)
     {
       print("ejecución anidada número: " + whi_2_anidado);

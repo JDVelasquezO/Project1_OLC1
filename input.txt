@@ -1,29 +1,10 @@
-var a = 0;
 main () {
-  print("---------- SENTENCIA WHILE ANIDADA ----------");
-  var whi_2 = 1;
-  while(whi_2 <= 3)
-  {
-    print("ejecución número: " + whi_2);
-    var whi_2_anidado = 1;
-    while(whi_2_anidado <= 3)
-    {
-      print("ejecución anidada número: " + whi_2_anidado);
-      whi_2_anidado++;
+    var i = 0;
+    while(i <= 3 && true) {
+        for (var j = 0; j <= 2; j++) {
+            print("\tFor:" + j)
+        }
+        print("While: " + i);
+        i++;
     }
-    whi_2++;
-  }
-    # Salida de esta sección
-    # ejecución número: 1
-    # ejecución anidada número: 1
-    # ejecución anidada número: 2
-    # ejecución anidada número: 3
-    # ejecución número: 2
-    # ejecución anidada número: 1
-    # ejecución anidada número: 2
-    # ejecución anidada número: 3
-    # ejecución número: 3
-    # ejecución anidada número: 1
-    # ejecución anidada número: 2
-    # ejecución anidada número: 3
 }

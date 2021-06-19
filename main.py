@@ -58,7 +58,7 @@ def procesar_definicion_asignacion(instr, ts):
 
 
 def procesar_while(instr, ts, console):
-    while resolver_expreision_logica(instr.expLogica, ts):
+    while resolver_operador_logico(instr.expLogica, ts):
         ts_local = TS.TablaDeSimbolos(ts)
         procesar_instrucciones(instr.instrucciones, ts_local, console)
 
@@ -110,41 +110,44 @@ def procesar_else_if(instr, ts, console):
 
 
 def procesar_switch(instr, ts, console):
+    ts_local = TS.TablaDeSimbolos(ts)
     if isinstance(instr.expLogica, ExpresionIdentificador):
-        val = ts.obtener(instr.expLogica.id).valor
+        val = ts_local.obtener(instr.expLogica.id).valor
     else:
         val = instr.expLogica.val
     for case in instr.cases:
         if val == case.expression.val:
-            procesar_instrucciones(case.instrucciones, ts, console)
+            procesar_instrucciones(case.instrucciones, ts_local, console)
             if case.break_instr.col:
                 return
-    procesar_instrucciones(instr.default.instrucciones, ts, console)
+    procesar_instrucciones(instr.default.instrucciones, ts_local, console)
 
 
 def procesar_for(instr, ts, console):
     val = True
+    ts_local = TS.TablaDeSimbolos(ts)
     if isinstance(instr.exp1, Definicion_Asignacion):
-        procesar_definicion_asignacion(instr.exp1, ts)
+        procesar_definicion_asignacion(instr.exp1, ts_local)
     elif isinstance(instr.exp1, Asignacion):
-        procesar_asignacion(instr.exp1, ts)
+        procesar_asignacion(instr.exp1, ts_local)
 
     if isinstance(instr.expLogica, ExpresionLogica):
-        val = resolver_expreision_logica(instr.expLogica, ts)
+        val = resolver_expreision_logica(instr.expLogica, ts_local)
     elif isinstance(instr.expLogica, ExpresionOperacionLogica):
-        val = resolver_operador_logico(instr.expLogica, ts)
+        val = resolver_operador_logico(instr.expLogica, ts_local)
 
     while val:
-        procesar_instrucciones(instr.instrucciones, ts, console)
-        counter = resolver_expresion_increment(instr.reAsign, ts)
+        # ts = TS.TablaDeSimbolos(ts)
+        procesar_instrucciones(instr.instrucciones, ts_local, console)
+        counter = resolver_expresion_increment(instr.reAsign, ts_local)
 
         num = ExpresionNumero(counter)
         logic = ExpresionLogica(num, instr.expLogica.exp2, instr.expLogica.operador)
 
         if isinstance(instr.expLogica, ExpresionLogica):
-            val = resolver_expreision_logica(logic, ts)
+            val = resolver_expreision_logica(logic, ts_local)
         elif isinstance(instr.expLogica, ExpresionOperacionLogica):
-            val = resolver_operador_logico(logic, ts)
+            val = resolver_operador_logico(logic, ts_local)
 
 
 def procesar_func_main(instr, ts, console):
