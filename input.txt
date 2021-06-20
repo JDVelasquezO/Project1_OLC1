@@ -1,8 +1,7 @@
 
 main () {
-    var a = 'b';
-    var b = "true";
-    var c = a+b
-    print(a);
+    var a = -"Hola";
+    var b = 0.5;
+    var c = a/b
     print(c);
 }

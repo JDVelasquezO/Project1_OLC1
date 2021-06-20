@@ -1,0 +1,22 @@
+# Programa de prueba para el orden del análisis sintáctico.
+
+main(){
+
+    # ERROR: DIVISIÓN ENTRE CERO
+    print(15 * 3 - true + 4 / 0 + 2)
+
+    # RESPUESTA = 282.24
+
+    var exp_01 = ((13 + 2 -3) * (4 - -3) / 5)**(true + true)
+    exp_01++
+    exp_01--
+    exp_01 = 1 + exp_01++
+    exp_01 = 2 - exp_01--
+
+    # RESPUESTA = 48
+    print("48 -> " + (15 * 3 - true + 4 / 2 + 2))
+
+    # RESPUESTA = 45
+    print("45 -> " + (15 * 3 - true + 4 / (2 + 2 / 0)))
+
+}
