@@ -5,6 +5,8 @@ from expressions import *
 from instructions import *
 from Exception import Excepcion
 
+errores = []
+
 
 def procesar_imprimir(instr, ts, console):
     # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
@@ -12,7 +14,8 @@ def procesar_imprimir(instr, ts, console):
 
 
 def procesar_definicion(instr, ts, signal=False):
-    simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, 0, 0, 0)  # inicializamos con 0 como valor por defecto
+    # inicializamos con 0 como valor por defecto
+    simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NULL, None, instr.row, instr.col)
     val = ts.agregar(simbolo)
     if isinstance(val, Exception):
         print(val)
@@ -25,28 +28,31 @@ def procesar_asignacion(instr, ts):
     val = resolver_expresion_aritmetica(instr.expression, ts)
 
     if isinstance(instr.expression, ExpresionSimpleComilla):
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val, 0, 0)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val, instr.row, instr.col)
 
     elif isinstance(instr.expression, ExpresionDobleComilla):
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val, 0, 0)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val, instr.row, instr.col)
 
     elif isinstance(instr.expression, ExpresionLogica):
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, val, 0, 0)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, val, instr.row, instr.col)
 
     elif isinstance(instr.expression, ExpresionBoolean):
         if val:
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True, 0, 0)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True, instr.row, instr.col)
         else:
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False, 0, 0)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False, instr.row, instr.col)
 
     elif isinstance(instr.expression, ExpresionLogicaNot):
         if val:
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True, 0, 0)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True, instr.row, instr.col)
         else:
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False, 0, 0)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False, instr.row, instr.col)
 
     elif isinstance(val, str):
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val, 0, 0)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val, instr.row, instr.col)
+    elif isinstance(val, Excepcion):
+        print(val.toString())
+        return val.toString()
 
     elif isinstance(instr.expression, ExpresionIncrement):
         if instr.expression.operation == OPERACION_ARITMETICA.INCREMENTO:
@@ -54,15 +60,15 @@ def procesar_asignacion(instr, ts):
         else:
             val = ts.obtener(instr.id).valor - 1
 
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, 0, 0)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, instr.row, instr.col)
 
     elif isinstance(instr.expression, ExpresionNull):
         return resolver_expresion_null(instr.id, ts)
 
     else:
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, 0, 0)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, instr.row, instr.col)
 
-    ts.actualizar(simbolo)
+    ts.actualizar(simbolo, errores)
 
 
 def procesar_definicion_asignacion(instr, ts):
@@ -155,37 +161,54 @@ def resolver_cadena(expCad, ts):
         exp1 = resolver_cadena(expCad.exp1, ts)
         exp2 = resolver_cadena(expCad.exp2, ts)
         return str(exp1) + str(exp2)
+
     elif isinstance(expCad, ExpresionDobleComilla):
         return expCad.val
+
     elif isinstance(expCad, ExpresionSimpleComilla):
         return expCad.val
+
     elif isinstance(expCad, ExpresionIncrement):
         return resolver_expresion_increment(expCad, ts)
+
     elif isinstance(expCad, ExpresionCadenaNumerico):
         return str(resolver_expresion_aritmetica(expCad.exp, ts))
+
     elif isinstance(expCad, ExpresionNumero):
         return str(expCad.val)
+
     elif isinstance(expCad, ExpresionIdentificador):
         if expCad.id.lower() == "true":
             return "true"
         elif expCad.id.lower() == "false":
             return "false"
-        return ts.obtener(expCad.id.lower()).valor
+        value = ts.obtener(expCad.id.lower())
+        if value is None:
+            err = Excepcion("Semantico", f"Error: Id {expCad.id} no existe", expCad.row, expCad.col).toString()
+            errores.append(err)
+            return err
+        return value.valor
+
     elif isinstance(expCad, ExpresionBoolean):
         return True if expCad.val == 'true' else False
+
     elif isinstance(expCad, ExpresionBinaria):
         return resolver_expresion_aritmetica(expCad, ts)
+
     elif isinstance(expCad, ExpresionLogica):
         val = resolver_expreision_logica(expCad, ts)
         if val:
             return True
         return False
+
     elif isinstance(expCad, ExpresionOperacionLogica):
         val = resolver_operador_logico(expCad, ts)
         return val
+
     elif isinstance(expCad, ExpresionLogicaNot):
         val = resolver_operador_not(expCad, ts)
         return val
+
     else:
         print('Error: Expresión cadena no válida')
 
@@ -280,7 +303,7 @@ def resolver_expresion_increment(expLog, ts):
     else:
         val = ts.obtener(expLog.expression.id).valor - 1
 
-    simbolo = TS.Simbolo(expLog.expression.id, TS.TIPO_DATO.NUMERO, val, 0, 0)
+    simbolo = TS.Simbolo(expLog.expression.id, TS.TIPO_DATO.NUMERO, val, expLog.row, expLog.col)
     ts.actualizar(simbolo)
     return val
 
@@ -290,36 +313,61 @@ def resolver_expresion_aritmetica(expNum, ts):
         exp1 = resolver_expresion_aritmetica(expNum.exp1, ts)
         exp2 = resolver_expresion_aritmetica(expNum.exp2, ts)
         if expNum.operador == OPERACION_ARITMETICA.MAS:
-            if isinstance(exp1, int) and isinstance(exp2, str):
-                if isinstance(exp1, bool):
-                    if exp1:
-                        return f"true{exp2}"
+            if isinstance(exp1.valor, int) and isinstance(exp2.valor, str):
+                if exp2.tipo.name == 'CHAR':
+                    err = Excepcion(">  Semantico", f"Error: no suma INT con CHAR", expNum.row, expNum.col).toString()
+                    errores.append(err)
+                    return Excepcion(">  Semantico", f"Error: no suma INT con CHAR", expNum.row, expNum.col)
+                if isinstance(exp1.valor, bool):
+                    if exp1.valor:
+                        return f"true{exp2.valor}"
                     else:
-                        return f"false{exp2}"
-                return str(exp1) + exp2
-            elif isinstance(exp1, float) and isinstance(exp2, str):
-                return str(exp1) + exp2
-            elif isinstance(exp1, str) and isinstance(exp2, int):
-                if isinstance(exp2, bool):
-                    if exp2:
-                        return f"{exp1}true"
-                    else:
-                        return f"{exp1}false"
-                return exp1 + str(exp2)
-            elif isinstance(exp1, str) and isinstance(exp2, float):
-                return exp1 + str(exp2)
-            elif isinstance(exp1, str) and isinstance(exp2, bool):
-                if exp2:
-                    return f"true{exp1}"
-                else:
-                    return f"false{exp1}"
-            return exp1 + exp2
+                        return f"false{exp2.valor}"
+                return str(exp1.valor) + exp2.valor
 
-        if expNum.operador == OPERACION_ARITMETICA.MENOS: return exp1 - exp2
-        if expNum.operador == OPERACION_ARITMETICA.POR: return exp1 * exp2
-        if expNum.operador == OPERACION_ARITMETICA.DIVIDIDO: return exp1 / exp2
-        if expNum.operador == OPERACION_ARITMETICA.POTENCIA: return exp1 ** exp2
-        if expNum.operador == OPERACION_ARITMETICA.MODULO: return exp1 % exp2
+            elif isinstance(exp1.valor, float) and isinstance(exp2.valor, str):
+                if exp2.tipo.name == 'CHAR':
+                    err = Excepcion(">  Semantico", f"Error: no suma FLOAT con CHAR", expNum.row, expNum.col).toString()
+                    errores.append(err)
+                    return Excepcion(">  Semantico", f"Error: no suma FLOAT con CHAR", expNum.row, expNum.col)
+                return str(exp1.valor) + exp2.valor
+
+            elif isinstance(exp1.valor, str) and isinstance(exp2.valor, int):
+                if exp1.tipo.name == 'CHAR':
+                    err = Excepcion(">  Semantico", f"Error: no suma INT con CHAR", expNum.row, expNum.col).toString()
+                    errores.append(err)
+                    return Excepcion(">  Semantico", f"Error: no suma INT con CHAR", expNum.row, expNum.col)
+
+                if isinstance(exp2.valor, bool):
+                    if exp2.valor:
+                        return f"{exp1.valor}true"
+                    else:
+                        return f"{exp1.valor}false"
+                return exp1.valor + str(exp2.valor)
+
+            elif isinstance(exp1.valor, str) and isinstance(exp2.valor, float):
+                if exp1.tipo.name == 'CHAR':
+                    err = Excepcion(">  Semantico", f"Error: no suma FLOAT con CHAR", expNum.row, expNum.col).toString()
+                    errores.append(err)
+                    return Excepcion(">  Semantico", f"Error: no suma FLOAT con CHAR", expNum.row, expNum.col)
+                return exp1.valor + str(exp2.valor)
+
+            elif isinstance(exp1.valor, str) and isinstance(exp2.valor, bool):
+                if exp1.tipo.name == 'CHAR':
+                    err = Excepcion(">  Semantico", f"Error: no suma BOOL con CHAR", expNum.row, expNum.col).toString()
+                    errores.append(err)
+                    return Excepcion(">  Semantico", f"Error: no suma BOOL con CHAR", expNum.row, expNum.col)
+                if exp2.valor:
+                    return f"true{exp1.valor}"
+                else:
+                    return f"false{exp1.valor}"
+            return exp1.valor + exp2.valor
+
+        if expNum.operador == OPERACION_ARITMETICA.MENOS: return exp1.valor - exp2.valor
+        if expNum.operador == OPERACION_ARITMETICA.POR: return exp1.valor * exp2.valor
+        if expNum.operador == OPERACION_ARITMETICA.DIVIDIDO: return exp1.valor / exp2.valor
+        if expNum.operador == OPERACION_ARITMETICA.POTENCIA: return exp1.valor ** exp2.valor
+        if expNum.operador == OPERACION_ARITMETICA.MODULO: return exp1.valor % exp2.valor
 
     elif isinstance(expNum, ExpresionNegativo):
         exp = resolver_expresion_aritmetica(expNum.exp, ts)
@@ -332,7 +380,12 @@ def resolver_expresion_aritmetica(expNum, ts):
         return expNum.exp
 
     elif isinstance(expNum, ExpresionIdentificador):
-        return ts.obtener(expNum.id.lower()).valor
+        # var = ts.obtener(expNum.id.lower())
+        # if var.tipo.name == 'CHAR':
+        #     err = Excepcion(">  Semantico", f"Error: no suma con CHAR", expNum.row, expNum.col).toString()
+        #     errores.append(err)
+        #     return Excepcion(">  Semantico", f"Error: no suma con CHAR", expNum.row, expNum.col)
+        return ts.obtener(expNum.id.lower())
 
     elif isinstance(expNum, ExpresionBoolean):
         if expNum.val.lower() == "true":

@@ -39,10 +39,12 @@ class ExpresionBinaria(ExpresionNumerica):
         Esta clase recibe los operandos y el operador
     '''
 
-    def __init__(self, exp1, exp2, operador):
+    def __init__(self, exp1, exp2, operador, row, col):
         self.exp1 = exp1
         self.exp2 = exp2
         self.operador = operador
+        self.row = row
+        self.col = col
 
 
 class ExpresionNegativo(ExpresionNumerica):
@@ -51,14 +53,18 @@ class ExpresionNegativo(ExpresionNumerica):
         Esta clase recibe la expresion
     '''
 
-    def __init__(self, exp):
+    def __init__(self, exp, row, col):
         self.exp = exp
+        self.row = row
+        self.col = col
 
 
 class ExpresionIncrement(ExpresionNumerica):
-    def __init__(self, expression, operation):
+    def __init__(self, expression, operation, row, col):
         self.expression = expression
         self.operation = operation
+        self.row = row
+        self.col = col
 
 
 class ExpresionNumero(ExpresionNumerica):
@@ -66,8 +72,10 @@ class ExpresionNumero(ExpresionNumerica):
         Esta clase representa una expresión numérica entera o decimal.
     '''
 
-    def __init__(self, val=0):
+    def __init__(self, val=0, row=0, col=0):
         self.val = val
+        self.row = row
+        self.col = col
 
 
 class ExpresionIdentificador(ExpresionNumerica):
@@ -75,8 +83,10 @@ class ExpresionIdentificador(ExpresionNumerica):
         Esta clase representa un identificador.
     '''
 
-    def __init__(self, id=""):
+    def __init__(self, id="", row=0, col=0):
         self.id = id
+        self.row = row
+        self.col = col
 
 
 class ExpresionCadena:
@@ -91,9 +101,11 @@ class ExpresionConcatenar(ExpresionCadena):
         Recibe como parámetros las 2 expresiones a concatenar
     '''
 
-    def __init__(self, exp1, exp2):
+    def __init__(self, exp1, exp2, row, col):
         self.exp1 = exp1
         self.exp2 = exp2
+        self.row = row
+        self.col = col
 
 
 class ExpresionDobleComilla(ExpresionCadena):
@@ -102,8 +114,10 @@ class ExpresionDobleComilla(ExpresionCadena):
         Recibe como parámetro el valor del token procesado por el analizador léxico
     '''
 
-    def __init__(self, val):
+    def __init__(self, val, row, col):
         self.val = val
+        self.row = row
+        self.col = col
 
 
 class ExpresionCadenaNumerico(ExpresionCadena):
@@ -112,8 +126,10 @@ class ExpresionCadenaNumerico(ExpresionCadena):
         Recibe como parámetro la expresión numérica
     '''
 
-    def __init__(self, exp):
+    def __init__(self, exp, row, col):
         self.exp = exp
+        self.row = row
+        self.col = col
 
 
 class ExpresionLogica:
@@ -122,28 +138,36 @@ class ExpresionLogica:
         Esta clase recibe los operandos y el operador
     '''
 
-    def __init__(self, exp1, exp2, operador):
+    def __init__(self, exp1, exp2, operador, row, col):
         self.exp1 = exp1
         self.exp2 = exp2
         self.operador = operador
+        self.row = row
+        self.col = col
 
 
 class ExpresionOperacionLogica:
-    def __init__(self, exp1, exp2, operador):
+    def __init__(self, exp1, exp2, operador, row, col):
         self.exp1 = exp1
         self.exp2 = exp2
         self.operador = operador
+        self.row = row
+        self.col = col
 
 
 class ExpresionLogicaNot:
-    def __init__(self, exp1, operador):
+    def __init__(self, exp1, operador, row, col):
         self.exp1 = exp1
         self.operador = operador
+        self.row = row
+        self.col = col
 
 
 class ExpresionBoolean:
-    def __init__(self, exp):
+    def __init__(self, exp, row, col):
         self.val = exp
+        self.row = row
+        self.col = col
 
 
 class ExpresionChar:
@@ -151,10 +175,14 @@ class ExpresionChar:
 
 
 class ExpresionSimpleComilla(ExpresionChar):
-    def __init__(self, val):
+    def __init__(self, val, row, col):
         self.val = val
+        self.row = row
+        self.col = col
 
 
 class ExpresionNull:
-    def __init__(self, exp):
+    def __init__(self, exp, row, col):
         self.exp = exp
+        self.row = row
+        self.col = col

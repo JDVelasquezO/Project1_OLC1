@@ -1,4 +1,5 @@
 from enum import Enum
+from Exception import Excepcion
 
 
 class TIPO_DATO(Enum):
@@ -29,7 +30,7 @@ class TablaDeSimbolos:
 
     def agregar(self, simbolo):
         if simbolo.id.lower() in self.simbolos:
-            return Exception("Semantico", f"Variable {simbolo.id} ya existe", simbolo.row, simbolo.col)
+            return Excepcion("Semantico", f"Variable {simbolo.id} ya existe", simbolo.row, simbolo.col)
         else:
             self.simbolos[simbolo.id.lower()] = simbolo
             return True
@@ -45,19 +46,21 @@ class TablaDeSimbolos:
 
         return None
 
-    def actualizar(self, simbolo):
+    def actualizar(self, simbolo, errs):
         actualTable = self
         while actualTable is not None:
             if simbolo.id in actualTable.simbolos:
-                actualSimb = actualTable.simbolos[simbolo.id].tipo
-                if actualSimb == simbolo.tipo or actualSimb is None:
+                actualTypeSimb = actualTable.simbolos[simbolo.id].tipo
+                if actualTypeSimb == simbolo.tipo or actualTypeSimb is None or actualTypeSimb == TIPO_DATO.NULL:
                     actualTable.simbolos[simbolo.id] = simbolo
                     return
-                print(Exception("Semantico", "Tipo de dato  diferente", simbolo.row, simbolo.col))
-                return Exception("Semantico", "Tipo de dato  diferente", simbolo.row, simbolo.col)
+                err = Excepcion(">  Semantico", "Tipo de dato  diferente", simbolo.row, simbolo.col).toString()
+                errs.append(err)
+                print(err)
+                return err
             else:
                 actualTable = actualTable.before
-        return Exception("Semantico", "Variable no encontrada", simbolo.row, simbolo.col)
+        return Excepcion(">  Semantico", "Variable no encontrada", simbolo.row, simbolo.col)
 
     def isEmpty(self):
         pass

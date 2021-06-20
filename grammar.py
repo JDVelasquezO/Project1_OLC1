@@ -157,9 +157,9 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-# def find_column(inp, token):
-#     line_start = inp.rfind('\n', 0, token.lexpos) + 1
-#     return (token.lexpos - line_start) + 1
+def find_column(inp, token):
+    line_start = inp.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - line_start) + 1
 
 
 # Construyendo el analizador léxico
@@ -228,73 +228,73 @@ def p_empty(t):
 # ------------------------------ MAIN -----------------------------
 def p_func_main(t):
     'func_main      : MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER'
-    t[0] = Funcion_Main(t[5])
+    t[0] = Funcion_Main(t[5], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 # ------------------------------ IMPRIMIR -----------------------------
 def p_instruccion_imprimir(t):
     'imprimir_instr     : PRINT PARIZQ expresion PARDER def_instr_prima'
-    t[0] = Imprimir(t[3])
+    t[0] = Imprimir(t[3], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 # ------------------------------ DEFINIR Y ASIGNAR -----------------------------
 def p_instruccion_definicion(t):
     'definicion_instr   : VAR ID def_instr_prima'
-    t[0] = Definicion(t[2], t.lineno(2), 0)
+    t[0] = Definicion(t[2], t.lineno(2), find_column(entrada, t.slice[2]))
 
 
 def p_asignacion_instr(t):
     'asignacion_instr   : ID IGUAL expresion def_instr_prima'
-    t[0] = Asignacion(t[1], t[3])
+    t[0] = Asignacion(t[1], t[3], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_definicion_asignacion(t):
     'def_asig_instr     : VAR ID IGUAL expresion def_instr_prima'
-    t[0] = Definicion_Asignacion(t[2], t[4])
+    t[0] = Definicion_Asignacion(t[2], t[4], t.lineno(2), find_column(entrada, t.slice[2]))
 
 
 # ------------------------------ IF -----------------------------
 def p_if_instr(t):
     'if_instr           : IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'
-    t[0] = If(t[3], t[6])
+    t[0] = If(t[3], t[6], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_if_else_instr(t):
     'if_instr      : IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER'
-    t[0] = IfElse(t[3], t[6], t[10])
+    t[0] = IfElse(t[3], t[6], t[10], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_else_if(t):
     'if_instr       : IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr'
-    t[0] = ElseIf(t[3], t[6], t[9])
+    t[0] = ElseIf(t[3], t[6], t[9], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 # ------------------------------ WHILE -----------------------------
 def p_while_instr(t):
     'while_instr     : WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'
-    t[0] = While(t[3], t[6])
+    t[0] = While(t[3], t[6], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 # ----------------------------- SWITCH y BREAK -----------------------------
 def p_break_instr(t):
     '''break_instr    : BREAK
                     | empty'''
-    t[0] = Break(t[1])
+    t[0] = Break(t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_switch(t):
     'switch_instr   : SWITCH PARIZQ expresion PARDER LLAVIZQ cases LLAVDER'
-    t[0] = Switch(t[3], t[6], None)
+    t[0] = Switch(t[3], t[6], None, t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_switch_default(t):
     'switch_instr   : SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr LLAVDER'
-    t[0] = Switch(t[3], None, t[6])
+    t[0] = Switch(t[3], None, t[6], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_switch_cases(t):
     'switch_instr   : SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr LLAVDER'
-    t[0] = Switch(t[3], t[6], t[7])
+    t[0] = Switch(t[3], t[6], t[7], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_cases(t):
@@ -314,18 +314,18 @@ def p_cases_recursive(t):
 
 def p_case(t):
     'case_instr     : CASE expresion DOSPUNTOS instrucciones break_instr def_instr_prima'
-    t[0] = Case(t[2], t[4], t[5])
+    t[0] = Case(t[2], t[4], t[5], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_default(t):
     'default_instr    : DEFAULT DOSPUNTOS instrucciones break_instr def_instr_prima'
-    t[0] = Case(None, t[3], t[4])
+    t[0] = Case(None, t[3], t[4], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 # ------------------------------ FOR -----------------------------
 def p_for(t):
     'for_instr : FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER'
-    t[0] = For(t[3], t[5], t[7], t[10])
+    t[0] = For(t[3], t[5], t[7], t[10], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_def_asign_for(t):
@@ -338,16 +338,16 @@ def p_def_asign_for(t):
 # ------------------------------ EXPRESIONES -----------------------------
 def p_null(t):
     '''expresion    : NULL'''
-    t[0] = ExpresionNull(t[1])
+    t[0] = ExpresionNull(t[1], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_increment(t):
     '''expresion        : expresion INCREMENT def_instr_prima
                         | expresion DECREMENT def_instr_prima '''
     if t[2] == "++":
-        t[0] = ExpresionIncrement(t[1], OPERACION_ARITMETICA.INCREMENTO)
+        t[0] = ExpresionIncrement(t[1], OPERACION_ARITMETICA.INCREMENTO, t.lineno(2), find_column(entrada, t.slice[2]))
     elif t[2] == "--":
-        t[0] = ExpresionIncrement(t[1], OPERACION_ARITMETICA.DISMINUCION)
+        t[0] = ExpresionIncrement(t[1], OPERACION_ARITMETICA.DISMINUCION, t.lineno(2), find_column(entrada, t.slice[2]))
 
 
 def p_expresion_binaria(t):
@@ -366,48 +366,63 @@ def p_expresion_binaria(t):
                         | expresion IGUALQUE expresion
                         | expresion NIGUALQUE expresion'''
     if t[2] == '+':
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS, t.lineno(2),
+                                find_column(entrada, t.slice[2]))
     elif t[2] == '-':
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS, t.lineno(2),
+                                find_column(entrada, t.slice[2]))
     elif t[2] == '*':
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POR)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POR, t.lineno(2),
+                                find_column(entrada, t.slice[2]))
     elif t[2] == '/':
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIVIDIDO)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIVIDIDO, t.lineno(2),
+                                find_column(entrada, t.slice[2]))
     elif t[2] == '**':
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POTENCIA)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POTENCIA, t.lineno(2),
+                                find_column(entrada, t.slice[2]))
     elif t[2] == '%':
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MODULO)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MODULO, t.lineno(2),
+                                find_column(entrada, t.slice[2]))
     elif t[2] == '&&':
-        t[0] = ExpresionOperacionLogica(t[1], t[3], OPERADOR_LOGICO.AND)
+        t[0] = ExpresionOperacionLogica(t[1], t[3], OPERADOR_LOGICO.AND, t.lineno(2),
+                                        find_column(entrada, t.slice[2]))
     elif t[2] == '||':
-        t[0] = ExpresionOperacionLogica(t[1], t[3], OPERADOR_LOGICO.OR)
+        t[0] = ExpresionOperacionLogica(t[1], t[3], OPERADOR_LOGICO.OR, t.lineno(2),
+                                        find_column(entrada, t.slice[2]))
     elif t[2] == '>':
-        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.MAYOR_QUE)
+        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.MAYOR_QUE, t.lineno(2),
+                               find_column(entrada, t.slice[2]))
     elif t[2] == '<':
-        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.MENOR_QUE)
+        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.MENOR_QUE, t.lineno(2),
+                               find_column(entrada, t.slice[2]))
     elif t[2] == '>=':
-        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.MAYORIGUAL_QUE)
+        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.MAYORIGUAL_QUE, t.lineno(2),
+                               find_column(entrada, t.slice[2]))
     elif t[2] == '<=':
-        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.MENORIGUAL_QUE)
+        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.MENORIGUAL_QUE, t.lineno(2),
+                               find_column(entrada, t.slice[2]))
     elif t[2] == '==':
-        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.IGUAL)
+        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.IGUAL, t.lineno(2),
+                               find_column(entrada, t.slice[2]))
     elif t[2] == '=!':
-        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.DIFERENTE)
+        t[0] = ExpresionLogica(t[1], t[3], OPERACION_LOGICA.DIFERENTE, t.lineno(2),
+                               find_column(entrada, t.slice[2]))
 
 
 def expresion_potencia(t):
     'expresion   : expresion ELEVADO A expresion'
-    t[0] = ExpresionBinaria(t[1], t[4], OPERACION_ARITMETICA.POTENCIA)
+    t[0] = ExpresionBinaria(t[1], t[4], OPERACION_ARITMETICA.POTENCIA, t.lineno(2),
+                            find_column(entrada, t.slice[2]))
 
 
 def p_expresion_unaria(t):
     'expresion      : MENOS expresion %prec UMENOS'
-    t[0] = ExpresionNegativo(t[2])
+    t[0] = ExpresionNegativo(t[2], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_expresion_negar(t):
     'expresion      : NOT expresion %prec UNOT'
-    t[0] = ExpresionLogicaNot(t[2], OPERADOR_LOGICO.NOT)
+    t[0] = ExpresionLogicaNot(t[2], OPERADOR_LOGICO.NOT, t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_expresion_agrupacion(t):
@@ -417,29 +432,29 @@ def p_expresion_agrupacion(t):
 
 def p_expresionId(t):
     'expresion   : ID'
-    t[0] = ExpresionIdentificador(t[1])
+    t[0] = ExpresionIdentificador(t[1], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_expresion_number(t):
     '''expresion        : ENTERO
                         | DECIMAL'''
-    t[0] = ExpresionNumero(t[1])
+    t[0] = ExpresionNumero(t[1], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_expresion_cadena(t):
     'expresion     : CADENA'
-    t[0] = ExpresionDobleComilla(t[1])
+    t[0] = ExpresionDobleComilla(t[1], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_expresion_char(t):
     'expresion   : CHAR'
-    t[0] = ExpresionSimpleComilla(t[1])
+    t[0] = ExpresionSimpleComilla(t[1], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_expresionBoolean(t):
     '''expresion          : TRUE
                           | FALSE'''
-    t[0] = ExpresionBoolean(t[1])
+    t[0] = ExpresionBoolean(t[1], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_error(t):
@@ -449,6 +464,10 @@ def p_error(t):
 
 parser = yacc.yacc()
 
+entrada = ''
+
 
 def parse(input):
+    global entrada
+    entrada = input
     return parser.parse(input)

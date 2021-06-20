@@ -1,8 +1,8 @@
 
 main () {
-    var a = 2
+    var a = 'b';
+    var b = "true";
+    var c = a+b
     print(a);
-    # a = null
-    a = "Hola"
-    print(a)
+    print(c);
 }
