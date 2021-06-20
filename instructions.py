@@ -30,8 +30,10 @@ class Definicion(Instruccion):
         Recibe como parámetro el nombre del identificador a definir
     '''
 
-    def __init__(self, id):
+    def __init__(self, id, row, col):
         self.id = id
+        self.row = row
+        self.col = col
 
 
 class Asignacion(Instruccion):

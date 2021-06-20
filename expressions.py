@@ -153,3 +153,8 @@ class ExpresionChar:
 class ExpresionSimpleComilla(ExpresionChar):
     def __init__(self, val):
         self.val = val
+
+
+class ExpresionNull:
+    def __init__(self, exp):
+        self.exp = exp

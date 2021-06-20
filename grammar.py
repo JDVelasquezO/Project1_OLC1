@@ -16,7 +16,8 @@ reservadas = {
     'default': 'DEFAULT',
     'true': 'TRUE',
     'false': 'FALSE',
-    'for': 'FOR'
+    'for': 'FOR',
+    'null': 'NULL'
 }
 
 tokens = [
@@ -152,8 +153,13 @@ def t_newline(t):
 
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+    print("Caracter ilegal '%s'" % t.value[0])
     t.lexer.skip(1)
+
+
+# def find_column(inp, token):
+#     line_start = inp.rfind('\n', 0, token.lexpos) + 1
+#     return (token.lexpos - line_start) + 1
 
 
 # Construyendo el analizador léxico
@@ -234,7 +240,7 @@ def p_instruccion_imprimir(t):
 # ------------------------------ DEFINIR Y ASIGNAR -----------------------------
 def p_instruccion_definicion(t):
     'definicion_instr   : VAR ID def_instr_prima'
-    t[0] = Definicion(t[2])
+    t[0] = Definicion(t[2], t.lineno(2), 0)
 
 
 def p_asignacion_instr(t):
@@ -330,6 +336,11 @@ def p_def_asign_for(t):
 
 
 # ------------------------------ EXPRESIONES -----------------------------
+def p_null(t):
+    '''expresion    : NULL'''
+    t[0] = ExpresionNull(t[1])
+
+
 def p_increment(t):
     '''expresion        : expresion INCREMENT def_instr_prima
                         | expresion DECREMENT def_instr_prima '''

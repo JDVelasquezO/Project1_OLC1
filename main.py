@@ -12,10 +12,7 @@ def procesar_imprimir(instr, ts, console):
 
 
 def procesar_definicion(instr, ts, signal=False):
-    simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, 0)  # inicializamos con 0 como valor por defecto
-    # if simbolo.id in ts.simbolos:
-    #     print(Excepcion("Semántico", f"Variable {simbolo.id} ya existe", 0, 0).toString())
-    # else:
+    simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, 0, 0, 0)  # inicializamos con 0 como valor por defecto
     val = ts.agregar(simbolo)
     if isinstance(val, Exception):
         print(val)
@@ -28,32 +25,42 @@ def procesar_asignacion(instr, ts):
     val = resolver_expresion_aritmetica(instr.expression, ts)
 
     if isinstance(instr.expression, ExpresionSimpleComilla):
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val, 0, 0)
+
     elif isinstance(instr.expression, ExpresionDobleComilla):
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val, 0, 0)
+
     elif isinstance(instr.expression, ExpresionLogica):
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, val)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, val, 0, 0)
+
     elif isinstance(instr.expression, ExpresionBoolean):
         if val:
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True, 0, 0)
         else:
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False, 0, 0)
+
     elif isinstance(instr.expression, ExpresionLogicaNot):
         if val:
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True, 0, 0)
         else:
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False, 0, 0)
+
     elif isinstance(val, str):
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val, 0, 0)
+
     elif isinstance(instr.expression, ExpresionIncrement):
         if instr.expression.operation == OPERACION_ARITMETICA.INCREMENTO:
             val = ts.obtener(instr.id).valor + 1
         else:
             val = ts.obtener(instr.id).valor - 1
 
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, 0, 0)
+
+    elif isinstance(instr.expression, ExpresionNull):
+        return resolver_expresion_null(instr.id, ts)
+
     else:
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, 0, 0)
 
     ts.actualizar(simbolo)
 
@@ -153,7 +160,7 @@ def resolver_cadena(expCad, ts):
     elif isinstance(expCad, ExpresionSimpleComilla):
         return expCad.val
     elif isinstance(expCad, ExpresionIncrement):
-        pass
+        return resolver_expresion_increment(expCad, ts)
     elif isinstance(expCad, ExpresionCadenaNumerico):
         return str(resolver_expresion_aritmetica(expCad.exp, ts))
     elif isinstance(expCad, ExpresionNumero):
@@ -273,7 +280,7 @@ def resolver_expresion_increment(expLog, ts):
     else:
         val = ts.obtener(expLog.expression.id).valor - 1
 
-    simbolo = TS.Simbolo(expLog.expression.id, TS.TIPO_DATO.NUMERO, val)
+    simbolo = TS.Simbolo(expLog.expression.id, TS.TIPO_DATO.NUMERO, val, 0, 0)
     ts.actualizar(simbolo)
     return val
 
@@ -350,6 +357,13 @@ def resolver_expresion_aritmetica(expNum, ts):
 
     elif isinstance(expNum, ExpresionIncrement):
         return resolver_expresion_increment(expNum, ts)
+
+    elif isinstance(expNum, ExpresionNull):
+        return
+
+
+def resolver_expresion_null(expNum, ts):
+    ts.delete_data_type(expNum)
 
 
 def procesar_instrucciones(instrucciones, ts, console):

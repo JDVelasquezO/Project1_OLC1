@@ -12,7 +12,7 @@ class TIPO_DATO(Enum):
 class Simbolo:
     'Esta clase representa un simbolo dentro de nuestra tabla de simbolos'
 
-    def __init__(self, id, tipo, valor, row=0, col=0):
+    def __init__(self, id, tipo, valor, row, col):
         self.id = id.lower()
         self.tipo = tipo
         self.valor = valor
@@ -29,7 +29,7 @@ class TablaDeSimbolos:
 
     def agregar(self, simbolo):
         if simbolo.id.lower() in self.simbolos:
-            return Exception("Semantico", f"Variable {simbolo.id} ya existe", 0, 0)
+            return Exception("Semantico", f"Variable {simbolo.id} ya existe", simbolo.row, simbolo.col)
         else:
             self.simbolos[simbolo.id.lower()] = simbolo
             return True
@@ -49,12 +49,22 @@ class TablaDeSimbolos:
         actualTable = self
         while actualTable is not None:
             if simbolo.id in actualTable.simbolos:
-                actualTable.simbolos[simbolo.id] = simbolo
-                return
+                actualSimb = actualTable.simbolos[simbolo.id].tipo
+                if actualSimb == simbolo.tipo or actualSimb is None:
+                    actualTable.simbolos[simbolo.id] = simbolo
+                    return
+                print(Exception("Semantico", "Tipo de dato  diferente", simbolo.row, simbolo.col))
+                return Exception("Semantico", "Tipo de dato  diferente", simbolo.row, simbolo.col)
             else:
                 actualTable = actualTable.before
-        return Exception("Semantico", "Tipo de dato  diferente")
+        return Exception("Semantico", "Variable no encontrada", simbolo.row, simbolo.col)
 
     def isEmpty(self):
         pass
         return len(self.simbolos) == 0
+
+    def delete_data_type(self, id):
+        simbolo = self.obtener(id)
+        simbolo.tipo = None
+        simbolo.valor = None
+        pass
