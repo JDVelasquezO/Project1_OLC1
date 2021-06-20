@@ -1,8 +1,27 @@
+
 main () {
-  var not_a = true;
-  var not_b = false;
-  var not_1 = !not_a;
-  print("not = " + not_1); # Not con resultado falso "not = false"
-  var not_2 = !not_b;
-  print("not = " + not_2); # Not con resultado verdadero "not = true"
+  print("---------- SENTENCIA WHILE DENTRO DE FOR ----------");
+  for(var i = 1; i <= 3; i++)
+  {
+    print("ejecución número: " + i);
+    var whi_4 = 1;
+    while(whi_4 <= 3)
+    {
+      print("ejecución anidada número: " + whi_4);
+      whi_4++;
+    }
+  }
+    # Salida de esta sección
+    # ejecución número: 1
+    # ejecución anidada número: 1
+    # ejecución anidada número: 2
+    # ejecución anidada número: 3
+    # ejecución número: 2
+    # ejecución anidada número: 1
+    # ejecución anidada número: 2
+    # ejecución anidada número: 3
+    # ejecución número: 3
+    # ejecución anidada número: 1
+    # ejecución anidada número: 2
+    # ejecución anidada número: 3
 }

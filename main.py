@@ -129,30 +129,13 @@ def procesar_switch(instr, ts, console):
 
 
 def procesar_for(instr, ts, console):
-    val = True
     ts_local = TS.TablaDeSimbolos(ts)
-    if isinstance(instr.exp1, Definicion_Asignacion):
-        procesar_definicion_asignacion(instr.exp1, ts_local)
-    elif isinstance(instr.exp1, Asignacion):
-        procesar_asignacion(instr.exp1, ts_local)
-
-    if isinstance(instr.expLogica, ExpresionLogica):
-        val = resolver_expreision_logica(instr.expLogica, ts_local)
-    elif isinstance(instr.expLogica, ExpresionOperacionLogica):
-        val = resolver_operador_logico(instr.expLogica, ts_local)
-
-    while val:
-        # ts = TS.TablaDeSimbolos(ts)
-        procesar_instrucciones(instr.instrucciones, ts_local, console)
-        counter = resolver_expresion_increment(instr.reAsign, ts_local)
-
-        num = ExpresionNumero(counter)
-        logic = ExpresionLogica(num, instr.expLogica.exp2, instr.expLogica.operador)
-
-        if isinstance(instr.expLogica, ExpresionLogica):
-            val = resolver_expreision_logica(logic, ts_local)
-        elif isinstance(instr.expLogica, ExpresionOperacionLogica):
-            val = resolver_operador_logico(logic, ts_local)
+    procesar_definicion_asignacion(instr.exp1, ts_local)
+    while resolver_operador_logico(instr.expLogica, ts_local):
+        ts_instr = TS.TablaDeSimbolos(ts_local)
+        procesar_instrucciones(instr.instrucciones, ts_instr, console)
+        resolver_expresion_increment(instr.reAsign, ts_local)
+        # resolver_operador_logico(logic, ts_local)
 
 
 def procesar_func_main(instr, ts, console):
@@ -233,6 +216,8 @@ def resolver_operador_logico(expLog, ts):
     exp2 = True
     if isinstance(expLog, ExpresionBoolean):
         return resolver_operador_bool(expLog)
+    elif isinstance(expLog, ExpresionLogica):
+        return resolver_expreision_logica(expLog, ts)
     elif isinstance(expLog.exp1, ExpresionBoolean):
         exp1 = resolver_operador_bool(expLog.exp1)
     elif isinstance(expLog.exp1, ExpresionOperacionLogica):

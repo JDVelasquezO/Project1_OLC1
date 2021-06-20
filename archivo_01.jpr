@@ -21,7 +21,7 @@ var global_salto = "Cadena con\nsalto de línea";
 var global_barra = "Cadena con \\ barra invertida";
 var global_comilla_doble = "Cadena con \"comilla doble\"";
 var global_tab = "Cadena con \t tabulación";
-var global_commilla_simple = "Cadena con \'comilla simple\'";
+var global_comilla_simple = "Cadena con \'comilla simple\'";
 
 # Declaraciones de funciones
 
@@ -45,14 +45,14 @@ main(){
   print("-> Comilla simple:");
   print(global_comilla_simple);
   print("-------------------------------------------");
-
+  
   # Sumas de prueba
   print("---------- SUMAS DE PRUEBA ----------");
   var suma_1 = global_int + 5;
   print("suma = " + suma_1) # Suma de enteros "suma = 30"
   var suma_2 = global_dou + 5.0;
   print("suma = " + suma_2) # Suma de doubles "suma = 30.0"
-  var suma_3 = global_boo + 0;
+  var suma_3 = global_boo + 1;
   print("suma = " + suma_3) # Suma de booleanos "suma = 1"
   var suma_4 = global_cha + 'b';
   print("suma = " + suma_4) # Suma de chars "suma = gb"
@@ -138,7 +138,7 @@ main(){
   var dif_5 = global_cad =! "cadena";
   print("diferenciación = " + dif_5); # Diferenciación de chars "diferenciación = false"
 
-  print("---------- COMPARACIONES "MENOR QUE" DE PRUEBA ----------");
+  print("---------- COMPARACIONES \"MENOR QUE\" DE PRUEBA ----------");
   var meq_1 = global_int < 25;
   print("menor que = " + meq_1); # Menor que de enteros "menor que = true"
   var meq_2 = global_dou < 20;
@@ -146,7 +146,7 @@ main(){
   var meq_3 = global_boo < true;
   print("menor que = " + meq_3); # Menor que de booleanos "menor que = true"
 
-  print("---------- COMPARACIONES "MENOR O IGUAL QUE" DE PRUEBA ----------");
+  print("---------- COMPARACIONES \"MENOR O IGUAL QUE\" DE PRUEBA ----------");
   var mei_1 = global_int <= 25;
   print("menor o igual que = " + mei_1); # Menor o igual que de enteros "menor o igual que = true"
   var mei_2 = global_dou <= 20;
@@ -154,7 +154,7 @@ main(){
   var mei_3 = global_boo <= true;
   print("menor o igual que = " + mei_3); # Menor o igual que de booleanos "menor o igual que = true"
 
-  print("---------- COMPARACIONES "MAYOR QUE" DE PRUEBA ----------");
+  print("---------- COMPARACIONES \"MAYOR QUE\" DE PRUEBA ----------");
   var maq_1 = global_int > 25;
   print("mayor que = " + maq_1); # Mayor que de enteros "mayor que = false"
   var maq_2 = global_dou > 20;
@@ -162,7 +162,7 @@ main(){
   var maq_3 = global_boo > true;
   print("mayor que = " + maq_3); # Mayor que de booleanos "mayor que = false"
 
-  print("---------- COMPARACIONES "MAYOR O IGUAL QUE" DE PRUEBA ----------");
+  print("---------- COMPARACIONES \"MAYOR O IGUAL QUE\" DE PRUEBA ----------");
   var mai_1 = global_int >= 25;
   print("mayor o igual que = " + mai_1); # Mayor o igual que de enteros "mayor o igual que = true"
   var mai_2 = global_dou >= 20;
@@ -201,23 +201,6 @@ main(){
   print("---------- AGRUPACIÓN DE PRUEBA ----------");
   var agr_1 = (1 + 2 + (1 - 2 / 2)) * 3;
   print("agrupación = " + agr_1); # Resultado de la agrupación "agrupación = 9"
-
-  # Casteos de prueba
-  print("---------- CASTEOS DE PRUEBA ----------");
-  var cas_1 = (double) 5;
-  print("int a double = " + cas_1); # Casteo de int a double "int a double = 5.0"
-  var cas_2 = (int) 5.0;
-  print("double a int = " + cas_2); # Casteo de double a int "double a int = 5"
-  var cas_3 = (string) 5;
-  print("int a string = " + cas_3); # Casteo de int a string "int a string = 5"
-  var cas_4 = (char) 5;
-  print("int a char = " + cas_4); # Casteo de int a char "int a char = 5"
-  var cas_5 = (string) 5.0;
-  print("double a string = " + cas_5); # Casteo de double a string "double a string = 5.0"
-  var cas_6 = (int) '5';
-  print("char a int = " + cas_6); # Casteo de char a int "char a int = 5"
-  var cas_7 = (double) '5';
-  print("char a double = " + cas_7); # Casteo de "char a double = 5.0"
 
   # Prueba de incremento de variables
   print("---------- PRUEBA DE INCREMENTO DE VARIABLES ----------");
@@ -303,30 +286,6 @@ main(){
     # Salida de esta sección
     # switch case funcionando correctamente
     # acción por defecto
-    
-    var a = "true"
-    switch(true){
-        case "cadena":
-            print("Hola")
-            break;
-        case true:
-            print("addios")
-        case "cadena":
-            print("Hola")
-            break;
-        case "true":
-            print("addios")
-            break
-        case "cadena":
-            print("Hola")
-            break;
-        case "true":
-            print("addios")
-            break;
-        default:
-            print("default")
-            break;
-        }
 
   # Sentencias cíclicas
   print("---------- SENTENCIA WHILE ----------");
@@ -344,11 +303,10 @@ main(){
 
   print("---------- SENTENCIA WHILE ANIDADA ----------");
   var whi_2 = 1;
-  var whi_2_anidado
   while(whi_2 <= 3)
   {
     print("ejecución número: " + whi_2);
-    whi_2_anidado = 1;
+    var whi_2_anidado = 1;
     while(whi_2_anidado <= 3)
     {
       print("ejecución anidada número: " + whi_2_anidado);
