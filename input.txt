@@ -1,10 +1,8 @@
 main () {
-    var i = 0;
-    while(i <= 3 && true) {
-        for (var j = 0; j <= 2; j++) {
-            print("\tFor:" + j)
-        }
-        print("While: " + i);
-        i++;
-    }
+  var not_a = true;
+  var not_b = false;
+  var not_1 = !not_a;
+  print("not = " + not_1); # Not con resultado falso "not = false"
+  var not_2 = !not_b;
+  print("not = " + not_2); # Not con resultado verdadero "not = true"
 }

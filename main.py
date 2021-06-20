@@ -33,13 +33,18 @@ def procesar_asignacion(instr, ts):
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val)
     elif isinstance(instr.expression, ExpresionLogica):
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, val)
-    elif isinstance(val, str):
-        if val.lower() == "true":
+    elif isinstance(instr.expression, ExpresionBoolean):
+        if val:
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True)
-        elif val.lower() == "false":
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False)
         else:
-            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False)
+    elif isinstance(instr.expression, ExpresionLogicaNot):
+        if val:
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, True)
+        else:
+            simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False)
+    elif isinstance(val, str):
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val)
     elif isinstance(instr.expression, ExpresionIncrement):
         if instr.expression.operation == OPERACION_ARITMETICA.INCREMENTO:
             val = ts.obtener(instr.id).valor + 1
@@ -228,6 +233,8 @@ def resolver_operador_logico(expLog, ts):
     exp2 = True
     if isinstance(expLog, ExpresionBoolean):
         return resolver_operador_bool(expLog)
+    elif isinstance(expLog.exp1, ExpresionBoolean):
+        exp1 = resolver_operador_bool(expLog.exp1)
     elif isinstance(expLog.exp1, ExpresionOperacionLogica):
         exp1 = resolver_operador_logico(expLog.exp1, ts)
     elif isinstance(expLog.exp1, ExpresionLogica):
@@ -235,7 +242,9 @@ def resolver_operador_logico(expLog, ts):
     elif isinstance(expLog.exp1, ExpresionLogicaNot):
         exp1 = resolver_operador_not(expLog.exp1.exp1, ts)
 
-    if isinstance(expLog.exp2, ExpresionOperacionLogica):
+    if isinstance(expLog.exp2, ExpresionBoolean):
+        exp2 = resolver_operador_bool(expLog.exp2)
+    elif isinstance(expLog.exp2, ExpresionOperacionLogica):
         exp2 = resolver_operador_logico(expLog.exp2, ts)
     elif isinstance(expLog.exp2, ExpresionLogica):
         exp2 = resolver_expreision_logica(expLog.exp2, ts)
@@ -256,6 +265,8 @@ def resolver_operador_not(expLog, ts):
         exp1 = resolver_expreision_logica(expLog, ts)
     elif isinstance(expLog.exp1, ExpresionLogica):
         exp1 = resolver_expreision_logica(expLog.exp1, ts)
+    elif isinstance(expLog.exp1, ExpresionIdentificador):
+        exp1 = ts.obtener(expLog.exp1.id.lower()).valor
     else:
         exp1 = resolver_operador_logico(expLog.exp1, ts)
     # else:
@@ -329,11 +340,13 @@ def resolver_expresion_aritmetica(expNum, ts):
         return expNum.exp
 
     elif isinstance(expNum, ExpresionIdentificador):
-        if expNum.id.lower() == "true":
-            return True
-        elif expNum.id.lower() == "false":
-            return False
         return ts.obtener(expNum.id.lower()).valor
+
+    elif isinstance(expNum, ExpresionBoolean):
+        if expNum.val.lower() == "true":
+            return True
+        elif expNum.val.lower() == "false":
+            return False
 
     elif isinstance(expNum, ExpresionDobleComilla):
         return expNum.val
