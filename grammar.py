@@ -210,7 +210,8 @@ def p_instruccion(t):
                         | if_instr
                         | switch_instr
                         | for_instr
-                        | expresion'''
+                        | expresion
+                        | break_instr'''
     t[0] = t[1]
 
 
@@ -277,8 +278,7 @@ def p_while_instr(t):
 
 # ----------------------------- SWITCH y BREAK -----------------------------
 def p_break_instr(t):
-    '''break_instr    : BREAK
-                    | empty'''
+    '''break_instr    : BREAK'''
     t[0] = Break(t.lineno(1), find_column(entrada, t.slice[1]))
 
 
@@ -313,12 +313,12 @@ def p_cases_recursive(t):
 
 
 def p_case(t):
-    'case_instr     : CASE expresion DOSPUNTOS instrucciones break_instr def_instr_prima'
+    'case_instr     : CASE expresion DOSPUNTOS instrucciones def_instr_prima'
     t[0] = Case(t[2], t[4], t[5], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_default(t):
-    'default_instr    : DEFAULT DOSPUNTOS instrucciones break_instr def_instr_prima'
+    'default_instr    : DEFAULT DOSPUNTOS instrucciones def_instr_prima'
     t[0] = Case(None, t[3], t[4], t.lineno(1), find_column(entrada, t.slice[1]))
 
 

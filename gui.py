@@ -1,9 +1,14 @@
+import os
+import subprocess
 import time
 from tkinter import *
 from tkinter import filedialog as FileDialog, scrolledtext
 from io import open
+
+import main
 from main import *
 import grammar as g
+import webbrowser
 
 ruta = ""  # La utilizaremos para almacenar la ruta del fichero
 
@@ -17,6 +22,7 @@ def nuevo():
 
 
 def abrir():
+    # main.errores = []
     global ruta
     mensaje.set("Abrir fichero")
     ruta = FileDialog.askopenfilename(
@@ -76,6 +82,72 @@ def executeProgram():
     console.insert(END, f"\n\n> Ejecución terminada en: {round(t1 - t0, 6)} segundos")
 
 
+def generateReport():
+    print(len(errores))
+    f = open('reporte.html', 'w')
+
+    f.write(f"<!DOCTYPE html>\n"
+            f"<html>\n"
+            f"<head>\n"
+            f"<meta charset=\"utf-8\">\n"
+            f"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+            f"<title>OLC1</title>\n"
+            f"<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css\">\n"
+            f"</head>\n"
+            f"<body>\n"
+            f"<section class=\"section\">\n"
+            f"<div class=\"container\">\n"
+            f"<h1 class=\"title\">\n"
+            f"Generador de Errores\n"
+            f"</h1>\n"
+
+            f"<div class=\"container\">\n"
+            f"<table class=\"table is-bordered is-striped is-narrow is-hoverable is-fullwidth\">\n"
+            f"<thead>\n"
+            f"<tr>\n"
+            f"<th><abbr title=\"Position\">Pos</abbr></th>\n"
+            f"<th abbr>Tipo de Error</th>\n"
+            f"<th><abbr title=\"Played\">Descripción</abbr></th>"
+            f"<th><abbr title=\"Won\">Línea</abbr></th>"
+            f"<th><abbr title=\"Drawn\">Columna</abbr></th>"
+            f"</tr>\n"
+            f"</thead>\n"
+            f"<tbody>\n")
+    i = 1
+    for e in errores:
+        f.write(
+            "f<tr>\n"
+                f"<th>{i}</th>\n"
+                f"<td>{e.type}</td>\n"
+                f"<td>{e.desc}</td>\n"
+                f"<td>{e.row}</td>\n"
+                f"<td>{e.col}</td>\n"
+            f"</tr>\n"
+        )
+        i += 1
+
+    f.write("f</tbody>\n"
+            "f</table>\n"
+            "</div>\n"
+            "</div>\n"
+            "</section>\n"
+            "</body>\n"
+            "</html>")
+
+    f.close()
+
+    nombreArchivo = 'reporte.html'
+    subprocess.call(['xdg-open', nombreArchivo])
+
+
+def restart_program():
+    """Restarts the current program.
+    Note: this function does not return. Any cleanup action (like
+    saving data) must be done before calling this function."""
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
+
+
 # Configuración de la raíz
 root = Tk()
 root.title("JPR Ide")
@@ -83,6 +155,7 @@ root.title("JPR Ide")
 # Menú superior
 menubar = Menu(root)
 menuTools = Menu(root)
+menuReports = Menu(root)
 
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="Nuevo", command=nuevo)
@@ -90,17 +163,20 @@ filemenu.add_command(label="Abrir", command=abrir)
 filemenu.add_command(label="Guardar", command=guardar)
 filemenu.add_command(label="Guardar como", command=guardar_como)
 filemenu.add_separator()
-filemenu.add_command(label="Salir", command=root.quit)
+filemenu.add_command(label="Resetear", command=restart_program)
 
 fMenuTools = Menu(menuTools, tearoff=0)
 fMenuTools.add_command(label="Ejecutar", command=executeProgram)
 fMenuTools.add_command(label="Depurar", command=executeProgram)
 
+fMenuReports = Menu(menuReports, tearoff=0)
+fMenuReports.add_command(label="Reporte de Errores", command=generateReport)
+
 menubar.add_cascade(menu=filemenu, label="Archivo")
 menubar.add_cascade(menu=filemenu, label="Edición")
 menubar.add_cascade(menu=fMenuTools, label="Herramientas")
 menubar.add_cascade(menu=filemenu, label="Analizar")
-menubar.add_cascade(menu=filemenu, label="Reportes")
+menubar.add_cascade(menu=fMenuReports, label="Reportes")
 menubar.add_cascade(menu=filemenu, label="Ayuda")
 
 # Frame general

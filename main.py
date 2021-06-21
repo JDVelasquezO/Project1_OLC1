@@ -1,3 +1,5 @@
+""" Créditos de ayuda: José Puac Auxiliar de OLC1 e Ing Navarro"""
+
 from tkinter import END
 import symbolTable as TS
 import grammar as g
@@ -9,16 +11,17 @@ errores = []
 
 
 def procesar_imprimir(instr, ts, console):
-    # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
-    print('> ', resolver_cadena(instr.cad, ts))
+    console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
+    # print('> ', resolver_cadena(instr.cad, ts))
 
 
 def procesar_definicion(instr, ts, signal=False):
     # inicializamos con 0 como valor por defecto
     simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NULL, None, instr.row, instr.col)
     val = ts.agregar(simbolo)
-    if isinstance(val, Exception):
-        print(val)
+    if isinstance(val, Excepcion):
+        # print(val.toString())
+        errores.append(val)
         return val
     if signal:
         procesar_asignacion(instr, ts)
@@ -49,7 +52,7 @@ def procesar_asignacion(instr, ts):
             simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.BOOLEAN, False, instr.row, instr.col)
 
     elif isinstance(val, str):
-        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val, instr.row, instr.col)
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, val, instr.row, instr.col)
     elif isinstance(val, Excepcion):
         print(val.toString())
         return val.toString()
@@ -136,8 +139,9 @@ def procesar_switch(instr, ts, console):
     for case in instr.cases:
         if val == case.expression.val:
             procesar_instrucciones(case.instrucciones, ts_local, console)
-            if case.break_instr.col:
-                return
+            if case.break_instr is not None:
+                if case.break_instr.col:
+                    return
     procesar_instrucciones(instr.default.instrucciones, ts_local, console)
 
 
@@ -237,6 +241,10 @@ def resolver_expreision_logica(expLog, ts):
                 return temp == exp1
         elif isinstance(exp1, bool) and isinstance(exp2, bool):
             return exp1 == exp2
+        elif isinstance(exp1, int) and isinstance(exp2, float):
+            return exp1 == exp2
+        elif isinstance(exp1, float) and isinstance(exp2, int):
+            return exp1 == exp2
         return str(exp1) == str(exp2)
     if expLog.operador == OPERACION_LOGICA.DIFERENTE: return exp1 != exp2
 
@@ -280,6 +288,8 @@ def resolver_operador_not(expLog, ts):
         exp1 = resolver_expreision_logica(expLog, ts)
     elif isinstance(expLog.exp1, ExpresionLogica):
         exp1 = resolver_expreision_logica(expLog.exp1, ts)
+    elif isinstance(expLog.exp1, ExpresionLogicaNot):
+        exp1 = resolver_operador_not(expLog.exp1, ts)
     elif isinstance(expLog.exp1, ExpresionIdentificador):
         exp1 = ts.obtener(expLog.exp1.id.lower()).valor
     else:
@@ -402,7 +412,7 @@ def resolver_expresion_aritmetica(expNum, ts):
         return expNum.exp
 
     elif isinstance(expNum, ExpresionIdentificador):
-        return ts.obtener(expNum.id.lower())
+        return ts.obtener(expNum.id.lower()).valor
 
     elif isinstance(expNum, ExpresionBoolean):
         if expNum.val.lower() == "true":
@@ -467,10 +477,10 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-f = open("tests/expresiones.jpr", "r")
-input = f.read()
-
-instrucciones = g.parse(input)
-ts_global = TS.TablaDeSimbolos()
-
-procesar_instrucciones(instrucciones, ts_global, None)
+# f = open("tests/expresiones.jpr", "r")
+# input = f.read()
+#
+# instrucciones = g.parse(input)
+# ts_global = TS.TablaDeSimbolos()
+#
+# procesar_instrucciones(instrucciones, ts_global, None)

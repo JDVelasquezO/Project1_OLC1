@@ -1,0 +1,7 @@
+
+    main () {
+        var n0 = 16
+        print("HOLA")
+        print(!(true||false))
+        print((n0 / 16 + ((!(true || false))))+"")
+    }

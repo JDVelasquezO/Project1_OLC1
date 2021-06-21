@@ -10,13 +10,13 @@
 
 # Declaración y asignación de variables globales
 var global_a;             # Declara una variable con valor nulo
+var GlObAl_A;             # Error: La variable ya está definida
 var global_b              # Declara una variable con valor nulo
 var global_int = 25;      # Declara una variable de tipo entero
 var global_dou = 25.0;    # Declara una variable de tipo double
 var global_boo = true     # Declara una variable de tipo boolean
 var global_cha = 'g'      # Declara una variable de tipo char
 var global_cad = "cadena" # Declara una variable de tipo string
-var GlObAl_A;             # Error: La variable ya está definida
 var global_salto = "Cadena con\nsalto de línea";
 var global_barra = "Cadena con \\ barra invertida";
 var global_comilla_doble = "Cadena con \"comilla doble\"";
@@ -24,7 +24,6 @@ var global_tab = "Cadena con \t tabulación";
 var global_comilla_simple = "Cadena con \'comilla simple\'";
 
 # Declaraciones de funciones
-
 
 #Iniciando la ejecución del programa a partir de aquí
 main(){
@@ -45,8 +44,8 @@ main(){
   print("-> Comilla simple:");
   print(global_comilla_simple);
   print("-------------------------------------------");
-  
-  # Sumas de prueba
+
+    # Sumas de prueba
   print("---------- SUMAS DE PRUEBA ----------");
   var suma_1 = global_int + 5;
   print("suma = " + suma_1) # Suma de enteros "suma = 30"
@@ -59,7 +58,7 @@ main(){
   var suma_5 = global_cad + "_extra";
   print("suma = " + suma_5) # Suma de cadenas "suma = cadena_extra"
 
-  # Resta de prueba
+   # Resta de prueba
   print("---------- RESTAS DE PRUEBA ----------");
   var resta_1 = global_int - 5;
   print("resta = " + resta_1); # Resta de enteros "resta = 20"
@@ -70,7 +69,7 @@ main(){
   var resta_4 = global_boo - 1.0;
   print("resta = " + resta_4); # Resta de booleano y double "resta = 0.0"
 
-  # Multiplicaciones de prueba
+    # Multiplicaciones de prueba
   print("---------- MULTIPLICACIONES DE PRUEBA ----------");
   var mult_1 = global_int * 2;
   print("multiplicación = " + mult_1); # Multiplicación de enteros "multiplicación = 50"
@@ -88,7 +87,7 @@ main(){
   var div_3 = global_int / global_dou;
   print("división = " + div_3); # División entre entero y double "división = 1.0"
 
-  # Potencias de prueba
+    # Potencias de prueba
   print("---------- POTENCIAS DE PRUEBA ----------");
   var pot_1 = global_int ** 2;
   print("potencia = " + pot_1); # Potencia de enteros "potencia = 625"
@@ -106,7 +105,7 @@ main(){
   var mod_3 = global_dou % 4;
   print("módulo = " + mod_3); # Módulo entre double y entero "módulo = 1.0"
 
-  # Negaciones unarias de prueba
+    # Negaciones unarias de prueba
   print("---------- NEGACIONES UNARIAS DE PRUEBA ----------");
   var neg_1 = -global_int;
   print("negación = " + neg_1); # Negación unaria de entero "negación = -25"
@@ -126,7 +125,7 @@ main(){
   var igu_5 = global_cad == "cadena";
   print("igualación = " + igu_5); # Igualación de chars "igualación = true"
 
-  print("---------- DIFERENCIACIACIONES DE PRUEBA ----------");
+    print("---------- DIFERENCIACIACIONES DE PRUEBA ----------");
   var dif_1 = global_int =! 25;
   print("diferenciación = " + dif_1); # Diferenciación de enteros "diferenciación = false"
   var dif_2 = global_dou =! 20;
@@ -146,7 +145,7 @@ main(){
   var meq_3 = global_boo < true;
   print("menor que = " + meq_3); # Menor que de booleanos "menor que = true"
 
-  print("---------- COMPARACIONES \"MENOR O IGUAL QUE\" DE PRUEBA ----------");
+    print("---------- COMPARACIONES \"MENOR O IGUAL QUE\" DE PRUEBA ----------");
   var mei_1 = global_int <= 25;
   print("menor o igual que = " + mei_1); # Menor o igual que de enteros "menor o igual que = true"
   var mei_2 = global_dou <= 20;
@@ -162,7 +161,7 @@ main(){
   var maq_3 = global_boo > true;
   print("mayor que = " + maq_3); # Mayor que de booleanos "mayor que = false"
 
-  print("---------- COMPARACIONES \"MAYOR O IGUAL QUE\" DE PRUEBA ----------");
+    print("---------- COMPARACIONES \"MAYOR O IGUAL QUE\" DE PRUEBA ----------");
   var mai_1 = global_int >= 25;
   print("mayor o igual que = " + mai_1); # Mayor o igual que de enteros "mayor o igual que = true"
   var mai_2 = global_dou >= 20;
@@ -190,7 +189,7 @@ main(){
   var and_4 = true && true;
   print("and = " + and_4); # And con resultado verdadero "and = true"
 
-  var not_a = true;
+    var not_a = true;
   var not_b = false;
   var not_1 = !not_a;
   print("not = " + not_1); # Not con resultado falso "not = false"
@@ -211,7 +210,7 @@ main(){
   inc_2++;
   print("variable incrementada = " + inc_2); # "variable incrementada = 11.7"
 
-  # Prueba de decremento de variables
+    # Prueba de decremento de variables
   print("---------- PRUEBA DE DECREMENTO DE VARIABLES ----------");
   var dec_1 = 10;
   dec_1--;
@@ -234,7 +233,7 @@ main(){
     # Salida de esta sección
     # if_1 es menor que 50
 
-  print("---------- SENTENCIA ELSE ----------");
+      print("---------- SENTENCIA ELSE ----------");
   if(if_1 > 50)
   {
     print("esto no debería de estar aquí");
@@ -271,7 +270,7 @@ main(){
     # if_1 se encuentra entre 0 y 50
     # if_1 es mayor a 10
 
-  print("---------- SENTENCIA SWITCH ----------");
+      print("---------- SENTENCIA SWITCH ----------");
   var swi_1 = 25;
   switch(swi_1){
     case 10:
@@ -287,7 +286,7 @@ main(){
     # switch case funcionando correctamente
     # acción por defecto
 
-  # Sentencias cíclicas
+    # Sentencias cíclicas
   print("---------- SENTENCIA WHILE ----------");
   var whi_1 = 1;
   while(whi_1 <= 5)
