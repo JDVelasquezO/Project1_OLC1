@@ -186,3 +186,11 @@ class ExpresionNull:
         self.exp = exp
         self.row = row
         self.col = col
+
+
+class Cast:
+    def __init__(self, data, value, row, col):
+        self.data = data
+        self.value = value
+        self.col = col
+        self.row = row

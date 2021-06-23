@@ -1,7 +1,6 @@
 
-    main () {
-        var n0 = 16
-        print("HOLA")
-        print(!(true||false))
-        print((n0 / 16 + ((!(true || false))))+"")
-    }
+main () {
+    var n0 = '2'
+    var n1 = (double) n0
+    print(n1)
+}

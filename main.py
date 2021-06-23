@@ -11,8 +11,8 @@ errores = []
 
 
 def procesar_imprimir(instr, ts, console):
-    console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
-    # print('> ', resolver_cadena(instr.cad, ts))
+    # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
+    print('> ', resolver_cadena(instr.cad, ts))
 
 
 def procesar_definicion(instr, ts, signal=False):
@@ -438,8 +438,29 @@ def resolver_expresion_aritmetica(expNum, ts):
     elif isinstance(expNum, ExpresionIncrement):
         return resolver_expresion_increment(expNum, ts)
 
+    elif isinstance(expNum, Cast):
+        return resolver_casteo(expNum, ts)
+
     elif isinstance(expNum, ExpresionNull):
         return
+
+
+def resolver_casteo(expNum, ts):
+    val = expNum.value
+    if isinstance(expNum.value, ExpresionIdentificador):
+        val = ts.obtener(expNum.value.id).valor
+    try:
+        if expNum.data == 'int':
+            return int(val)
+        elif expNum.data == 'double':
+            return float(val)
+        elif expNum.data == 'string':
+            return str(val)
+        elif expNum.data == 'char':
+            if len(str(val)) == 1:
+                return str(val)
+    except ValueError:
+        return Excepcion("Error semántico", "No es posible este casteo", expNum.row, expNum.col)
 
 
 def resolver_expresion_null(expNum, ts):
@@ -477,10 +498,10 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-# f = open("tests/expresiones.jpr", "r")
-# input = f.read()
-#
-# instrucciones = g.parse(input)
-# ts_global = TS.TablaDeSimbolos()
-#
-# procesar_instrucciones(instrucciones, ts_global, None)
+f = open("tests/entrada.jpr", "r")
+input = f.read()
+
+instrucciones = g.parse(input)
+ts_global = TS.TablaDeSimbolos()
+
+procesar_instrucciones(instrucciones, ts_global, None)

@@ -39,7 +39,7 @@ class TablaDeSimbolos:
         actualTable = self
         while actualTable is not None:
             if id.lower() in actualTable.simbolos:
-                return actualTable.simbolos[id]
+                return actualTable.simbolos[id.lower()]
             else:
                 actualTable = actualTable.before
                 if actualTable is None: return None

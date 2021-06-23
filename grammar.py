@@ -17,7 +17,11 @@ reservadas = {
     'true': 'TRUE',
     'false': 'FALSE',
     'for': 'FOR',
-    'null': 'NULL'
+    'null': 'NULL',
+    'int': 'INT',
+    'double': 'DOUBLE',
+    'string': 'STRING',
+    'char': 'CHAR'
 }
 
 tokens = [
@@ -44,7 +48,7 @@ tokens = [
              'DECIMAL',
              'ENTERO',
              'CADENA',
-             'CHAR',
+             'CHARACTER',
              'ID',
              'OR',
              'AND',
@@ -118,7 +122,7 @@ def t_CADENA(t):
     return t
 
 
-def t_CHAR(t):
+def t_CHARACTER(t):
     r'\'(\\\'|\\"|\t|\n|\\\\|.)\''
     t.value = t.value[1:-1]
 
@@ -447,7 +451,7 @@ def p_expresion_cadena(t):
 
 
 def p_expresion_char(t):
-    'expresion   : CHAR'
+    'expresion   : CHARACTER'
     t[0] = ExpresionSimpleComilla(t[1], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
@@ -455,6 +459,20 @@ def p_expresionBoolean(t):
     '''expresion          : TRUE
                           | FALSE'''
     t[0] = ExpresionBoolean(t[1], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+def p_data_types(t):
+    '''expresion_data_type        : INT
+                                    | DOUBLE
+                                    | STRING
+                                    | CHAR'''
+    t[0] = t[1]
+
+
+# -------------------------------- CASTEOS ----------------------------------------
+def p_expresionCasteo(t):
+    'expresion      : PARIZQ expresion_data_type PARDER expresion'
+    t[0] = Cast(t[2], t[4], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_error(t):
