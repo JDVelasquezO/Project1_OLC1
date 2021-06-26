@@ -1,6 +1,12 @@
 
+func operacion(int a, int b){
+    print("Hola desde la funcion");
+    return a+b;
+}
+
+
 main () {
-    var n0 = '2'
-    var n1 = (double) n0
-    print(n1)
+    var a = 3;
+    print(a);
+    print(operacion(3, 2))
 }

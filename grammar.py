@@ -21,7 +21,10 @@ reservadas = {
     'int': 'INT',
     'double': 'DOUBLE',
     'string': 'STRING',
-    'char': 'CHAR'
+    'char': 'CHAR',
+    'boolean': 'BOOLEAN',
+    'func': 'FUNC',
+    'return': 'RETURN'
 }
 
 tokens = [
@@ -53,7 +56,8 @@ tokens = [
              'OR',
              'AND',
              'NOT',
-             'DOSPUNTOS'
+             'DOSPUNTOS',
+             'COMA'
          ] + list(reservadas.values())
 
 # Tokens
@@ -81,6 +85,7 @@ t_AND = r'&&'
 t_OR = r'\|\|'
 t_NOT = r'!'
 t_DOSPUNTOS = r':'
+t_COMA = r','
 
 
 def t_DECIMAL(t):
@@ -206,6 +211,9 @@ def p_instrucciones_instruccion(t):
 
 def p_instruccion(t):
     '''instruccion      : func_main
+                        | funct_instr
+                        | call_instr
+                        | return_instr
                         | imprimir_instr
                         | definicion_instr
                         | asignacion_instr
@@ -239,6 +247,11 @@ def p_func_main(t):
 # ------------------------------ IMPRIMIR -----------------------------
 def p_instruccion_imprimir(t):
     'imprimir_instr     : PRINT PARIZQ expresion PARDER def_instr_prima'
+    t[0] = Imprimir(t[3], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+def p_function_imprimir(t):
+    'imprimir_instr     : PRINT PARIZQ call_instr PARDER def_instr_prima'
     t[0] = Imprimir(t[3], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
@@ -465,7 +478,8 @@ def p_data_types(t):
     '''expresion_data_type        : INT
                                     | DOUBLE
                                     | STRING
-                                    | CHAR'''
+                                    | CHAR
+                                    | BOOLEAN'''
     t[0] = t[1]
 
 
@@ -473,6 +487,67 @@ def p_data_types(t):
 def p_expresionCasteo(t):
     'expresion      : PARIZQ expresion_data_type PARDER expresion'
     t[0] = Cast(t[2], t[4], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+# -------------------------------- FUNCIONES ----------------------------------------
+def p_function_params(t):
+    'funct_instr        : FUNC ID PARIZQ params PARDER LLAVIZQ instrucciones LLAVDER'
+    t[0] = Function(t[2], t[4], t[7], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+def p_function(t):
+    'funct_instr        : FUNC ID PARIZQ PARDER LLAVIZQ instrucciones LLAVDER'
+    t[0] = Function(t[2], [], t[6], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+def p_call_func(t):
+    'call_instr     : ID PARIZQ PARDER'
+    t[0] = Call(t[1], [], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+def p_call_func_params(t):
+    'call_instr     : ID PARIZQ params_call PARDER'
+    t[0] = Call(t[1], t[3], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+def p_params(t):
+    'params     : params COMA param'
+    t[1].append(t[3])
+    t[0] = [t[1]]
+
+
+def p_param(t):
+    'params      : param'
+    t[0] = [t[1]]
+
+
+def p_param_id(t):
+    'param     : expresion_data_type ID'
+    t[0] = {'type': t[1], 'id': t[2]}
+
+
+def p_params_exp(t):
+    'params_call      : params_call COMA param_call'
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_params_call_exp(t):
+    'params_call     : param_call'
+    t[0] = [t[1]]
+
+
+def p_param_exp(t):
+    'param_call     : expresion'
+    t[0] = t[1]
+
+
+def p_return(t):
+    'return_instr   : RETURN expresion def_instr_prima'
+    t[0] = Return(t[2], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+# ---------------------------- ERROR SINTACTICO --------------------------------
 
 
 def p_error(t):

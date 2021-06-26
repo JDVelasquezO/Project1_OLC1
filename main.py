@@ -187,7 +187,8 @@ def resolver_cadena(expCad, ts):
         elif expCad.id.lower() == "false":
             return "false"
         try:
-            return ts.obtener(expCad.id.lower()).valor
+            val = ts.obtener(expCad.id.lower()).valor
+            return val
         except AttributeError:
             err = Excepcion("Error semantico", "No existe el id", expCad.row, expCad.col)
             errores.append(err)
@@ -211,6 +212,10 @@ def resolver_cadena(expCad, ts):
 
     elif isinstance(expCad, ExpresionLogicaNot):
         val = resolver_operador_not(expCad, ts)
+        return val
+
+    elif isinstance(expCad, Call):
+        val = call_func(expCad.name, ts, None, expCad.params)
         return val
 
     else:
@@ -467,6 +472,31 @@ def resolver_expresion_null(expNum, ts):
     ts.delete_data_type(expNum)
 
 
+def procesar_func(instr, ts, console):
+    simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NULL, instr.instructions, instr.params, instr.row, instr.col)
+    ts.agregar(simbolo)
+
+
+def call_func(name: Function, ts, console, params=[]):
+    ts_local = TS.TablaDeSimbolos(ts)
+    func = ts.obtener(name)
+    if len(func.params[0]) > 0:
+        if len(func.params[0]) == len(params):
+            i = 0
+            for param in func.params[0]:
+                if param["type"] == 'int' and isinstance(params[i].val, int):
+                    simbol = TS.Simbolo(param["id"], param["type"], params[i].val, 0, 0)
+                    ts_local.agregar(simbol)
+                    # param["id"] = params[i].val
+                i += 1
+    val = procesar_instrucciones(func.valor, ts_local, console)
+    if val:
+        res = resolver_expresion_aritmetica(val, ts_local)
+        simbolo = TS.Simbolo(func.id, TS.TIPO_DATO.NUMERO, res, func.row, func.col)
+        ts_local.actualizar(simbolo, None)
+        return res
+
+
 def procesar_instrucciones(instrucciones, ts, console):
     # lista de instrucciones recolectadas
     for instr in instrucciones:
@@ -494,11 +524,17 @@ def procesar_instrucciones(instrucciones, ts, console):
             resolver_expresion_increment(instr, ts)
         elif isinstance(instr, For):
             procesar_for(instr, ts, console)
+        elif isinstance(instr, Function):
+            procesar_func(instr, ts, console)
+        elif isinstance(instr, Call):
+            call_func(instr.name, ts, console, instr.params)
+        elif isinstance(instr, Return):
+            return instr.exp
         else:
             print('Error: instrucción no válida')
 
 
-f = open("tests/entrada.jpr", "r")
+f = open("tests/input.txt", "r")
 input = f.read()
 
 instrucciones = g.parse(input)

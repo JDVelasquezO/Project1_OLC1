@@ -1,4 +1,5 @@
 from enum import Enum
+from symbolTable import TIPO_DATO as Type
 
 
 class OPERACION_ARITMETICA(Enum):
@@ -194,3 +195,28 @@ class Cast:
         self.value = value
         self.col = col
         self.row = row
+
+
+class Function:
+    def __init__(self, name, params, instructions, row, col):
+        self.id = name
+        self.params = params
+        self.instructions = instructions
+        self.row = row
+        self.col = col
+        self.type = Type.NULL
+
+
+class Call:
+    def __init__(self, name, params, row, col):
+        self.name = name
+        self.params = params
+        self.row = row
+        self.col = col
+
+
+class Return:
+    def __init__(self, exp, row, col):
+        self.exp = exp
+        self.row = row
+        self.col = col
