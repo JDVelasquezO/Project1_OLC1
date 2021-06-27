@@ -478,12 +478,12 @@ def call_func(name: Function, ts, console, params=[]):
     ts_local = TS.TablaDeSimbolos(ts)
     func = ts.obtener(name)
     if len(func.params[0]) > 0:
-        if len(func.params[0]) == len(params):
+        if len(func.params) == len(params):
             i = 0
-            for param in func.params[0]:
+            for param in func.params:
                 if (param["type"] == 'int' or param["type"] == 'double' and isinstance(params[i], ExpresionNumerica)) \
                         or (param["type"] == 'boolean' and isinstance(params[i], ExpresionBoolean))\
-                        or (param["type"] == 'str' and isinstance(params[i], ExpresionCadena)):
+                        or (param["type"] == 'string' and isinstance(params[i], ExpresionCadena)):
                     simbol = TS.Simbolo(param["id"], param["type"], params[i].val, 0, 0)
                     ts_local.agregar(simbol)
                     # param["id"] = params[i].val

@@ -516,7 +516,7 @@ def p_call_func_params(t):
 def p_params(t):
     'params     : params COMA param'
     t[1].append(t[3])
-    t[0] = [t[1]]
+    t[0] = t[1]
 
 
 def p_param(t):
