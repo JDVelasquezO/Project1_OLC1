@@ -420,10 +420,7 @@ def resolver_expresion_aritmetica(expNum, ts):
         return ts.obtener(expNum.id.lower()).valor
 
     elif isinstance(expNum, ExpresionBoolean):
-        if expNum.val.lower() == "true":
-            return True
-        elif expNum.val.lower() == "false":
-            return False
+        return expNum.val
 
     elif isinstance(expNum, ExpresionDobleComilla):
         return expNum.val
@@ -484,7 +481,9 @@ def call_func(name: Function, ts, console, params=[]):
         if len(func.params[0]) == len(params):
             i = 0
             for param in func.params[0]:
-                if param["type"] == 'int' and isinstance(params[i].val, int):
+                if (param["type"] == 'int' or param["type"] == 'double' and isinstance(params[i], ExpresionNumerica)) \
+                        or (param["type"] == 'boolean' and isinstance(params[i], ExpresionBoolean))\
+                        or (param["type"] == 'str' and isinstance(params[i], ExpresionCadena)):
                     simbol = TS.Simbolo(param["id"], param["type"], params[i].val, 0, 0)
                     ts_local.agregar(simbol)
                     # param["id"] = params[i].val

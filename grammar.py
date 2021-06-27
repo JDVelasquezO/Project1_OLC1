@@ -471,7 +471,10 @@ def p_expresion_char(t):
 def p_expresionBoolean(t):
     '''expresion          : TRUE
                           | FALSE'''
-    t[0] = ExpresionBoolean(t[1], t.lineno(1), find_column(entrada, t.slice[1]))
+    if t[1].lower() == 'true':
+        t[0] = ExpresionBoolean(True, t.lineno(1), find_column(entrada, t.slice[1]))
+    elif t[1].lower() == 'false':
+        t[0] = ExpresionBoolean(False, t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_data_types(t):

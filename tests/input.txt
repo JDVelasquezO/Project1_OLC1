@@ -1,12 +1,11 @@
 
-func operacion(int a, int b){
-    print("Hola desde la funcion");
+func operacion(int a, boolean b){
+    #print("Hola desde la funcion");
     return a+b;
 }
 
 
 main () {
-    var a = 3;
-    print(a);
-    print(operacion(3, 2))
+    print(3 + true)
+    print(operacion(3, true))
 }
