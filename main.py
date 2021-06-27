@@ -307,7 +307,7 @@ def resolver_operador_not(expLog, ts):
 
 
 def resolver_operador_bool(expLog):
-    if expLog.val == 'true':
+    if expLog.val:
         return True
     return False
 
@@ -481,13 +481,21 @@ def call_func(name: Function, ts, console, params=[]):
         if len(func.params) == len(params):
             i = 0
             for param in func.params:
-                if (param["type"] == 'int' or param["type"] == 'double' and isinstance(params[i], ExpresionNumerica)) \
+                if isinstance(params[i], ExpresionBinaria):
+                    value = resolver_expresion_aritmetica(params[i], ts)
+                elif isinstance(params[i], ExpresionOperacionLogica):
+                    value = resolver_operador_logico(params[i], ts)
+                elif (param["type"] == 'int' or param["type"] == 'double' and isinstance(params[i], ExpresionNumerica)) \
                         or (param["type"] == 'boolean' and isinstance(params[i], ExpresionBoolean))\
                         or (param["type"] == 'string' and isinstance(params[i], ExpresionCadena)):
-                    simbol = TS.Simbolo(param["id"], param["type"], params[i].val, 0, 0)
-                    ts_local.agregar(simbol)
-                    # param["id"] = params[i].val
+                    value = params[i].val
+                else:
+                    return Excepcion("Semantico", "Tipo de dato diferente", func.row, func.col).toString()
+                simbol = TS.Simbolo(param["id"], param["type"], value, 0, 0)
+                ts_local.agregar(simbol)
                 i += 1
+        else:
+            return Excepcion("Semantico", "Numero de parametros diferente", func.row, func.col).toString()
     val = procesar_instrucciones(func.valor, ts_local, console)
     if val:
         res = resolver_expresion_aritmetica(val, ts_local)

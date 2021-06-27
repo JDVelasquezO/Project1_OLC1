@@ -504,12 +504,12 @@ def p_function(t):
 
 
 def p_call_func(t):
-    'call_instr     : ID PARIZQ PARDER'
+    'call_instr     : ID PARIZQ PARDER def_instr_prima'
     t[0] = Call(t[1], [], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 def p_call_func_params(t):
-    'call_instr     : ID PARIZQ params_call PARDER'
+    'call_instr     : ID PARIZQ params_call PARDER def_instr_prima'
     t[0] = Call(t[1], t[3], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
@@ -547,6 +547,11 @@ def p_param_exp(t):
 
 def p_return(t):
     'return_instr   : RETURN expresion def_instr_prima'
+    t[0] = Return(t[2], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+def p_return_func(t):
+    'return_instr   : RETURN call_instr def_instr_prima'
     t[0] = Return(t[2], t.lineno(1), find_column(entrada, t.slice[1]))
 
 

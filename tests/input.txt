@@ -1,11 +1,28 @@
 
-func operacion(int a, boolean b, string c){
-    #print("Hola desde la funcion");
-    return a+b+c;
+func HolaMundoInt(int numeroEntero){
+    print("------------------------------------------");
+    print("Metodo INT")
+    print("HolaMundoInt: " + numeroEntero);
+    print(numeroEntero + 500);
 }
 
+func HolaMundoDouble(double numeroDoble){
+    print("------------------------------------------");
+    print("Metodo DOUBLE")
+    print("HolaMundoDouble: " + numeroDoble);
+    print(numeroDoble + 500);
+}
 
 main () {
-    print(3 + true + "Cadena")
-    print(operacion(3, true, "cadena"))
+    var numeroEntero = 100;
+    holamundoInt(50 + True + numeroEntero); # 151
+    HolaMundoDoublE(100.5 + 5 * 2 / 2 + numeroEntero); # 205.5
+    HolamundOBool(True || False && True); # True
+}
+
+func HolaMundoBool(boolean bool){
+    print("------------------------------------------");
+    print("Metodo BOOLEAN")
+    print("HolaMundoBoolean: " + bool);
+    print(bool + 500);
 }
