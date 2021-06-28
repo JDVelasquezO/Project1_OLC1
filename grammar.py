@@ -271,6 +271,11 @@ def p_definicion_asignacion(t):
     t[0] = Definicion_Asignacion(t[2], t[4], t.lineno(2), find_column(entrada, t.slice[2]))
 
 
+def p_definicion_asignacion_func(t):
+    'def_asig_instr     : VAR ID IGUAL call_instr def_instr_prima'
+    t[0] = Definicion_Asignacion(t[2], t[4], t.lineno(2), find_column(entrada, t.slice[2]))
+
+
 # ------------------------------ IF -----------------------------
 def p_if_instr(t):
     'if_instr           : IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'

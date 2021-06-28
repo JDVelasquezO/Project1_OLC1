@@ -1,102 +1,22 @@
-
-func HolaMundoInt(int numeroEntero){
-    print("------------------------------------------");
-    print("Metodo INT")
-    print("HolaMundoInt: " + numeroEntero);
-    print(numeroEntero + 500);
-}
-
-func HolaMundoDouble(double numeroDoble){
-    print("------------------------------------------");
-    print("Metodo DOUBLE")
-    print("HolaMundoDouble: " + numeroDoble);
-    print(numeroDoble + 500);
-}
-
-main () {
-    #* var numeroEntero = 100;
-    holamundoInt(50 + True + numeroEntero); # 151
-    HolaMundoDoublE(100.5 + 5 * 2 / 2 + numeroEntero); # 205.5
-    HolamundOBool(True || False && True); # True
-    HolaMundoChar('e');
-    holamundostring(">Cadena< " + numeroEntero); # ">Cadena< 100" #*
-
-    #* multiplesParametros(numeroEntero, 50.5 + numeroEntero/2 , false, 'x', "cadenita" + "-Funciona");
-    # 100, 105.5, false, 'x', "cadenita-Funciona"
-    multiplesParametros(True, 50.5 + numeroEntero/2 , false, 'x', "cadenita" + "-Funciona"); # Error Tipo INT - BOOL
-    multiplesParametros(50.5 + numeroEntero/2 , false, 'x', "cadenita" + "-Funciona"); # Error num parametros #*
-
-    #* print(numeroEntero);
-    print(numeroDoble);     # error variable no encontrada *#
-
-    print(Suma(100, 500));
-    #* print(par(2))
-    print(impar(101))
-    print(factorial(5)) *#
-}
-
-func HolaMundoBool(boolean bool){
-    print("------------------------------------------");
-    print("Metodo BOOLEAN")
-    print("HolaMundoBoolean: " + bool);
-    print(bool + 500);
-}
-
-func HolaMundoChar(char caracter){
-    print("------------------------------------------");
-    print("Metodo CHAR")
-    print("HolaMundoChar: " + caracter);
-}
-
-func HolaMundoString(string nombre){
-    print("------------------------------------------");
-    print("Metodo STRING")
-    print("HolaMundoNombre: " + nombre);
-}
-
-func multiplesParametros(int entero, double decimal, boolean booleano, char caracter, string cadena){
-    print("///////////////////////////////////////////");
-    print("------------------------------------------");
-    print("INT: " + entero);
-    print("------------------------------------------");
-    print("DOUBLE: " + decimal);
-    print("------------------------------------------");
-    print("BOOLEAN: " + booleano);
-    print("------------------------------------------");
-    print("CHAR: " + caracter);
-    print("------------------------------------------");
-    print("STRING: " + cadena);
-}
-
-# ------------------------------------ Pruebas con Retorno -------------------------------
 func Suma(int a, int b){
     var suma = a + b
     return suma + 600
 }
 
-func Suma5(int a, int b, int c, int d, int e){
-    return a +b+c+d+e
-}
 
-func factorial(int num){
-    if(num == 0){
-        return 1
-    }
-    else{
-        return num * factorial(num-1)
-    }
-}
-
-func par(int nump) {
-    if (nump == 0) {
-        return true;
-    }
-    return impar(nump - 1);
-}
-
-func impar(int numi) {
-    if (numi == 0) {
-        return false;
-    }
-    return par(numi - 1);
+main () {
+    #* var a = toLower("HoLa")
+    print(a)
+    var b = Suma(3, 5)
+    print(b)
+    var c = toUpper("amigos")
+    print(c)
+    var d = length("Hola")
+    print(d)
+    var e = truncate(3.53)
+    print(e)
+    var f = round(5.8)
+    print(f) *#
+    var g = typeof(3.6)
+    print(g)
 }

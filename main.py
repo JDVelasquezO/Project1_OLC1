@@ -1,5 +1,5 @@
 """ Créditos de ayuda: José Puac Auxiliar de OLC1 e Ing Navarro"""
-
+import math
 from tkinter import END
 import symbolTable as TS
 import grammar as g
@@ -484,8 +484,45 @@ def procesar_func(instr, ts, console):
     ts.agregar(simbolo)
 
 
-def call_func(name: Function, ts, console, params=[]):
+def resolver_lower(exp, ts, console):
+    return exp.lower()
+
+
+def resolver_upper(exp, ts, console):
+    return exp.upper()
+
+
+def resolver_type(exp, ts, console):
+    if isinstance(exp, ExpresionDobleComilla):
+        return 'STRING'
+    elif isinstance(exp, ExpresionNumerica):
+        if isinstance(exp.val, int):
+            return 'INT'
+        return 'DOUBLE'
+    elif isinstance(exp, int):
+        return 'INT'
+    elif isinstance(exp, ExpresionBoolean):
+        return 'BOOLEAN'
+    elif isinstance(exp, ExpresionSimpleComilla):
+        return 'CHAR'
+
+
+def call_func(name, ts, console, params=[]):
     ts_local = TS.TablaDeSimbolos(ts)
+
+    if name.lower() == 'tolower':
+        return params[0].val.lower()
+    elif name.lower() == 'toupper':
+        return params[0].val.upper()
+    elif name.lower() == 'length':
+        return len(params[0].val)
+    elif name.lower() == 'truncate':
+        return math.trunc(params[0].val)
+    elif name.lower() == 'round':
+        return round(params[0].val)
+    elif name.lower() == 'typeof':
+        return resolver_type(params[0], ts, None)
+
     func = ts_local.obtener(name)
     if len(func.params[0]) > 0:
         if len(func.params) == len(params):

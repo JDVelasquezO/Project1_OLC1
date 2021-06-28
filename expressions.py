@@ -220,3 +220,9 @@ class Return:
         self.exp = exp
         self.row = row
         self.col = col
+
+
+class toNative:
+    def __init__(self, name, exp):
+        self.name = name
+        self.exp = exp
