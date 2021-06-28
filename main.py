@@ -6,6 +6,7 @@ import grammar as g
 from expressions import *
 from instructions import *
 from Exception import Excepcion
+from Tree import Tree
 
 errores = []
 
@@ -94,7 +95,8 @@ def procesar_if(instr, ts, console):
         val = resolver_operador_not(instr.expLogica, ts)
     if val:
         ts_local = TS.TablaDeSimbolos(ts)
-        procesar_instrucciones(instr.instrucciones, ts_local, console)
+        value = procesar_instrucciones(instr.instrucciones, ts_local, console)
+        # return value.val if val else None
 
 
 def procesar_if_else(instr, ts, console):
@@ -110,7 +112,8 @@ def procesar_if_else(instr, ts, console):
         procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
     else:
         ts_local = TS.TablaDeSimbolos(ts)
-        procesar_instrucciones(instr.instrIfFalso, ts_local, console)
+        value = procesar_instrucciones(instr.instrIfFalso, ts_local, console)
+        return value
 
 
 def procesar_else_if(instr, ts, console):
@@ -327,6 +330,10 @@ def resolver_expresion_aritmetica(expNum, ts):
     if isinstance(expNum, ExpresionBinaria):
         exp1 = resolver_expresion_aritmetica(expNum.exp1, ts)
         exp2 = resolver_expresion_aritmetica(expNum.exp2, ts)
+
+        if isinstance(exp2, list):
+            exp2 = procesar_instrucciones(exp2, ts, None)
+
         if expNum.operador == OPERACION_ARITMETICA.MAS:
             if isinstance(exp1, int) and isinstance(exp2, str):
                 if isinstance(exp1, bool):
@@ -446,6 +453,9 @@ def resolver_expresion_aritmetica(expNum, ts):
     elif isinstance(expNum, ExpresionNull):
         return
 
+    elif isinstance(expNum, Call):
+        return call_func(expNum.name, ts, None, expNum.params)
+
 
 def resolver_casteo(expNum, ts):
     val = expNum.value
@@ -476,26 +486,34 @@ def procesar_func(instr, ts, console):
 
 def call_func(name: Function, ts, console, params=[]):
     ts_local = TS.TablaDeSimbolos(ts)
-    func = ts.obtener(name)
+    func = ts_local.obtener(name)
     if len(func.params[0]) > 0:
         if len(func.params) == len(params):
             i = 0
             for param in func.params:
                 if isinstance(params[i], ExpresionBinaria):
-                    value = resolver_expresion_aritmetica(params[i], ts)
+                    value = resolver_expresion_aritmetica(params[i], ts_local)
                 elif isinstance(params[i], ExpresionOperacionLogica):
-                    value = resolver_operador_logico(params[i], ts)
-                elif (param["type"] == 'int' or param["type"] == 'double' and isinstance(params[i], ExpresionNumerica)) \
-                        or (param["type"] == 'boolean' and isinstance(params[i], ExpresionBoolean))\
-                        or (param["type"] == 'string' and isinstance(params[i], ExpresionCadena)):
+                    value = resolver_operador_logico(params[i], ts_local)
+                elif isinstance(params[i], ExpresionIdentificador):
+                    value = ts.obtener(params[i].id.lower()).valor
+                elif (param["type"] == 'int' or param["type"] == 'double') and isinstance(params[i], ExpresionNumerica):
+                    value = params[i].val
+                elif param["type"] == 'boolean' and isinstance(params[i], ExpresionBoolean):
+                    value = params[i].val
+                elif param["type"] == 'string' and isinstance(params[i], ExpresionCadena):
+                    value = params[i].val
+                elif param["type"] == 'char' and isinstance(params[i], ExpresionSimpleComilla):
                     value = params[i].val
                 else:
-                    return Excepcion("Semantico", "Tipo de dato diferente", func.row, func.col).toString()
+                    print(Excepcion("Semantico", "Tipo de dato diferente", instr.row, instr.col).toString())
+                    return Excepcion("Semantico", "Tipo de dato diferente", instr.row, instr.col).toString()
                 simbol = TS.Simbolo(param["id"], param["type"], value, 0, 0)
                 ts_local.agregar(simbol)
                 i += 1
         else:
-            return Excepcion("Semantico", "Numero de parametros diferente", func.row, func.col).toString()
+            print(Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString())
+            return Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString()
     val = procesar_instrucciones(func.valor, ts_local, console)
     if val:
         res = resolver_expresion_aritmetica(val, ts_local)
@@ -520,7 +538,8 @@ def procesar_instrucciones(instrucciones, ts, console):
         elif isinstance(instr, If):
             procesar_if(instr, ts, console)
         elif isinstance(instr, IfElse):
-            procesar_if_else(instr, ts, console)
+            value = procesar_if_else(instr, ts, console)
+            return value if value else False
         elif isinstance(instr, ElseIf):
             procesar_else_if(instr, ts, console)
         elif isinstance(instr, Switch):
@@ -531,8 +550,6 @@ def procesar_instrucciones(instrucciones, ts, console):
             resolver_expresion_increment(instr, ts)
         elif isinstance(instr, For):
             procesar_for(instr, ts, console)
-        elif isinstance(instr, Function):
-            procesar_func(instr, ts, console)
         elif isinstance(instr, Call):
             call_func(instr.name, ts, console, instr.params)
         elif isinstance(instr, Return):
@@ -546,5 +563,22 @@ input = f.read()
 
 instrucciones = g.parse(input)
 ts_global = TS.TablaDeSimbolos()
+ast = Tree(instrucciones)
 
-procesar_instrucciones(instrucciones, ts_global, None)
+ast.setTSglobal(ts_global)
+
+# PRIMERA PASADA
+for instr in ast.getInstrs():
+    if isinstance(instr, Function):
+        procesar_func(instr, ts_global, None)
+    elif isinstance(instr, Definicion):
+        procesar_definicion(instr, ts_global)
+    elif isinstance(instr, Asignacion):
+        procesar_asignacion(instr, ts_global)
+    elif isinstance(instr, Definicion_Asignacion):
+        procesar_definicion_asignacion(instr, ts_global)
+
+# SEGUNDA PASADA
+for instr in ast.getInstrs():
+    if isinstance(instr, Funcion_Main):
+        procesar_instrucciones(instr.instrucciones, ts_global, None)

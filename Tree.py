@@ -3,6 +3,7 @@ class Tree:
         self.instrs = instrs
         self.funcs = []
         self.excepts = []
+        self.TSGlobal = None
 
     def getInstrs(self):
         return self.instrs
@@ -25,3 +26,9 @@ class Tree:
 
     def addFunction(self, function):
         self.funcs.append(function)
+
+    def getTSGlobal(self):
+        return self.TSGlobal
+
+    def setTSglobal(self, TSglobal):
+        self.TSGlobal = TSglobal
