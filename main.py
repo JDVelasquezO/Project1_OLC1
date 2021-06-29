@@ -191,7 +191,8 @@ def resolver_cadena(expCad, ts):
             return "false"
         try:
             val = ts.obtener(expCad.id.lower()).valor
-            return val
+            if val:
+                return val
         except AttributeError:
             err = Excepcion("Error semantico", "No existe el id", expCad.row, expCad.col)
             errores.append(err)
@@ -510,18 +511,28 @@ def resolver_type(exp, ts, console):
 def call_func(name, ts, console, params=[]):
     ts_local = TS.TablaDeSimbolos(ts)
 
-    if name.lower() == 'tolower':
-        return params[0].val.lower()
-    elif name.lower() == 'toupper':
-        return params[0].val.upper()
-    elif name.lower() == 'length':
-        return len(params[0].val)
-    elif name.lower() == 'truncate':
-        return math.trunc(params[0].val)
-    elif name.lower() == 'round':
-        return round(params[0].val)
-    elif name.lower() == 'typeof':
-        return resolver_type(params[0], ts, None)
+    try:
+        if isinstance(params[0], ExpresionIdentificador):
+            value = ts_local.obtener(params[0].id.lower()).valor
+        else:
+            value = params[0].val
+
+        if name.lower() == 'tolower':
+            return value.lower()
+        elif name.lower() == 'toupper':
+            return value.upper()
+        elif name.lower() == 'length':
+            return len(value)
+        elif name.lower() == 'truncate':
+            return math.trunc(value)
+        elif name.lower() == 'round':
+            return round(value)
+        elif name.lower() == 'typeof':
+            return resolver_type(value, ts, None)
+    except AttributeError:
+        return Excepcion(">  Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
+    except TypeError:
+        return Excepcion(">  Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
 
     func = ts_local.obtener(name)
     if len(func.params[0]) > 0:
@@ -543,13 +554,13 @@ def call_func(name, ts, console, params=[]):
                 elif param["type"] == 'char' and isinstance(params[i], ExpresionSimpleComilla):
                     value = params[i].val
                 else:
-                    print(Excepcion("Semantico", "Tipo de dato diferente", instr.row, instr.col).toString())
+                    # print(Excepcion("Semantico", "Tipo de dato diferente", instr.row, instr.col).toString())
                     return Excepcion("Semantico", "Tipo de dato diferente", instr.row, instr.col).toString()
                 simbol = TS.Simbolo(param["id"], param["type"], value, 0, 0)
                 ts_local.agregar(simbol)
                 i += 1
         else:
-            print(Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString())
+            # print(Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString())
             return Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString()
     val = procesar_instrucciones(func.valor, ts_local, console)
     if val:
