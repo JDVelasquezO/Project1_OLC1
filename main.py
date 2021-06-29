@@ -29,6 +29,7 @@ def procesar_definicion(instr, ts, signal=False):
 
 
 def procesar_asignacion(instr, ts):
+    simbolo = None
     val = resolver_expresion_aritmetica(instr.expression, ts)
 
     if isinstance(instr.expression, ExpresionSimpleComilla):
@@ -494,14 +495,26 @@ def resolver_upper(exp, ts, console):
 
 
 def resolver_type(exp, ts, console):
+    if isinstance(exp, ExpresionIdentificador):
+        value = ts.obtener(exp.id)
+
+        if value.tipo == Type.NUMERO:
+            if isinstance(value.valor, float):
+                return 'DOUBLE'
+            return 'INT'
+        elif value.tipo == Type.BOOLEAN:
+            return 'BOOLEAN'
+        elif value.tipo == Type.CADENA:
+            return 'STRING'
+        elif value.tipo == Type.CHAR:
+            return 'CHAR'
+
     if isinstance(exp, ExpresionDobleComilla):
         return 'STRING'
     elif isinstance(exp, ExpresionNumerica):
         if isinstance(exp.val, int):
             return 'INT'
         return 'DOUBLE'
-    elif isinstance(exp, int):
-        return 'INT'
     elif isinstance(exp, ExpresionBoolean):
         return 'BOOLEAN'
     elif isinstance(exp, ExpresionSimpleComilla):
@@ -515,7 +528,15 @@ def call_func(name, ts, console, params=[]):
         if isinstance(params[0], ExpresionIdentificador):
             value = ts_local.obtener(params[0].id.lower()).valor
         else:
-            value = params[0].val
+            if isinstance(params[0], ExpresionBinaria):
+                value = resolver_expresion_aritmetica(params[0], ts)
+            elif isinstance(params[0], Call):
+                value = call_func(params[0].name, ts, None, params[0].params)
+            else:
+                value = params[0].val
+
+        if value is None:
+            return 'NULL'
 
         if name.lower() == 'tolower':
             return value.lower()
@@ -528,7 +549,7 @@ def call_func(name, ts, console, params=[]):
         elif name.lower() == 'round':
             return round(value)
         elif name.lower() == 'typeof':
-            return resolver_type(value, ts, None)
+            return resolver_type(params[0], ts, None)
     except AttributeError:
         return Excepcion(">  Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
     except TypeError:
@@ -565,8 +586,8 @@ def call_func(name, ts, console, params=[]):
     val = procesar_instrucciones(func.valor, ts_local, console)
     if val:
         res = resolver_expresion_aritmetica(val, ts_local)
-        simbolo = TS.Simbolo(func.id, TS.TIPO_DATO.NUMERO, res, func.row, func.col)
-        ts_local.actualizar(simbolo, None)
+        # simbolo = TS.Simbolo(func.id, TS.TIPO_DATO.NUMERO, res, func.row, func.col)
+        # ts_local.actualizar(simbolo, None)
         return res
 
 
@@ -606,7 +627,7 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-f = open("tests/input.txt", "r")
+f = open("tests/Prueba_RouTrunLowUpp.jpr", "r")
 input = f.read()
 
 instrucciones = g.parse(input)

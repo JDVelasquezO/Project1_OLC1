@@ -497,6 +497,11 @@ def p_expresionCasteo(t):
     t[0] = Cast(t[2], t[4], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
+def p_expresion_call(t):
+    'expresion      : call_instr'
+    t[0] = t[1]
+
+
 # -------------------------------- FUNCIONES ----------------------------------------
 def p_function_params(t):
     'funct_instr        : FUNC ID PARIZQ params PARDER LLAVIZQ instrucciones LLAVDER'

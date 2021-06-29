@@ -6,19 +6,6 @@ func Suma(int a, int b){
 
 
 main () {
-    var hola = "QUE PEX"
-    var a = toLower(hola)
-    print(a)
-    var b = Suma(3, 3)
-    print(b)
-    var c = toUpper(hola)
-    print(c)
-    var d = length("que tal amigos")
-    print(d)
-    var e = truncate(2.5)
-    print(e)
-    var f = round(5.8)
-    print(f)
-    var g = typeof('a')
-    print(g)
+    var x = 2.5
+    print("El valor es " + typeof(x))
 }
