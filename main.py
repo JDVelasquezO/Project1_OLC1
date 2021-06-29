@@ -474,7 +474,9 @@ def resolver_casteo(expNum, ts):
             if len(str(val)) == 1:
                 return str(val)
     except ValueError:
-        return Excepcion("Error semántico", "No es posible este casteo", expNum.row, expNum.col)
+        err = Excepcion("Error semántico", "No es posible este casteo", expNum.row, expNum.col)
+        errores.append(err)
+        return err.toString()
 
 
 def resolver_expresion_null(expNum, ts):
@@ -551,9 +553,13 @@ def call_func(name, ts, console, params=[]):
         elif name.lower() == 'typeof':
             return resolver_type(params[0], ts, None)
     except AttributeError:
-        return Excepcion(">  Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
+        err = Excepcion("Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
+        errores.append(err)
+        return err.toString()
     except TypeError:
-        return Excepcion(">  Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
+        err = Excepcion("Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
+        errores.append(err)
+        return err.toString()
 
     func = ts_local.obtener(name)
     if len(func.params[0]) > 0:
@@ -575,14 +581,18 @@ def call_func(name, ts, console, params=[]):
                 elif param["type"] == 'char' and isinstance(params[i], ExpresionSimpleComilla):
                     value = params[i].val
                 else:
-                    # print(Excepcion("Semantico", "Tipo de dato diferente", instr.row, instr.col).toString())
-                    return Excepcion("Semantico", "Tipo de dato diferente", instr.row, instr.col).toString()
+                    print(Excepcion("Semantico", "Tipo de dato diferente", instr.row, instr.col).toString())
+                    err = Excepcion("Semantico", "Tipo de dato diferente", func.row, func.col)
+                    errores.append(err)
+                    return err.toString()
                 simbol = TS.Simbolo(param["id"], param["type"], value, 0, 0)
                 ts_local.agregar(simbol)
                 i += 1
         else:
-            # print(Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString())
-            return Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString()
+            print(Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString())
+            err = Excepcion("Semantico", "Numero de parametros diferente", func.row, func.col)
+            errores.append(err)
+            return err.toString()
     val = procesar_instrucciones(func.valor, ts_local, console)
     if val:
         res = resolver_expresion_aritmetica(val, ts_local)
@@ -627,7 +637,7 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-f = open("tests/Prueba_RouTrunLowUpp.jpr", "r")
+f = open("tests/Prueba_Funciones_1.jpr", "r")
 input = f.read()
 
 instrucciones = g.parse(input)

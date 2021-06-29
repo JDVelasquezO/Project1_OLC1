@@ -76,9 +76,27 @@ def executeProgram():
     console.delete("1.0", END)
     instrucciones = g.parse(texto.get("1.0", END))
     ts_global = TS.TablaDeSimbolos()
+    ast = Tree(instrucciones)
 
-    procesar_instrucciones(instrucciones, ts_global, console)
+    ast.setTSglobal(ts_global)
+
+    # PRIMERA PASADA
+    for instr in ast.getInstrs():
+        if isinstance(instr, Function):
+            procesar_func(instr, ts_global, None)
+        elif isinstance(instr, Definicion):
+            procesar_definicion(instr, ts_global)
+        elif isinstance(instr, Asignacion):
+            procesar_asignacion(instr, ts_global)
+        elif isinstance(instr, Definicion_Asignacion):
+            procesar_definicion_asignacion(instr, ts_global)
+
+    # SEGUNDA PASADA
+    for instr in ast.getInstrs():
+        if isinstance(instr, Funcion_Main):
+            procesar_instrucciones(instr.instrucciones, ts_global, console)
     t1 = time.time()
+
     console.insert(END, f"\n\n> Ejecución terminada en: {round(t1 - t0, 6)} segundos")
 
 
