@@ -6,6 +6,6 @@ func Suma(int a, int b){
 
 
 main () {
-    var x = 2.5
-    print("El valor es " + typeof(x))
+    var a = (boolean) "false"
+    print(a)
 }

@@ -192,7 +192,7 @@ def resolver_cadena(expCad, ts):
             return "false"
         try:
             val = ts.obtener(expCad.id.lower()).valor
-            if val:
+            if val is not None:
                 return val
         except AttributeError:
             err = Excepcion("Error semantico", "No existe el id", expCad.row, expCad.col)
@@ -464,15 +464,24 @@ def resolver_casteo(expNum, ts):
     if isinstance(expNum.value, ExpresionIdentificador):
         val = ts.obtener(expNum.value.id).valor
     try:
+        if isinstance(val, ExpresionNumerica) or isinstance(val, ExpresionDobleComilla):
+            val = val.val
         if expNum.data == 'int':
+            if isinstance(val, ExpresionSimpleComilla):
+                return ord(val.val)
             return int(val)
         elif expNum.data == 'double':
+            if isinstance(val, ExpresionSimpleComilla):
+                return float(ord(val.val))
             return float(val)
         elif expNum.data == 'string':
             return str(val)
         elif expNum.data == 'char':
-            if len(str(val)) == 1:
-                return str(val)
+            return chr(val)
+        elif expNum.data == 'boolean':
+            if val == 'true':
+                return True
+            return False
     except ValueError:
         err = Excepcion("Error semántico", "No es posible este casteo", expNum.row, expNum.col)
         errores.append(err)
@@ -637,7 +646,7 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-f = open("tests/Prueba_Funciones_1.jpr", "r")
+f = open("tests/input.txt", "r")
 input = f.read()
 
 instrucciones = g.parse(input)
