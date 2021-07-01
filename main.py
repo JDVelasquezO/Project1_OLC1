@@ -83,7 +83,9 @@ def procesar_definicion_asignacion(instr, ts):
 def procesar_while(instr, ts, console):
     while resolver_operador_logico(instr.expLogica, ts):
         ts_local = TS.TablaDeSimbolos(ts)
-        procesar_instrucciones(instr.instrucciones, ts_local, console)
+        value = procesar_instrucciones(instr.instrucciones, ts_local, console)
+        if value == 'break':
+            break
 
 
 def procesar_if(instr, ts, console):
@@ -97,7 +99,7 @@ def procesar_if(instr, ts, console):
     if val:
         ts_local = TS.TablaDeSimbolos(ts)
         value = procesar_instrucciones(instr.instrucciones, ts_local, console)
-        # return value.val if val else None
+        return value
 
 
 def procesar_if_else(instr, ts, console):
@@ -154,7 +156,9 @@ def procesar_for(instr, ts, console):
     procesar_definicion_asignacion(instr.exp1, ts_local)
     while resolver_operador_logico(instr.expLogica, ts_local):
         ts_instr = TS.TablaDeSimbolos(ts_local)
-        procesar_instrucciones(instr.instrucciones, ts_instr, console)
+        value = procesar_instrucciones(instr.instrucciones, ts_instr, console)
+        if value == 'break':
+            break
         resolver_expresion_increment(instr.reAsign, ts_local)
         # resolver_operador_logico(logic, ts_local)
 
@@ -481,7 +485,11 @@ def resolver_casteo(expNum, ts):
         elif expNum.data == 'boolean':
             if val == 'true':
                 return True
-            return False
+            elif val == 'false':
+                return False
+        err = Excepcion("Error semántico", "No es posible este casteo", expNum.row, expNum.col)
+        errores.append(err)
+        return err.toString()
     except ValueError:
         err = Excepcion("Error semántico", "No es posible este casteo", expNum.row, expNum.col)
         errores.append(err)
@@ -624,7 +632,9 @@ def procesar_instrucciones(instrucciones, ts, console):
         elif isinstance(instr, While):
             procesar_while(instr, ts, console)
         elif isinstance(instr, If):
-            procesar_if(instr, ts, console)
+            value = procesar_if(instr, ts, console)
+            if value == 'break':
+                return 'break'
         elif isinstance(instr, IfElse):
             value = procesar_if_else(instr, ts, console)
             return value if value else False
@@ -642,6 +652,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             call_func(instr.name, ts, console, instr.params)
         elif isinstance(instr, Return):
             return instr.exp
+        elif isinstance(instr, Break):
+            return "break"
         else:
             print('Error: instrucción no válida')
 

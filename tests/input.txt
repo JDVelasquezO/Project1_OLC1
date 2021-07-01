@@ -1,11 +1,12 @@
 
-func Suma(int a, int b){
-    var suma = a + b
-    return suma + 600
-}
-
-
 main () {
-    var a = (boolean) "false"
-    print(a)
+    var counter = 0
+    while (counter < 10){
+        if (counter == 5){
+            print("me salgo en el 5")
+            break
+        }
+        print(counter)
+        counter++
+    }
 }
