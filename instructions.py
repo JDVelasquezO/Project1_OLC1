@@ -113,6 +113,12 @@ class Break(Instruccion):
         self.col = col
 
 
+class Continue(Instruccion):
+    def __init__(self, row, col):
+        self.row = row
+        self.col = col
+
+
 class Case(Instruccion):
     def __init__(self, expression, instrucciones=[], break_instr=None, row=0, col=0):
         self.expression = expression

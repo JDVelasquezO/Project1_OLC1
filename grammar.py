@@ -12,6 +12,7 @@ reservadas = {
     'else': 'ELSE',
     'switch': 'SWITCH',
     'break': 'BREAK',
+    'continue': 'CONTINUE',
     'case': 'CASE',
     'default': 'DEFAULT',
     'true': 'TRUE',
@@ -223,7 +224,8 @@ def p_instruccion(t):
                         | switch_instr
                         | for_instr
                         | expresion
-                        | break_instr'''
+                        | break_instr
+                        | continue_instr'''
     t[0] = t[1]
 
 
@@ -296,6 +298,12 @@ def p_else_if(t):
 def p_while_instr(t):
     'while_instr     : WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'
     t[0] = While(t[3], t[6], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+# -------------------------------- CONTINUE ---------------------------
+def p_continue_instr(t):
+    'continue_instr     : CONTINUE'
+    t[0] = Continue(t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 # ----------------------------- SWITCH y BREAK -----------------------------

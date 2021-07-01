@@ -1,12 +1,21 @@
 
 main () {
-    var counter = 0
-    while (counter < 10){
+
+    #* for (var i = 0; i < 9; i++){
+        if (i == 5) {
+            print ("Me salte el numero " + i)
+            continue
+        }
+        print(i)
+    } *#
+
+    var counter = 10
+    while (counter > 0){
+        counter--
         if (counter == 5){
-            print("me salgo en el 5")
-            break
+            print("me salto en el " + counter)
+            continue
         }
         print(counter)
-        counter++
     }
 }

@@ -86,6 +86,8 @@ def procesar_while(instr, ts, console):
         value = procesar_instrucciones(instr.instrucciones, ts_local, console)
         if value == 'break':
             break
+        elif value == 'continue':
+            continue
 
 
 def procesar_if(instr, ts, console):
@@ -157,9 +159,11 @@ def procesar_for(instr, ts, console):
     while resolver_operador_logico(instr.expLogica, ts_local):
         ts_instr = TS.TablaDeSimbolos(ts_local)
         value = procesar_instrucciones(instr.instrucciones, ts_instr, console)
+        resolver_expresion_increment(instr.reAsign, ts_local)
         if value == 'break':
             break
-        resolver_expresion_increment(instr.reAsign, ts_local)
+        elif value == 'continue':
+            continue
         # resolver_operador_logico(logic, ts_local)
 
 
@@ -635,6 +639,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             value = procesar_if(instr, ts, console)
             if value == 'break':
                 return 'break'
+            elif value == 'continue':
+                return 'continue'
         elif isinstance(instr, IfElse):
             value = procesar_if_else(instr, ts, console)
             return value if value else False
@@ -654,6 +660,8 @@ def procesar_instrucciones(instrucciones, ts, console):
             return instr.exp
         elif isinstance(instr, Break):
             return "break"
+        elif isinstance(instr, Continue):
+            return "continue"
         else:
             print('Error: instrucción no válida')
 
