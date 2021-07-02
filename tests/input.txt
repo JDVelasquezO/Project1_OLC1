@@ -1,19 +1,40 @@
-
-func metodo() {
-    for (var i = 0; i < 9; i++) {
-        if (i == 5) {
-            return i;
-        }
-        print(i);
-    }
-}
+var nombre = Read();
 
 main () {
-    #print(metodo())
-    for (var i = 0; i < 9; i++) {
-        if (i == 5) {
-            continue;
+    print("Bienvenido " + nombre);
+    while(true){
+        if(!calculadora()){
+            break;
         }
-        print(i);
     }
+    print("Calculadora finalizada correctamente");
+}
+
+func calculadora() {
+    var numero1;
+    var numero2;
+    var operacion;
+    print("Ingrese el primer número:\n")
+    numero1 = (int) read();
+    print("Ingrese el segundo número:\n")
+    numero2 = (int) read();
+
+    print("Ingrese la operación que desea realizar: (+,-,*,/,**,%)\n");
+    operacion = (string)  ReAd()
+
+    switch(operacion){
+    case "+":
+        print("El resultado de " + numero1 + " " + operacion + " " + numero2 + " es igual a " + ( numero1 + numero2) );
+        break;
+    default:
+        print("Operación no válida");
+        break;
+    }
+
+    print("¿Desea realizar otra operación? (true, false)\n");
+    if((boolean)Read()){
+        return true;
+    }
+
+    return false
 }

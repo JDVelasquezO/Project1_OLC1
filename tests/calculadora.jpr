@@ -15,34 +15,34 @@ func calculadora(){
     var numero2;
     var operacion;
     print("Ingrese el primer número:\n")
-    numero1 = (int) read();
+    numero1 = (double) read();
     print("Ingrese el segundo número:\n")
-    numero2 = (int) read();
+    numero2 = (double) read();
 
     print("Ingrese la operación que desea realizar: (+,-,*,/,**,%)\n");
-    operacion =  ReAd()
+    operacion = (string) ReAd()
 
     switch(operacion){
         case "+":
-            print("El resultado de " numero1 + operacion + numero2 + " es igual a " + ( numero1 + numero2) );
+            print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 + numero2) );
             break;
         case "-":
-            print("El resultado de " numero1 + operacion + numero2 + " es igual a " + ( numero1 - numero2) );
+            print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 - numero2) );
             break;
         case "*":
-            print("El resultado de " numero1 + operacion + numero2 + " es igual a " + ( numero1 * numero2) );
+            print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 * numero2) );
             break;
         case "/":
-            print("El resultado de " numero1 + operacion + numero2 + " es igual a " + ( numero1 / numero2) );
+            print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 / numero2) );
             break;
         case "**":
-            print("El resultado de " numero1 + operacion + numero2 + " es igual a " + ( numero1 ** numero2) );
+            print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 ** numero2) );
             break;
         case "%":
-            print("El resultado de " numero1 + operacion + numero2 + " es igual a " + ( numero1 % numero2) );
+            print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 % numero2) );
             break;
         case "+":
-            print("El resultado de " numero1 + operacion + numero2 + " es igual a " + ( numero1 + numero2) );
+            print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 + numero2) );
             break;
         default:
             print("Operación no válida");

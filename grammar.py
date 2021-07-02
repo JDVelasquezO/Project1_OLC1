@@ -25,7 +25,8 @@ reservadas = {
     'char': 'CHAR',
     'boolean': 'BOOLEAN',
     'func': 'FUNC',
-    'return': 'RETURN'
+    'return': 'RETURN',
+    'read': 'READ'
 }
 
 tokens = [
@@ -571,6 +572,12 @@ def p_return(t):
 def p_return_func(t):
     'return_instr   : RETURN call_instr def_instr_prima'
     t[0] = Return(t[2], t.lineno(1), find_column(entrada, t.slice[1]))
+
+
+# ------------------------------------  READ -----------------------------------
+def p_read(t):
+    'expresion      : READ PARIZQ PARDER def_instr_prima'
+    t[0] = Read(t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 # ---------------------------- ERROR SINTACTICO --------------------------------

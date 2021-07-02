@@ -226,3 +226,10 @@ class toNative:
     def __init__(self, name, exp):
         self.name = name
         self.exp = exp
+
+
+class Read:
+    def __init__(self, row, col):
+        self.row = row
+        self.col = col
+        self.type = Type.CADENA

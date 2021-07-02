@@ -1,4 +1,4 @@
-""" Créditos de ayuda: José Puac Auxiliar de OLC1 e Ing Navarro"""
+""" Créditos de ayuda: José Puac Auxiliar de OLC1 e Ing Navarro """
 import math
 from tkinter import END
 import symbolTable as TS
@@ -17,10 +17,10 @@ def procesar_imprimir(instr, ts, console):
 
 
 def procesar_definicion(instr, ts, signal=False):
-    ts_local = TS.TablaDeSimbolos(ts)
+    # ts_local = TS.TablaDeSimbolos(ts)
     # inicializamos con 0 como valor por defecto
     simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NULL, None, instr.row, instr.col)
-    val = ts_local.agregar(simbolo)
+    val = ts.agregar(simbolo)
     if isinstance(val, Excepcion):
         # print(val.toString())
         errores.append(val)
@@ -30,8 +30,11 @@ def procesar_definicion(instr, ts, signal=False):
 
 
 def procesar_asignacion(instr, ts):
-    simbolo = None
-    val = resolver_expresion_aritmetica(instr.expression, ts)
+    expression = instr.expression
+    # if isinstance(instr.expression, Read):
+    #     expression = Cast('string', instr.expression, instr.row, instr.col)
+
+    val = resolver_expresion_aritmetica(expression, ts)
 
     if isinstance(instr.expression, ExpresionSimpleComilla):
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val, instr.row, instr.col)
@@ -71,6 +74,9 @@ def procesar_asignacion(instr, ts):
     elif isinstance(instr.expression, ExpresionNull):
         return resolver_expresion_null(instr.id, ts)
 
+    elif isinstance(instr.expression, Read):
+        simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CADENA, "read", instr.row, instr.col)
+
     else:
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, instr.row, instr.col)
 
@@ -99,6 +105,8 @@ def procesar_if(instr, ts, console):
         val = resolver_expreision_logica(instr.expLogica, ts)
     elif isinstance(instr.expLogica, ExpresionLogicaNot):
         val = resolver_operador_not(instr.expLogica, ts)
+    elif isinstance(instr.expLogica, Cast):
+        val = resolver_casteo(instr.expLogica, ts)
     if val:
         ts_local = TS.TablaDeSimbolos(ts)
         value = procesar_instrucciones(instr.instrucciones, ts_local, console)
@@ -147,10 +155,12 @@ def procesar_switch(instr, ts, console):
         val = instr.expLogica.val
     for case in instr.cases:
         if val == case.expression.val:
-            procesar_instrucciones(case.instrucciones, ts_local, console)
-            if case.break_instr is not None:
-                if case.break_instr.col:
-                    return
+            res = procesar_instrucciones(case.instrucciones, ts_local, console)
+            if res == 'break':
+                return
+            # if case.break_instr is not None:
+            #     if case.break_instr.col:
+            #         return
     procesar_instrucciones(instr.default.instrucciones, ts_local, console)
 
 
@@ -278,6 +288,8 @@ def resolver_operador_logico(expLog, ts):
         return resolver_operador_bool(expLog)
     elif isinstance(expLog, ExpresionLogica):
         return resolver_expreision_logica(expLog, ts)
+    elif isinstance(expLog, Call):
+        return call_func(expLog.name, ts, None, [])
     elif isinstance(expLog.exp1, ExpresionBoolean):
         exp1 = resolver_operador_bool(expLog.exp1)
     elif isinstance(expLog.exp1, ExpresionOperacionLogica):
@@ -347,6 +359,11 @@ def resolver_expresion_aritmetica(expNum, ts):
 
         if isinstance(exp2, list):
             exp2 = procesar_instrucciones(exp2, ts, None)
+
+        if exp2 == 'read':
+            print("Ingresaste a un READ. Ingresa el valor")
+            read = input()
+            exp2 = read
 
         if expNum.operador == OPERACION_ARITMETICA.MAS:
             if isinstance(exp1, int) and isinstance(exp2, str):
@@ -472,9 +489,16 @@ def resolver_expresion_aritmetica(expNum, ts):
     elif isinstance(expNum, Call):
         return call_func(expNum.name, ts, None, expNum.params)
 
+    elif isinstance(expNum, Read):
+        return expNum
+
 
 def resolver_casteo(expNum, ts):
     val = expNum.value
+
+    if isinstance(expNum.value, Read):
+        val = input()
+
     if isinstance(expNum.value, ExpresionIdentificador):
         val = ts.obtener(expNum.value.id).valor
     try:
@@ -673,10 +697,10 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-f = open("tests/Prueba_Funciones_1.jpr", "r")
-input = f.read()
+f = open("tests/calculadora.jpr", "r")
+inputs = f.read()
 
-instrucciones = g.parse(input)
+instrucciones = g.parse(inputs)
 ts_global = TS.TablaDeSimbolos()
 ast = Tree(instrucciones)
 
