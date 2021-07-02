@@ -17,9 +17,10 @@ def procesar_imprimir(instr, ts, console):
 
 
 def procesar_definicion(instr, ts, signal=False):
+    ts_local = TS.TablaDeSimbolos(ts)
     # inicializamos con 0 como valor por defecto
     simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NULL, None, instr.row, instr.col)
-    val = ts.agregar(simbolo)
+    val = ts_local.agregar(simbolo)
     if isinstance(val, Excepcion):
         # print(val.toString())
         errores.append(val)
@@ -672,7 +673,7 @@ def procesar_instrucciones(instrucciones, ts, console):
             print('Error: instrucción no válida')
 
 
-f = open("tests/input.txt", "r")
+f = open("tests/Prueba_Funciones_1.jpr", "r")
 input = f.read()
 
 instrucciones = g.parse(input)
