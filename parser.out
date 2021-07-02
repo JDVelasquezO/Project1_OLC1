@@ -36,8 +36,8 @@ Rule 30    if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
 Rule 31    if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
 Rule 32    if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
 Rule 33    while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
-Rule 34    continue_instr -> CONTINUE
-Rule 35    break_instr -> BREAK
+Rule 34    continue_instr -> CONTINUE def_instr_prima
+Rule 35    break_instr -> BREAK def_instr_prima
 Rule 36    switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ cases LLAVDER
 Rule 37    switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr LLAVDER
 Rule 38    switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr LLAVDER
@@ -162,7 +162,7 @@ cases                : 36 38 39
 continue_instr       : 19
 def_asig_instr       : 12 46
 def_asign_for        : 43
-def_instr_prima      : 24 25 26 27 28 29 41 42 43 43 48 49 83 84 91 92
+def_instr_prima      : 24 25 26 27 28 29 34 35 41 42 43 43 48 49 83 84 91 92
 default_instr        : 37 38
 definicion_instr     : 10
 empty                : 4 21
@@ -259,8 +259,8 @@ state 0
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
   ! shift/reduce conflict for MAIN resolved as shift
   ! shift/reduce conflict for FUNC resolved as shift
@@ -426,8 +426,8 @@ state 2
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
     $end            reduce using rule 1 (init -> instrucciones .)
     MAIN            shift and go to state 20
@@ -1827,69 +1827,85 @@ state 39
 
 state 40
 
-    (35) break_instr -> BREAK .
+    (35) break_instr -> BREAK . def_instr_prima
+    (20) def_instr_prima -> . PTCOMA
+    (21) def_instr_prima -> . empty
+    (22) empty -> .
 
-    MAIN            reduce using rule 35 (break_instr -> BREAK .)
-    FUNC            reduce using rule 35 (break_instr -> BREAK .)
-    ID              reduce using rule 35 (break_instr -> BREAK .)
-    RETURN          reduce using rule 35 (break_instr -> BREAK .)
-    PRINT           reduce using rule 35 (break_instr -> BREAK .)
-    VAR             reduce using rule 35 (break_instr -> BREAK .)
-    WHILE           reduce using rule 35 (break_instr -> BREAK .)
-    IF              reduce using rule 35 (break_instr -> BREAK .)
-    SWITCH          reduce using rule 35 (break_instr -> BREAK .)
-    FOR             reduce using rule 35 (break_instr -> BREAK .)
-    NULL            reduce using rule 35 (break_instr -> BREAK .)
-    MENOS           reduce using rule 35 (break_instr -> BREAK .)
-    NOT             reduce using rule 35 (break_instr -> BREAK .)
-    PARIZQ          reduce using rule 35 (break_instr -> BREAK .)
-    ENTERO          reduce using rule 35 (break_instr -> BREAK .)
-    DECIMAL         reduce using rule 35 (break_instr -> BREAK .)
-    CADENA          reduce using rule 35 (break_instr -> BREAK .)
-    CHARACTER       reduce using rule 35 (break_instr -> BREAK .)
-    TRUE            reduce using rule 35 (break_instr -> BREAK .)
-    FALSE           reduce using rule 35 (break_instr -> BREAK .)
-    BREAK           reduce using rule 35 (break_instr -> BREAK .)
-    CONTINUE        reduce using rule 35 (break_instr -> BREAK .)
-    $end            reduce using rule 35 (break_instr -> BREAK .)
-    LLAVDER         reduce using rule 35 (break_instr -> BREAK .)
-    PTCOMA          reduce using rule 35 (break_instr -> BREAK .)
-    DEFAULT         reduce using rule 35 (break_instr -> BREAK .)
-    CASE            reduce using rule 35 (break_instr -> BREAK .)
+  ! shift/reduce conflict for PTCOMA resolved as shift
+    PTCOMA          shift and go to state 83
+    MAIN            reduce using rule 22 (empty -> .)
+    FUNC            reduce using rule 22 (empty -> .)
+    ID              reduce using rule 22 (empty -> .)
+    RETURN          reduce using rule 22 (empty -> .)
+    PRINT           reduce using rule 22 (empty -> .)
+    VAR             reduce using rule 22 (empty -> .)
+    WHILE           reduce using rule 22 (empty -> .)
+    IF              reduce using rule 22 (empty -> .)
+    SWITCH          reduce using rule 22 (empty -> .)
+    FOR             reduce using rule 22 (empty -> .)
+    NULL            reduce using rule 22 (empty -> .)
+    MENOS           reduce using rule 22 (empty -> .)
+    NOT             reduce using rule 22 (empty -> .)
+    PARIZQ          reduce using rule 22 (empty -> .)
+    ENTERO          reduce using rule 22 (empty -> .)
+    DECIMAL         reduce using rule 22 (empty -> .)
+    CADENA          reduce using rule 22 (empty -> .)
+    CHARACTER       reduce using rule 22 (empty -> .)
+    TRUE            reduce using rule 22 (empty -> .)
+    FALSE           reduce using rule 22 (empty -> .)
+    BREAK           reduce using rule 22 (empty -> .)
+    CONTINUE        reduce using rule 22 (empty -> .)
+    $end            reduce using rule 22 (empty -> .)
+    LLAVDER         reduce using rule 22 (empty -> .)
+    DEFAULT         reduce using rule 22 (empty -> .)
+    CASE            reduce using rule 22 (empty -> .)
 
+  ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
+
+    def_instr_prima                shift and go to state 82
+    empty                          shift and go to state 84
 
 state 41
 
-    (34) continue_instr -> CONTINUE .
+    (34) continue_instr -> CONTINUE . def_instr_prima
+    (20) def_instr_prima -> . PTCOMA
+    (21) def_instr_prima -> . empty
+    (22) empty -> .
 
-    MAIN            reduce using rule 34 (continue_instr -> CONTINUE .)
-    FUNC            reduce using rule 34 (continue_instr -> CONTINUE .)
-    ID              reduce using rule 34 (continue_instr -> CONTINUE .)
-    RETURN          reduce using rule 34 (continue_instr -> CONTINUE .)
-    PRINT           reduce using rule 34 (continue_instr -> CONTINUE .)
-    VAR             reduce using rule 34 (continue_instr -> CONTINUE .)
-    WHILE           reduce using rule 34 (continue_instr -> CONTINUE .)
-    IF              reduce using rule 34 (continue_instr -> CONTINUE .)
-    SWITCH          reduce using rule 34 (continue_instr -> CONTINUE .)
-    FOR             reduce using rule 34 (continue_instr -> CONTINUE .)
-    NULL            reduce using rule 34 (continue_instr -> CONTINUE .)
-    MENOS           reduce using rule 34 (continue_instr -> CONTINUE .)
-    NOT             reduce using rule 34 (continue_instr -> CONTINUE .)
-    PARIZQ          reduce using rule 34 (continue_instr -> CONTINUE .)
-    ENTERO          reduce using rule 34 (continue_instr -> CONTINUE .)
-    DECIMAL         reduce using rule 34 (continue_instr -> CONTINUE .)
-    CADENA          reduce using rule 34 (continue_instr -> CONTINUE .)
-    CHARACTER       reduce using rule 34 (continue_instr -> CONTINUE .)
-    TRUE            reduce using rule 34 (continue_instr -> CONTINUE .)
-    FALSE           reduce using rule 34 (continue_instr -> CONTINUE .)
-    BREAK           reduce using rule 34 (continue_instr -> CONTINUE .)
-    CONTINUE        reduce using rule 34 (continue_instr -> CONTINUE .)
-    $end            reduce using rule 34 (continue_instr -> CONTINUE .)
-    LLAVDER         reduce using rule 34 (continue_instr -> CONTINUE .)
-    PTCOMA          reduce using rule 34 (continue_instr -> CONTINUE .)
-    DEFAULT         reduce using rule 34 (continue_instr -> CONTINUE .)
-    CASE            reduce using rule 34 (continue_instr -> CONTINUE .)
+  ! shift/reduce conflict for PTCOMA resolved as shift
+    PTCOMA          shift and go to state 83
+    MAIN            reduce using rule 22 (empty -> .)
+    FUNC            reduce using rule 22 (empty -> .)
+    ID              reduce using rule 22 (empty -> .)
+    RETURN          reduce using rule 22 (empty -> .)
+    PRINT           reduce using rule 22 (empty -> .)
+    VAR             reduce using rule 22 (empty -> .)
+    WHILE           reduce using rule 22 (empty -> .)
+    IF              reduce using rule 22 (empty -> .)
+    SWITCH          reduce using rule 22 (empty -> .)
+    FOR             reduce using rule 22 (empty -> .)
+    NULL            reduce using rule 22 (empty -> .)
+    MENOS           reduce using rule 22 (empty -> .)
+    NOT             reduce using rule 22 (empty -> .)
+    PARIZQ          reduce using rule 22 (empty -> .)
+    ENTERO          reduce using rule 22 (empty -> .)
+    DECIMAL         reduce using rule 22 (empty -> .)
+    CADENA          reduce using rule 22 (empty -> .)
+    CHARACTER       reduce using rule 22 (empty -> .)
+    TRUE            reduce using rule 22 (empty -> .)
+    FALSE           reduce using rule 22 (empty -> .)
+    BREAK           reduce using rule 22 (empty -> .)
+    CONTINUE        reduce using rule 22 (empty -> .)
+    $end            reduce using rule 22 (empty -> .)
+    LLAVDER         reduce using rule 22 (empty -> .)
+    DEFAULT         reduce using rule 22 (empty -> .)
+    CASE            reduce using rule 22 (empty -> .)
 
+  ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
+
+    def_instr_prima                shift and go to state 85
+    empty                          shift and go to state 84
 
 state 42
 
@@ -1980,7 +1996,7 @@ state 43
 
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 82
+    def_instr_prima                shift and go to state 86
     empty                          shift and go to state 84
 
 state 44
@@ -2039,7 +2055,7 @@ state 44
 
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 85
+    def_instr_prima                shift and go to state 87
     empty                          shift and go to state 84
 
 state 45
@@ -2089,7 +2105,7 @@ state 45
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 86
+    expresion                      shift and go to state 88
     call_instr                     shift and go to state 63
 
 state 46
@@ -2139,7 +2155,7 @@ state 46
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 87
+    expresion                      shift and go to state 89
     call_instr                     shift and go to state 63
 
 state 47
@@ -2189,7 +2205,7 @@ state 47
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 88
+    expresion                      shift and go to state 90
     call_instr                     shift and go to state 63
 
 state 48
@@ -2239,7 +2255,7 @@ state 48
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 89
+    expresion                      shift and go to state 91
     call_instr                     shift and go to state 63
 
 state 49
@@ -2289,7 +2305,7 @@ state 49
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 90
+    expresion                      shift and go to state 92
     call_instr                     shift and go to state 63
 
 state 50
@@ -2339,7 +2355,7 @@ state 50
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 91
+    expresion                      shift and go to state 93
     call_instr                     shift and go to state 63
 
 state 51
@@ -2389,7 +2405,7 @@ state 51
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 92
+    expresion                      shift and go to state 94
     call_instr                     shift and go to state 63
 
 state 52
@@ -2439,7 +2455,7 @@ state 52
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 93
+    expresion                      shift and go to state 95
     call_instr                     shift and go to state 63
 
 state 53
@@ -2489,7 +2505,7 @@ state 53
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 94
+    expresion                      shift and go to state 96
     call_instr                     shift and go to state 63
 
 state 54
@@ -2539,7 +2555,7 @@ state 54
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 95
+    expresion                      shift and go to state 97
     call_instr                     shift and go to state 63
 
 state 55
@@ -2589,7 +2605,7 @@ state 55
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 96
+    expresion                      shift and go to state 98
     call_instr                     shift and go to state 63
 
 state 56
@@ -2639,7 +2655,7 @@ state 56
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 97
+    expresion                      shift and go to state 99
     call_instr                     shift and go to state 63
 
 state 57
@@ -2689,7 +2705,7 @@ state 57
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 98
+    expresion                      shift and go to state 100
     call_instr                     shift and go to state 63
 
 state 58
@@ -2739,14 +2755,14 @@ state 58
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 99
+    expresion                      shift and go to state 101
     call_instr                     shift and go to state 63
 
 state 59
 
     (23) func_main -> MAIN PARIZQ . PARDER LLAVIZQ instrucciones LLAVDER
 
-    PARDER          shift and go to state 100
+    PARDER          shift and go to state 102
 
 
 state 60
@@ -2769,7 +2785,7 @@ state 60
     (62) expresion -> expresion . IGUALQUE expresion
     (63) expresion -> expresion . NIGUALQUE expresion
 
-    PARDER          shift and go to state 101
+    PARDER          shift and go to state 103
     INCREMENT       shift and go to state 43
     DECREMENT       shift and go to state 44
     MAS             shift and go to state 45
@@ -2792,7 +2808,7 @@ state 61
 
     (79) expresion -> PARIZQ expresion_data_type . PARDER expresion
 
-    PARDER          shift and go to state 102
+    PARDER          shift and go to state 104
 
 
 state 62
@@ -2947,7 +2963,7 @@ state 69
     (81) funct_instr -> FUNC ID . PARIZQ params PARDER LLAVIZQ instrucciones LLAVDER
     (82) funct_instr -> FUNC ID . PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
 
-    PARIZQ          shift and go to state 103
+    PARIZQ          shift and go to state 105
 
 
 state 70
@@ -2989,7 +3005,7 @@ state 70
     (83) call_instr -> . ID PARIZQ PARDER def_instr_prima
     (84) call_instr -> . ID PARIZQ params_call PARDER def_instr_prima
 
-    PARDER          shift and go to state 104
+    PARDER          shift and go to state 106
     NULL            shift and go to state 31
     MENOS           shift and go to state 32
     NOT             shift and go to state 33
@@ -3002,9 +3018,9 @@ state 70
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    params_call                    shift and go to state 105
-    param_call                     shift and go to state 106
-    expresion                      shift and go to state 107
+    params_call                    shift and go to state 107
+    param_call                     shift and go to state 108
+    expresion                      shift and go to state 109
     call_instr                     shift and go to state 63
 
 state 71
@@ -3054,7 +3070,7 @@ state 71
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 108
+    expresion                      shift and go to state 110
     call_instr                     shift and go to state 63
 
 state 72
@@ -3128,7 +3144,7 @@ state 72
   ! MENOS           [ reduce using rule 22 (empty -> .) ]
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 109
+    def_instr_prima                shift and go to state 111
     empty                          shift and go to state 84
 
 state 73
@@ -3239,7 +3255,7 @@ state 73
   ! CASE            [ reduce using rule 80 (expresion -> call_instr .) ]
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 110
+    def_instr_prima                shift and go to state 112
     empty                          shift and go to state 84
 
 state 74
@@ -3290,8 +3306,8 @@ state 74
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 111
-    call_instr                     shift and go to state 112
+    expresion                      shift and go to state 113
+    call_instr                     shift and go to state 114
 
 state 75
 
@@ -3303,7 +3319,7 @@ state 75
     (22) empty -> .
 
   ! shift/reduce conflict for PTCOMA resolved as shift
-    IGUAL           shift and go to state 114
+    IGUAL           shift and go to state 116
     PTCOMA          shift and go to state 83
     MAIN            reduce using rule 22 (empty -> .)
     FUNC            reduce using rule 22 (empty -> .)
@@ -3334,7 +3350,7 @@ state 75
 
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 113
+    def_instr_prima                shift and go to state 115
     empty                          shift and go to state 84
 
 state 76
@@ -3384,7 +3400,7 @@ state 76
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 115
+    expresion                      shift and go to state 117
     call_instr                     shift and go to state 63
 
 state 77
@@ -3436,7 +3452,7 @@ state 77
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 116
+    expresion                      shift and go to state 118
     call_instr                     shift and go to state 63
 
 state 78
@@ -3488,7 +3504,7 @@ state 78
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 117
+    expresion                      shift and go to state 119
     call_instr                     shift and go to state 63
 
 state 79
@@ -3501,12 +3517,12 @@ state 79
     (28) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
     (29) def_asig_instr -> . VAR ID IGUAL call_instr def_instr_prima
 
-    ID              shift and go to state 119
-    VAR             shift and go to state 122
+    ID              shift and go to state 121
+    VAR             shift and go to state 124
 
-    def_asign_for                  shift and go to state 118
-    asignacion_instr               shift and go to state 120
-    def_asig_instr                 shift and go to state 121
+    def_asign_for                  shift and go to state 120
+    asignacion_instr               shift and go to state 122
+    def_asig_instr                 shift and go to state 123
 
 state 80
 
@@ -3678,6 +3694,174 @@ state 81
 
 state 82
 
+    (35) break_instr -> BREAK def_instr_prima .
+
+    MAIN            reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    FUNC            reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    ID              reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    RETURN          reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    PRINT           reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    VAR             reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    WHILE           reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    IF              reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    SWITCH          reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    FOR             reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    NULL            reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    MENOS           reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    NOT             reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    PARIZQ          reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    ENTERO          reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    DECIMAL         reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    CADENA          reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    CHARACTER       reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    TRUE            reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    FALSE           reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    BREAK           reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    CONTINUE        reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    $end            reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    LLAVDER         reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    PTCOMA          reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    DEFAULT         reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+    CASE            reduce using rule 35 (break_instr -> BREAK def_instr_prima .)
+
+
+state 83
+
+    (20) def_instr_prima -> PTCOMA .
+
+    MAIN            reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    FUNC            reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    ID              reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    RETURN          reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    PRINT           reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    VAR             reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    WHILE           reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    IF              reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    SWITCH          reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    FOR             reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    NULL            reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    MENOS           reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    NOT             reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    PARIZQ          reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    ENTERO          reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    DECIMAL         reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    CADENA          reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    CHARACTER       reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    TRUE            reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    FALSE           reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    BREAK           reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    CONTINUE        reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    $end            reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    LLAVDER         reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    PTCOMA          reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    DEFAULT         reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    CASE            reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    INCREMENT       reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    DECREMENT       reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    MAS             reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    POR             reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    DIVIDIDO        reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    ELEVADO         reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    MOD             reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    AND             reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    OR              reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    MAYQUE          reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    MENQUE          reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    MAYIGUALQUE     reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    MENIGUALQUE     reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    IGUALQUE        reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    NIGUALQUE       reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    PARDER          reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    COMA            reduce using rule 20 (def_instr_prima -> PTCOMA .)
+    DOSPUNTOS       reduce using rule 20 (def_instr_prima -> PTCOMA .)
+
+
+state 84
+
+    (21) def_instr_prima -> empty .
+
+    MAIN            reduce using rule 21 (def_instr_prima -> empty .)
+    FUNC            reduce using rule 21 (def_instr_prima -> empty .)
+    ID              reduce using rule 21 (def_instr_prima -> empty .)
+    RETURN          reduce using rule 21 (def_instr_prima -> empty .)
+    PRINT           reduce using rule 21 (def_instr_prima -> empty .)
+    VAR             reduce using rule 21 (def_instr_prima -> empty .)
+    WHILE           reduce using rule 21 (def_instr_prima -> empty .)
+    IF              reduce using rule 21 (def_instr_prima -> empty .)
+    SWITCH          reduce using rule 21 (def_instr_prima -> empty .)
+    FOR             reduce using rule 21 (def_instr_prima -> empty .)
+    NULL            reduce using rule 21 (def_instr_prima -> empty .)
+    MENOS           reduce using rule 21 (def_instr_prima -> empty .)
+    NOT             reduce using rule 21 (def_instr_prima -> empty .)
+    PARIZQ          reduce using rule 21 (def_instr_prima -> empty .)
+    ENTERO          reduce using rule 21 (def_instr_prima -> empty .)
+    DECIMAL         reduce using rule 21 (def_instr_prima -> empty .)
+    CADENA          reduce using rule 21 (def_instr_prima -> empty .)
+    CHARACTER       reduce using rule 21 (def_instr_prima -> empty .)
+    TRUE            reduce using rule 21 (def_instr_prima -> empty .)
+    FALSE           reduce using rule 21 (def_instr_prima -> empty .)
+    BREAK           reduce using rule 21 (def_instr_prima -> empty .)
+    CONTINUE        reduce using rule 21 (def_instr_prima -> empty .)
+    $end            reduce using rule 21 (def_instr_prima -> empty .)
+    LLAVDER         reduce using rule 21 (def_instr_prima -> empty .)
+    PTCOMA          reduce using rule 21 (def_instr_prima -> empty .)
+    DEFAULT         reduce using rule 21 (def_instr_prima -> empty .)
+    CASE            reduce using rule 21 (def_instr_prima -> empty .)
+    INCREMENT       reduce using rule 21 (def_instr_prima -> empty .)
+    DECREMENT       reduce using rule 21 (def_instr_prima -> empty .)
+    MAS             reduce using rule 21 (def_instr_prima -> empty .)
+    POR             reduce using rule 21 (def_instr_prima -> empty .)
+    DIVIDIDO        reduce using rule 21 (def_instr_prima -> empty .)
+    ELEVADO         reduce using rule 21 (def_instr_prima -> empty .)
+    MOD             reduce using rule 21 (def_instr_prima -> empty .)
+    AND             reduce using rule 21 (def_instr_prima -> empty .)
+    OR              reduce using rule 21 (def_instr_prima -> empty .)
+    MAYQUE          reduce using rule 21 (def_instr_prima -> empty .)
+    MENQUE          reduce using rule 21 (def_instr_prima -> empty .)
+    MAYIGUALQUE     reduce using rule 21 (def_instr_prima -> empty .)
+    MENIGUALQUE     reduce using rule 21 (def_instr_prima -> empty .)
+    IGUALQUE        reduce using rule 21 (def_instr_prima -> empty .)
+    NIGUALQUE       reduce using rule 21 (def_instr_prima -> empty .)
+    PARDER          reduce using rule 21 (def_instr_prima -> empty .)
+    COMA            reduce using rule 21 (def_instr_prima -> empty .)
+    DOSPUNTOS       reduce using rule 21 (def_instr_prima -> empty .)
+
+
+state 85
+
+    (34) continue_instr -> CONTINUE def_instr_prima .
+
+    MAIN            reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    FUNC            reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    ID              reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    RETURN          reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    PRINT           reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    VAR             reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    WHILE           reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    IF              reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    SWITCH          reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    FOR             reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    NULL            reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    MENOS           reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    NOT             reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    PARIZQ          reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    ENTERO          reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    DECIMAL         reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    CADENA          reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    CHARACTER       reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    TRUE            reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    FALSE           reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    BREAK           reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    CONTINUE        reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    $end            reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    LLAVDER         reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    PTCOMA          reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    DEFAULT         reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+    CASE            reduce using rule 34 (continue_instr -> CONTINUE def_instr_prima .)
+
+
+state 86
+
     (48) expresion -> expresion INCREMENT def_instr_prima .
 
     INCREMENT       reduce using rule 48 (expresion -> expresion INCREMENT def_instr_prima .)
@@ -3727,109 +3911,7 @@ state 82
     DOSPUNTOS       reduce using rule 48 (expresion -> expresion INCREMENT def_instr_prima .)
 
 
-state 83
-
-    (20) def_instr_prima -> PTCOMA .
-
-    INCREMENT       reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    DECREMENT       reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    MAS             reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    MENOS           reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    POR             reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    DIVIDIDO        reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    ELEVADO         reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    MOD             reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    AND             reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    OR              reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    MAYQUE          reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    MENQUE          reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    MAYIGUALQUE     reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    MENIGUALQUE     reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    IGUALQUE        reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    NIGUALQUE       reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    MAIN            reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    FUNC            reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    ID              reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    RETURN          reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    PRINT           reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    VAR             reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    WHILE           reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    IF              reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    SWITCH          reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    FOR             reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    NULL            reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    NOT             reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    PARIZQ          reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    ENTERO          reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    DECIMAL         reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    CADENA          reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    CHARACTER       reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    TRUE            reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    FALSE           reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    BREAK           reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    CONTINUE        reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    $end            reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    PARDER          reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    PTCOMA          reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    LLAVDER         reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    DEFAULT         reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    CASE            reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    COMA            reduce using rule 20 (def_instr_prima -> PTCOMA .)
-    DOSPUNTOS       reduce using rule 20 (def_instr_prima -> PTCOMA .)
-
-
-state 84
-
-    (21) def_instr_prima -> empty .
-
-    INCREMENT       reduce using rule 21 (def_instr_prima -> empty .)
-    DECREMENT       reduce using rule 21 (def_instr_prima -> empty .)
-    MAS             reduce using rule 21 (def_instr_prima -> empty .)
-    MENOS           reduce using rule 21 (def_instr_prima -> empty .)
-    POR             reduce using rule 21 (def_instr_prima -> empty .)
-    DIVIDIDO        reduce using rule 21 (def_instr_prima -> empty .)
-    ELEVADO         reduce using rule 21 (def_instr_prima -> empty .)
-    MOD             reduce using rule 21 (def_instr_prima -> empty .)
-    AND             reduce using rule 21 (def_instr_prima -> empty .)
-    OR              reduce using rule 21 (def_instr_prima -> empty .)
-    MAYQUE          reduce using rule 21 (def_instr_prima -> empty .)
-    MENQUE          reduce using rule 21 (def_instr_prima -> empty .)
-    MAYIGUALQUE     reduce using rule 21 (def_instr_prima -> empty .)
-    MENIGUALQUE     reduce using rule 21 (def_instr_prima -> empty .)
-    IGUALQUE        reduce using rule 21 (def_instr_prima -> empty .)
-    NIGUALQUE       reduce using rule 21 (def_instr_prima -> empty .)
-    MAIN            reduce using rule 21 (def_instr_prima -> empty .)
-    FUNC            reduce using rule 21 (def_instr_prima -> empty .)
-    ID              reduce using rule 21 (def_instr_prima -> empty .)
-    RETURN          reduce using rule 21 (def_instr_prima -> empty .)
-    PRINT           reduce using rule 21 (def_instr_prima -> empty .)
-    VAR             reduce using rule 21 (def_instr_prima -> empty .)
-    WHILE           reduce using rule 21 (def_instr_prima -> empty .)
-    IF              reduce using rule 21 (def_instr_prima -> empty .)
-    SWITCH          reduce using rule 21 (def_instr_prima -> empty .)
-    FOR             reduce using rule 21 (def_instr_prima -> empty .)
-    NULL            reduce using rule 21 (def_instr_prima -> empty .)
-    NOT             reduce using rule 21 (def_instr_prima -> empty .)
-    PARIZQ          reduce using rule 21 (def_instr_prima -> empty .)
-    ENTERO          reduce using rule 21 (def_instr_prima -> empty .)
-    DECIMAL         reduce using rule 21 (def_instr_prima -> empty .)
-    CADENA          reduce using rule 21 (def_instr_prima -> empty .)
-    CHARACTER       reduce using rule 21 (def_instr_prima -> empty .)
-    TRUE            reduce using rule 21 (def_instr_prima -> empty .)
-    FALSE           reduce using rule 21 (def_instr_prima -> empty .)
-    BREAK           reduce using rule 21 (def_instr_prima -> empty .)
-    CONTINUE        reduce using rule 21 (def_instr_prima -> empty .)
-    $end            reduce using rule 21 (def_instr_prima -> empty .)
-    PARDER          reduce using rule 21 (def_instr_prima -> empty .)
-    PTCOMA          reduce using rule 21 (def_instr_prima -> empty .)
-    LLAVDER         reduce using rule 21 (def_instr_prima -> empty .)
-    DEFAULT         reduce using rule 21 (def_instr_prima -> empty .)
-    CASE            reduce using rule 21 (def_instr_prima -> empty .)
-    COMA            reduce using rule 21 (def_instr_prima -> empty .)
-    DOSPUNTOS       reduce using rule 21 (def_instr_prima -> empty .)
-
-
-state 85
+state 87
 
     (49) expresion -> expresion DECREMENT def_instr_prima .
 
@@ -3880,7 +3962,7 @@ state 85
     DOSPUNTOS       reduce using rule 49 (expresion -> expresion DECREMENT def_instr_prima .)
 
 
-state 86
+state 88
 
     (50) expresion -> expresion MAS expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -3964,7 +4046,7 @@ state 86
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 87
+state 89
 
     (51) expresion -> expresion MENOS expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4048,7 +4130,7 @@ state 87
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 88
+state 90
 
     (52) expresion -> expresion POR expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4132,7 +4214,7 @@ state 88
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 89
+state 91
 
     (53) expresion -> expresion DIVIDIDO expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4216,7 +4298,7 @@ state 89
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 90
+state 92
 
     (54) expresion -> expresion ELEVADO expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4300,7 +4382,7 @@ state 90
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 91
+state 93
 
     (55) expresion -> expresion MOD expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4384,7 +4466,7 @@ state 91
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 92
+state 94
 
     (56) expresion -> expresion AND expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4468,7 +4550,7 @@ state 92
   ! OR              [ shift and go to state 52 ]
 
 
-state 93
+state 95
 
     (57) expresion -> expresion OR expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4552,7 +4634,7 @@ state 93
   ! OR              [ shift and go to state 52 ]
 
 
-state 94
+state 96
 
     (58) expresion -> expresion MAYQUE expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4636,7 +4718,7 @@ state 94
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 95
+state 97
 
     (59) expresion -> expresion MENQUE expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4720,7 +4802,7 @@ state 95
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 96
+state 98
 
     (60) expresion -> expresion MAYIGUALQUE expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4804,7 +4886,7 @@ state 96
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 97
+state 99
 
     (61) expresion -> expresion MENIGUALQUE expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4888,7 +4970,7 @@ state 97
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 98
+state 100
 
     (62) expresion -> expresion IGUALQUE expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -4972,7 +5054,7 @@ state 98
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 99
+state 101
 
     (63) expresion -> expresion NIGUALQUE expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -5056,14 +5138,14 @@ state 99
   ! NIGUALQUE       [ shift and go to state 58 ]
 
 
-state 100
+state 102
 
     (23) func_main -> MAIN PARIZQ PARDER . LLAVIZQ instrucciones LLAVDER
 
-    LLAVIZQ         shift and go to state 123
+    LLAVIZQ         shift and go to state 125
 
 
-state 101
+state 103
 
     (66) expresion -> PARIZQ expresion PARDER .
 
@@ -5114,7 +5196,7 @@ state 101
     DOSPUNTOS       reduce using rule 66 (expresion -> PARIZQ expresion PARDER .)
 
 
-state 102
+state 104
 
     (79) expresion -> PARIZQ expresion_data_type PARDER . expresion
     (47) expresion -> . NULL
@@ -5161,10 +5243,10 @@ state 102
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 124
+    expresion                      shift and go to state 126
     call_instr                     shift and go to state 63
 
-state 103
+state 105
 
     (81) funct_instr -> FUNC ID PARIZQ . params PARDER LLAVIZQ instrucciones LLAVDER
     (82) funct_instr -> FUNC ID PARIZQ . PARDER LLAVIZQ instrucciones LLAVDER
@@ -5177,18 +5259,18 @@ state 103
     (77) expresion_data_type -> . CHAR
     (78) expresion_data_type -> . BOOLEAN
 
-    PARDER          shift and go to state 126
+    PARDER          shift and go to state 128
     INT             shift and go to state 64
     DOUBLE          shift and go to state 65
     STRING          shift and go to state 66
     CHAR            shift and go to state 67
     BOOLEAN         shift and go to state 68
 
-    params                         shift and go to state 125
-    param                          shift and go to state 127
-    expresion_data_type            shift and go to state 128
+    params                         shift and go to state 127
+    param                          shift and go to state 129
+    expresion_data_type            shift and go to state 130
 
-state 104
+state 106
 
     (83) call_instr -> ID PARIZQ PARDER . def_instr_prima
     (20) def_instr_prima -> . PTCOMA
@@ -5244,19 +5326,19 @@ state 104
 
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 129
+    def_instr_prima                shift and go to state 131
     empty                          shift and go to state 84
 
-state 105
+state 107
 
     (84) call_instr -> ID PARIZQ params_call . PARDER def_instr_prima
     (88) params_call -> params_call . COMA param_call
 
-    PARDER          shift and go to state 130
-    COMA            shift and go to state 131
+    PARDER          shift and go to state 132
+    COMA            shift and go to state 133
 
 
-state 106
+state 108
 
     (89) params_call -> param_call .
 
@@ -5264,7 +5346,7 @@ state 106
     COMA            reduce using rule 89 (params_call -> param_call .)
 
 
-state 107
+state 109
 
     (90) param_call -> expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -5304,7 +5386,7 @@ state 107
     NIGUALQUE       shift and go to state 58
 
 
-state 108
+state 110
 
     (27) asignacion_instr -> ID IGUAL expresion . def_instr_prima
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -5375,10 +5457,10 @@ state 108
   ! MENOS           [ reduce using rule 22 (empty -> .) ]
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 132
+    def_instr_prima                shift and go to state 134
     empty                          shift and go to state 84
 
-state 109
+state 111
 
     (91) return_instr -> RETURN expresion def_instr_prima .
 
@@ -5411,7 +5493,7 @@ state 109
     CASE            reduce using rule 91 (return_instr -> RETURN expresion def_instr_prima .)
 
 
-state 110
+state 112
 
     (92) return_instr -> RETURN call_instr def_instr_prima .
 
@@ -5444,7 +5526,7 @@ state 110
     CASE            reduce using rule 92 (return_instr -> RETURN call_instr def_instr_prima .)
 
 
-state 111
+state 113
 
     (24) imprimir_instr -> PRINT PARIZQ expresion . PARDER def_instr_prima
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -5464,7 +5546,7 @@ state 111
     (62) expresion -> expresion . IGUALQUE expresion
     (63) expresion -> expresion . NIGUALQUE expresion
 
-    PARDER          shift and go to state 133
+    PARDER          shift and go to state 135
     INCREMENT       shift and go to state 43
     DECREMENT       shift and go to state 44
     MAS             shift and go to state 45
@@ -5483,13 +5565,13 @@ state 111
     NIGUALQUE       shift and go to state 58
 
 
-state 112
+state 114
 
     (25) imprimir_instr -> PRINT PARIZQ call_instr . PARDER def_instr_prima
     (80) expresion -> call_instr .
 
   ! shift/reduce conflict for PARDER resolved as shift
-    PARDER          shift and go to state 134
+    PARDER          shift and go to state 136
     INCREMENT       reduce using rule 80 (expresion -> call_instr .)
     DECREMENT       reduce using rule 80 (expresion -> call_instr .)
     MAS             reduce using rule 80 (expresion -> call_instr .)
@@ -5510,7 +5592,7 @@ state 112
   ! PARDER          [ reduce using rule 80 (expresion -> call_instr .) ]
 
 
-state 113
+state 115
 
     (26) definicion_instr -> VAR ID def_instr_prima .
 
@@ -5543,7 +5625,7 @@ state 113
     CASE            reduce using rule 26 (definicion_instr -> VAR ID def_instr_prima .)
 
 
-state 114
+state 116
 
     (28) def_asig_instr -> VAR ID IGUAL . expresion def_instr_prima
     (29) def_asig_instr -> VAR ID IGUAL . call_instr def_instr_prima
@@ -5591,94 +5673,12 @@ state 114
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 135
-    call_instr                     shift and go to state 136
-
-state 115
-
-    (33) while_instr -> WHILE PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER
-    (48) expresion -> expresion . INCREMENT def_instr_prima
-    (49) expresion -> expresion . DECREMENT def_instr_prima
-    (50) expresion -> expresion . MAS expresion
-    (51) expresion -> expresion . MENOS expresion
-    (52) expresion -> expresion . POR expresion
-    (53) expresion -> expresion . DIVIDIDO expresion
-    (54) expresion -> expresion . ELEVADO expresion
-    (55) expresion -> expresion . MOD expresion
-    (56) expresion -> expresion . AND expresion
-    (57) expresion -> expresion . OR expresion
-    (58) expresion -> expresion . MAYQUE expresion
-    (59) expresion -> expresion . MENQUE expresion
-    (60) expresion -> expresion . MAYIGUALQUE expresion
-    (61) expresion -> expresion . MENIGUALQUE expresion
-    (62) expresion -> expresion . IGUALQUE expresion
-    (63) expresion -> expresion . NIGUALQUE expresion
-
-    PARDER          shift and go to state 137
-    INCREMENT       shift and go to state 43
-    DECREMENT       shift and go to state 44
-    MAS             shift and go to state 45
-    MENOS           shift and go to state 46
-    POR             shift and go to state 47
-    DIVIDIDO        shift and go to state 48
-    ELEVADO         shift and go to state 49
-    MOD             shift and go to state 50
-    AND             shift and go to state 51
-    OR              shift and go to state 52
-    MAYQUE          shift and go to state 53
-    MENQUE          shift and go to state 54
-    MAYIGUALQUE     shift and go to state 55
-    MENIGUALQUE     shift and go to state 56
-    IGUALQUE        shift and go to state 57
-    NIGUALQUE       shift and go to state 58
-
-
-state 116
-
-    (30) if_instr -> IF PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER
-    (31) if_instr -> IF PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
-    (32) if_instr -> IF PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
-    (48) expresion -> expresion . INCREMENT def_instr_prima
-    (49) expresion -> expresion . DECREMENT def_instr_prima
-    (50) expresion -> expresion . MAS expresion
-    (51) expresion -> expresion . MENOS expresion
-    (52) expresion -> expresion . POR expresion
-    (53) expresion -> expresion . DIVIDIDO expresion
-    (54) expresion -> expresion . ELEVADO expresion
-    (55) expresion -> expresion . MOD expresion
-    (56) expresion -> expresion . AND expresion
-    (57) expresion -> expresion . OR expresion
-    (58) expresion -> expresion . MAYQUE expresion
-    (59) expresion -> expresion . MENQUE expresion
-    (60) expresion -> expresion . MAYIGUALQUE expresion
-    (61) expresion -> expresion . MENIGUALQUE expresion
-    (62) expresion -> expresion . IGUALQUE expresion
-    (63) expresion -> expresion . NIGUALQUE expresion
-
-    PARDER          shift and go to state 138
-    INCREMENT       shift and go to state 43
-    DECREMENT       shift and go to state 44
-    MAS             shift and go to state 45
-    MENOS           shift and go to state 46
-    POR             shift and go to state 47
-    DIVIDIDO        shift and go to state 48
-    ELEVADO         shift and go to state 49
-    MOD             shift and go to state 50
-    AND             shift and go to state 51
-    OR              shift and go to state 52
-    MAYQUE          shift and go to state 53
-    MENQUE          shift and go to state 54
-    MAYIGUALQUE     shift and go to state 55
-    MENIGUALQUE     shift and go to state 56
-    IGUALQUE        shift and go to state 57
-    NIGUALQUE       shift and go to state 58
-
+    expresion                      shift and go to state 137
+    call_instr                     shift and go to state 138
 
 state 117
 
-    (36) switch_instr -> SWITCH PARIZQ expresion . PARDER LLAVIZQ cases LLAVDER
-    (37) switch_instr -> SWITCH PARIZQ expresion . PARDER LLAVIZQ default_instr LLAVDER
-    (38) switch_instr -> SWITCH PARIZQ expresion . PARDER LLAVIZQ cases default_instr LLAVDER
+    (33) while_instr -> WHILE PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER
     (48) expresion -> expresion . INCREMENT def_instr_prima
     (49) expresion -> expresion . DECREMENT def_instr_prima
     (50) expresion -> expresion . MAS expresion
@@ -5717,6 +5717,88 @@ state 117
 
 state 118
 
+    (30) if_instr -> IF PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER
+    (31) if_instr -> IF PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (32) if_instr -> IF PARIZQ expresion . PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
+    (48) expresion -> expresion . INCREMENT def_instr_prima
+    (49) expresion -> expresion . DECREMENT def_instr_prima
+    (50) expresion -> expresion . MAS expresion
+    (51) expresion -> expresion . MENOS expresion
+    (52) expresion -> expresion . POR expresion
+    (53) expresion -> expresion . DIVIDIDO expresion
+    (54) expresion -> expresion . ELEVADO expresion
+    (55) expresion -> expresion . MOD expresion
+    (56) expresion -> expresion . AND expresion
+    (57) expresion -> expresion . OR expresion
+    (58) expresion -> expresion . MAYQUE expresion
+    (59) expresion -> expresion . MENQUE expresion
+    (60) expresion -> expresion . MAYIGUALQUE expresion
+    (61) expresion -> expresion . MENIGUALQUE expresion
+    (62) expresion -> expresion . IGUALQUE expresion
+    (63) expresion -> expresion . NIGUALQUE expresion
+
+    PARDER          shift and go to state 140
+    INCREMENT       shift and go to state 43
+    DECREMENT       shift and go to state 44
+    MAS             shift and go to state 45
+    MENOS           shift and go to state 46
+    POR             shift and go to state 47
+    DIVIDIDO        shift and go to state 48
+    ELEVADO         shift and go to state 49
+    MOD             shift and go to state 50
+    AND             shift and go to state 51
+    OR              shift and go to state 52
+    MAYQUE          shift and go to state 53
+    MENQUE          shift and go to state 54
+    MAYIGUALQUE     shift and go to state 55
+    MENIGUALQUE     shift and go to state 56
+    IGUALQUE        shift and go to state 57
+    NIGUALQUE       shift and go to state 58
+
+
+state 119
+
+    (36) switch_instr -> SWITCH PARIZQ expresion . PARDER LLAVIZQ cases LLAVDER
+    (37) switch_instr -> SWITCH PARIZQ expresion . PARDER LLAVIZQ default_instr LLAVDER
+    (38) switch_instr -> SWITCH PARIZQ expresion . PARDER LLAVIZQ cases default_instr LLAVDER
+    (48) expresion -> expresion . INCREMENT def_instr_prima
+    (49) expresion -> expresion . DECREMENT def_instr_prima
+    (50) expresion -> expresion . MAS expresion
+    (51) expresion -> expresion . MENOS expresion
+    (52) expresion -> expresion . POR expresion
+    (53) expresion -> expresion . DIVIDIDO expresion
+    (54) expresion -> expresion . ELEVADO expresion
+    (55) expresion -> expresion . MOD expresion
+    (56) expresion -> expresion . AND expresion
+    (57) expresion -> expresion . OR expresion
+    (58) expresion -> expresion . MAYQUE expresion
+    (59) expresion -> expresion . MENQUE expresion
+    (60) expresion -> expresion . MAYIGUALQUE expresion
+    (61) expresion -> expresion . MENIGUALQUE expresion
+    (62) expresion -> expresion . IGUALQUE expresion
+    (63) expresion -> expresion . NIGUALQUE expresion
+
+    PARDER          shift and go to state 141
+    INCREMENT       shift and go to state 43
+    DECREMENT       shift and go to state 44
+    MAS             shift and go to state 45
+    MENOS           shift and go to state 46
+    POR             shift and go to state 47
+    DIVIDIDO        shift and go to state 48
+    ELEVADO         shift and go to state 49
+    MOD             shift and go to state 50
+    AND             shift and go to state 51
+    OR              shift and go to state 52
+    MAYQUE          shift and go to state 53
+    MENQUE          shift and go to state 54
+    MAYIGUALQUE     shift and go to state 55
+    MENIGUALQUE     shift and go to state 56
+    IGUALQUE        shift and go to state 57
+    NIGUALQUE       shift and go to state 58
+
+
+state 120
+
     (43) for_instr -> FOR PARIZQ def_asign_for . def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER
     (20) def_instr_prima -> . PTCOMA
     (21) def_instr_prima -> . empty
@@ -5735,10 +5817,10 @@ state 118
     TRUE            reduce using rule 22 (empty -> .)
     FALSE           reduce using rule 22 (empty -> .)
 
-    def_instr_prima                shift and go to state 140
+    def_instr_prima                shift and go to state 142
     empty                          shift and go to state 84
 
-state 119
+state 121
 
     (44) def_asign_for -> ID .
     (27) asignacion_instr -> ID . IGUAL expresion def_instr_prima
@@ -5758,7 +5840,7 @@ state 119
     IGUAL           shift and go to state 71
 
 
-state 120
+state 122
 
     (45) def_asign_for -> asignacion_instr .
 
@@ -5776,7 +5858,7 @@ state 120
     FALSE           reduce using rule 45 (def_asign_for -> asignacion_instr .)
 
 
-state 121
+state 123
 
     (46) def_asign_for -> def_asig_instr .
 
@@ -5794,15 +5876,15 @@ state 121
     FALSE           reduce using rule 46 (def_asign_for -> def_asig_instr .)
 
 
-state 122
+state 124
 
     (28) def_asig_instr -> VAR . ID IGUAL expresion def_instr_prima
     (29) def_asig_instr -> VAR . ID IGUAL call_instr def_instr_prima
 
-    ID              shift and go to state 141
+    ID              shift and go to state 143
 
 
-state 123
+state 125
 
     (23) func_main -> MAIN PARIZQ PARDER LLAVIZQ . instrucciones LLAVDER
     (2) instrucciones -> . instrucciones instruccion
@@ -5874,8 +5956,8 @@ state 123
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
   ! shift/reduce conflict for MAIN resolved as shift
   ! shift/reduce conflict for FUNC resolved as shift
@@ -5946,7 +6028,7 @@ state 123
   ! BREAK           [ reduce using rule 22 (empty -> .) ]
   ! CONTINUE        [ reduce using rule 22 (empty -> .) ]
 
-    instrucciones                  shift and go to state 142
+    instrucciones                  shift and go to state 144
     instruccion                    shift and go to state 3
     empty                          shift and go to state 4
     func_main                      shift and go to state 5
@@ -5965,7 +6047,7 @@ state 123
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 124
+state 126
 
     (79) expresion -> PARIZQ expresion_data_type PARDER expresion .
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -6065,23 +6147,23 @@ state 124
   ! NIGUALQUE       [ reduce using rule 79 (expresion -> PARIZQ expresion_data_type PARDER expresion .) ]
 
 
-state 125
+state 127
 
     (81) funct_instr -> FUNC ID PARIZQ params . PARDER LLAVIZQ instrucciones LLAVDER
     (85) params -> params . COMA param
 
-    PARDER          shift and go to state 143
-    COMA            shift and go to state 144
+    PARDER          shift and go to state 145
+    COMA            shift and go to state 146
 
 
-state 126
+state 128
 
     (82) funct_instr -> FUNC ID PARIZQ PARDER . LLAVIZQ instrucciones LLAVDER
 
-    LLAVIZQ         shift and go to state 145
+    LLAVIZQ         shift and go to state 147
 
 
-state 127
+state 129
 
     (86) params -> param .
 
@@ -6089,14 +6171,14 @@ state 127
     COMA            reduce using rule 86 (params -> param .)
 
 
-state 128
+state 130
 
     (87) param -> expresion_data_type . ID
 
-    ID              shift and go to state 146
+    ID              shift and go to state 148
 
 
-state 129
+state 131
 
     (83) call_instr -> ID PARIZQ PARDER def_instr_prima .
 
@@ -6147,7 +6229,7 @@ state 129
     DOSPUNTOS       reduce using rule 83 (call_instr -> ID PARIZQ PARDER def_instr_prima .)
 
 
-state 130
+state 132
 
     (84) call_instr -> ID PARIZQ params_call PARDER . def_instr_prima
     (20) def_instr_prima -> . PTCOMA
@@ -6203,10 +6285,10 @@ state 130
 
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 147
+    def_instr_prima                shift and go to state 149
     empty                          shift and go to state 84
 
-state 131
+state 133
 
     (88) params_call -> params_call COMA . param_call
     (90) param_call -> . expresion
@@ -6254,11 +6336,11 @@ state 131
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    param_call                     shift and go to state 148
-    expresion                      shift and go to state 107
+    param_call                     shift and go to state 150
+    expresion                      shift and go to state 109
     call_instr                     shift and go to state 63
 
-state 132
+state 134
 
     (27) asignacion_instr -> ID IGUAL expresion def_instr_prima .
 
@@ -6291,7 +6373,7 @@ state 132
     CASE            reduce using rule 27 (asignacion_instr -> ID IGUAL expresion def_instr_prima .)
 
 
-state 133
+state 135
 
     (24) imprimir_instr -> PRINT PARIZQ expresion PARDER . def_instr_prima
     (20) def_instr_prima -> . PTCOMA
@@ -6329,10 +6411,10 @@ state 133
 
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 149
+    def_instr_prima                shift and go to state 151
     empty                          shift and go to state 84
 
-state 134
+state 136
 
     (25) imprimir_instr -> PRINT PARIZQ call_instr PARDER . def_instr_prima
     (20) def_instr_prima -> . PTCOMA
@@ -6370,10 +6452,10 @@ state 134
 
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 150
+    def_instr_prima                shift and go to state 152
     empty                          shift and go to state 84
 
-state 135
+state 137
 
     (28) def_asig_instr -> VAR ID IGUAL expresion . def_instr_prima
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -6444,10 +6526,10 @@ state 135
   ! MENOS           [ reduce using rule 22 (empty -> .) ]
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 151
+    def_instr_prima                shift and go to state 153
     empty                          shift and go to state 84
 
-state 136
+state 138
 
     (29) def_asig_instr -> VAR ID IGUAL call_instr . def_instr_prima
     (80) expresion -> call_instr .
@@ -6555,35 +6637,35 @@ state 136
   ! CASE            [ reduce using rule 80 (expresion -> call_instr .) ]
   ! PTCOMA          [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 152
+    def_instr_prima                shift and go to state 154
     empty                          shift and go to state 84
-
-state 137
-
-    (33) while_instr -> WHILE PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER
-
-    LLAVIZQ         shift and go to state 153
-
-
-state 138
-
-    (30) if_instr -> IF PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER
-    (31) if_instr -> IF PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
-    (32) if_instr -> IF PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER ELSE if_instr
-
-    LLAVIZQ         shift and go to state 154
-
 
 state 139
 
-    (36) switch_instr -> SWITCH PARIZQ expresion PARDER . LLAVIZQ cases LLAVDER
-    (37) switch_instr -> SWITCH PARIZQ expresion PARDER . LLAVIZQ default_instr LLAVDER
-    (38) switch_instr -> SWITCH PARIZQ expresion PARDER . LLAVIZQ cases default_instr LLAVDER
+    (33) while_instr -> WHILE PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER
 
     LLAVIZQ         shift and go to state 155
 
 
 state 140
+
+    (30) if_instr -> IF PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER
+    (31) if_instr -> IF PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (32) if_instr -> IF PARIZQ expresion PARDER . LLAVIZQ instrucciones LLAVDER ELSE if_instr
+
+    LLAVIZQ         shift and go to state 156
+
+
+state 141
+
+    (36) switch_instr -> SWITCH PARIZQ expresion PARDER . LLAVIZQ cases LLAVDER
+    (37) switch_instr -> SWITCH PARIZQ expresion PARDER . LLAVIZQ default_instr LLAVDER
+    (38) switch_instr -> SWITCH PARIZQ expresion PARDER . LLAVIZQ cases default_instr LLAVDER
+
+    LLAVIZQ         shift and go to state 157
+
+
+state 142
 
     (43) for_instr -> FOR PARIZQ def_asign_for def_instr_prima . expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER
     (47) expresion -> . NULL
@@ -6630,18 +6712,18 @@ state 140
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 156
+    expresion                      shift and go to state 158
     call_instr                     shift and go to state 63
 
-state 141
+state 143
 
     (28) def_asig_instr -> VAR ID . IGUAL expresion def_instr_prima
     (29) def_asig_instr -> VAR ID . IGUAL call_instr def_instr_prima
 
-    IGUAL           shift and go to state 114
+    IGUAL           shift and go to state 116
 
 
-state 142
+state 144
 
     (23) func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones . LLAVDER
     (2) instrucciones -> instrucciones . instruccion
@@ -6710,10 +6792,10 @@ state 142
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
-    LLAVDER         shift and go to state 157
+    LLAVDER         shift and go to state 159
     MAIN            shift and go to state 20
     FUNC            shift and go to state 22
     ID              shift and go to state 23
@@ -6754,14 +6836,14 @@ state 142
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 143
+state 145
 
     (81) funct_instr -> FUNC ID PARIZQ params PARDER . LLAVIZQ instrucciones LLAVDER
 
-    LLAVIZQ         shift and go to state 158
+    LLAVIZQ         shift and go to state 160
 
 
-state 144
+state 146
 
     (85) params -> params COMA . param
     (87) param -> . expresion_data_type ID
@@ -6777,10 +6859,10 @@ state 144
     CHAR            shift and go to state 67
     BOOLEAN         shift and go to state 68
 
-    param                          shift and go to state 159
-    expresion_data_type            shift and go to state 128
+    param                          shift and go to state 161
+    expresion_data_type            shift and go to state 130
 
-state 145
+state 147
 
     (82) funct_instr -> FUNC ID PARIZQ PARDER LLAVIZQ . instrucciones LLAVDER
     (2) instrucciones -> . instrucciones instruccion
@@ -6852,8 +6934,8 @@ state 145
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
   ! shift/reduce conflict for MAIN resolved as shift
   ! shift/reduce conflict for FUNC resolved as shift
@@ -6924,7 +7006,7 @@ state 145
   ! BREAK           [ reduce using rule 22 (empty -> .) ]
   ! CONTINUE        [ reduce using rule 22 (empty -> .) ]
 
-    instrucciones                  shift and go to state 160
+    instrucciones                  shift and go to state 162
     instruccion                    shift and go to state 3
     empty                          shift and go to state 4
     func_main                      shift and go to state 5
@@ -6943,7 +7025,7 @@ state 145
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 146
+state 148
 
     (87) param -> expresion_data_type ID .
 
@@ -6951,7 +7033,7 @@ state 146
     COMA            reduce using rule 87 (param -> expresion_data_type ID .)
 
 
-state 147
+state 149
 
     (84) call_instr -> ID PARIZQ params_call PARDER def_instr_prima .
 
@@ -7002,7 +7084,7 @@ state 147
     DOSPUNTOS       reduce using rule 84 (call_instr -> ID PARIZQ params_call PARDER def_instr_prima .)
 
 
-state 148
+state 150
 
     (88) params_call -> params_call COMA param_call .
 
@@ -7010,7 +7092,7 @@ state 148
     COMA            reduce using rule 88 (params_call -> params_call COMA param_call .)
 
 
-state 149
+state 151
 
     (24) imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .
 
@@ -7043,7 +7125,7 @@ state 149
     CASE            reduce using rule 24 (imprimir_instr -> PRINT PARIZQ expresion PARDER def_instr_prima .)
 
 
-state 150
+state 152
 
     (25) imprimir_instr -> PRINT PARIZQ call_instr PARDER def_instr_prima .
 
@@ -7076,7 +7158,7 @@ state 150
     CASE            reduce using rule 25 (imprimir_instr -> PRINT PARIZQ call_instr PARDER def_instr_prima .)
 
 
-state 151
+state 153
 
     (28) def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .
 
@@ -7109,7 +7191,7 @@ state 151
     CASE            reduce using rule 28 (def_asig_instr -> VAR ID IGUAL expresion def_instr_prima .)
 
 
-state 152
+state 154
 
     (29) def_asig_instr -> VAR ID IGUAL call_instr def_instr_prima .
 
@@ -7142,7 +7224,7 @@ state 152
     CASE            reduce using rule 29 (def_asig_instr -> VAR ID IGUAL call_instr def_instr_prima .)
 
 
-state 153
+state 155
 
     (33) while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ . instrucciones LLAVDER
     (2) instrucciones -> . instrucciones instruccion
@@ -7214,8 +7296,8 @@ state 153
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
   ! shift/reduce conflict for MAIN resolved as shift
   ! shift/reduce conflict for FUNC resolved as shift
@@ -7287,7 +7369,7 @@ state 153
   ! CONTINUE        [ reduce using rule 22 (empty -> .) ]
 
     expresion                      shift and go to state 17
-    instrucciones                  shift and go to state 161
+    instrucciones                  shift and go to state 163
     instruccion                    shift and go to state 3
     empty                          shift and go to state 4
     func_main                      shift and go to state 5
@@ -7305,7 +7387,7 @@ state 153
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 154
+state 156
 
     (30) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ . instrucciones LLAVDER
     (31) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ . instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
@@ -7379,8 +7461,8 @@ state 154
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
   ! shift/reduce conflict for MAIN resolved as shift
   ! shift/reduce conflict for FUNC resolved as shift
@@ -7452,7 +7534,7 @@ state 154
   ! CONTINUE        [ reduce using rule 22 (empty -> .) ]
 
     expresion                      shift and go to state 17
-    instrucciones                  shift and go to state 162
+    instrucciones                  shift and go to state 164
     if_instr                       shift and go to state 14
     instruccion                    shift and go to state 3
     empty                          shift and go to state 4
@@ -7470,7 +7552,7 @@ state 154
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 155
+state 157
 
     (36) switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ . cases LLAVDER
     (37) switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ . default_instr LLAVDER
@@ -7480,14 +7562,14 @@ state 155
     (42) default_instr -> . DEFAULT DOSPUNTOS instrucciones def_instr_prima
     (41) case_instr -> . CASE expresion DOSPUNTOS instrucciones def_instr_prima
 
-    DEFAULT         shift and go to state 166
-    CASE            shift and go to state 167
+    DEFAULT         shift and go to state 168
+    CASE            shift and go to state 169
 
-    cases                          shift and go to state 163
-    default_instr                  shift and go to state 164
-    case_instr                     shift and go to state 165
+    cases                          shift and go to state 165
+    default_instr                  shift and go to state 166
+    case_instr                     shift and go to state 167
 
-state 156
+state 158
 
     (43) for_instr -> FOR PARIZQ def_asign_for def_instr_prima expresion . def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -7541,10 +7623,10 @@ state 156
 
   ! MENOS           [ reduce using rule 22 (empty -> .) ]
 
-    def_instr_prima                shift and go to state 168
+    def_instr_prima                shift and go to state 170
     empty                          shift and go to state 84
 
-state 157
+state 159
 
     (23) func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .
 
@@ -7577,7 +7659,7 @@ state 157
     CASE            reduce using rule 23 (func_main -> MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
 
 
-state 158
+state 160
 
     (81) funct_instr -> FUNC ID PARIZQ params PARDER LLAVIZQ . instrucciones LLAVDER
     (2) instrucciones -> . instrucciones instruccion
@@ -7649,8 +7731,8 @@ state 158
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
   ! shift/reduce conflict for MAIN resolved as shift
   ! shift/reduce conflict for FUNC resolved as shift
@@ -7721,7 +7803,7 @@ state 158
   ! BREAK           [ reduce using rule 22 (empty -> .) ]
   ! CONTINUE        [ reduce using rule 22 (empty -> .) ]
 
-    instrucciones                  shift and go to state 169
+    instrucciones                  shift and go to state 171
     instruccion                    shift and go to state 3
     empty                          shift and go to state 4
     func_main                      shift and go to state 5
@@ -7740,7 +7822,7 @@ state 158
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 159
+state 161
 
     (85) params -> params COMA param .
 
@@ -7748,7 +7830,7 @@ state 159
     COMA            reduce using rule 85 (params -> params COMA param .)
 
 
-state 160
+state 162
 
     (82) funct_instr -> FUNC ID PARIZQ PARDER LLAVIZQ instrucciones . LLAVDER
     (2) instrucciones -> instrucciones . instruccion
@@ -7817,10 +7899,10 @@ state 160
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
-    LLAVDER         shift and go to state 170
+    LLAVDER         shift and go to state 172
     MAIN            shift and go to state 20
     FUNC            shift and go to state 22
     ID              shift and go to state 23
@@ -7861,7 +7943,7 @@ state 160
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 161
+state 163
 
     (33) while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones . LLAVDER
     (2) instrucciones -> instrucciones . instruccion
@@ -7930,10 +8012,10 @@ state 161
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
-    LLAVDER         shift and go to state 171
+    LLAVDER         shift and go to state 173
     MAIN            shift and go to state 20
     FUNC            shift and go to state 22
     ID              shift and go to state 23
@@ -7974,7 +8056,7 @@ state 161
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 162
+state 164
 
     (30) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones . LLAVDER
     (31) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones . LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
@@ -8045,10 +8127,10 @@ state 162
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
-    LLAVDER         shift and go to state 172
+    LLAVDER         shift and go to state 174
     MAIN            shift and go to state 20
     FUNC            shift and go to state 22
     ID              shift and go to state 23
@@ -8089,7 +8171,7 @@ state 162
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 163
+state 165
 
     (36) switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ cases . LLAVDER
     (38) switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ cases . default_instr LLAVDER
@@ -8097,21 +8179,21 @@ state 163
     (42) default_instr -> . DEFAULT DOSPUNTOS instrucciones def_instr_prima
     (41) case_instr -> . CASE expresion DOSPUNTOS instrucciones def_instr_prima
 
-    LLAVDER         shift and go to state 173
-    DEFAULT         shift and go to state 166
-    CASE            shift and go to state 167
+    LLAVDER         shift and go to state 175
+    DEFAULT         shift and go to state 168
+    CASE            shift and go to state 169
 
-    default_instr                  shift and go to state 174
-    case_instr                     shift and go to state 175
+    default_instr                  shift and go to state 176
+    case_instr                     shift and go to state 177
 
-state 164
+state 166
 
     (37) switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr . LLAVDER
 
-    LLAVDER         shift and go to state 176
+    LLAVDER         shift and go to state 178
 
 
-state 165
+state 167
 
     (40) cases -> case_instr .
 
@@ -8120,14 +8202,14 @@ state 165
     CASE            reduce using rule 40 (cases -> case_instr .)
 
 
-state 166
+state 168
 
     (42) default_instr -> DEFAULT . DOSPUNTOS instrucciones def_instr_prima
 
-    DOSPUNTOS       shift and go to state 177
+    DOSPUNTOS       shift and go to state 179
 
 
-state 167
+state 169
 
     (41) case_instr -> CASE . expresion DOSPUNTOS instrucciones def_instr_prima
     (47) expresion -> . NULL
@@ -8174,10 +8256,10 @@ state 167
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 178
+    expresion                      shift and go to state 180
     call_instr                     shift and go to state 63
 
-state 168
+state 170
 
     (43) for_instr -> FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima . expresion PARDER LLAVIZQ instrucciones LLAVDER
     (47) expresion -> . NULL
@@ -8224,10 +8306,10 @@ state 168
     TRUE            shift and go to state 38
     FALSE           shift and go to state 39
 
-    expresion                      shift and go to state 179
+    expresion                      shift and go to state 181
     call_instr                     shift and go to state 63
 
-state 169
+state 171
 
     (81) funct_instr -> FUNC ID PARIZQ params PARDER LLAVIZQ instrucciones . LLAVDER
     (2) instrucciones -> instrucciones . instruccion
@@ -8296,10 +8378,10 @@ state 169
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
-    LLAVDER         shift and go to state 180
+    LLAVDER         shift and go to state 182
     MAIN            shift and go to state 20
     FUNC            shift and go to state 22
     ID              shift and go to state 23
@@ -8340,7 +8422,7 @@ state 169
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 170
+state 172
 
     (82) funct_instr -> FUNC ID PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .
 
@@ -8373,7 +8455,7 @@ state 170
     CASE            reduce using rule 82 (funct_instr -> FUNC ID PARIZQ PARDER LLAVIZQ instrucciones LLAVDER .)
 
 
-state 171
+state 173
 
     (33) while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .
 
@@ -8406,7 +8488,7 @@ state 171
     CASE            reduce using rule 33 (while_instr -> WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
 
 
-state 172
+state 174
 
     (30) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .
     (31) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER . ELSE LLAVIZQ instrucciones LLAVDER
@@ -8439,10 +8521,10 @@ state 172
     PTCOMA          reduce using rule 30 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
     DEFAULT         reduce using rule 30 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
     CASE            reduce using rule 30 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER .)
-    ELSE            shift and go to state 181
+    ELSE            shift and go to state 183
 
 
-state 173
+state 175
 
     (36) switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ cases LLAVDER .
 
@@ -8475,14 +8557,14 @@ state 173
     CASE            reduce using rule 36 (switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ cases LLAVDER .)
 
 
-state 174
+state 176
 
     (38) switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr . LLAVDER
 
-    LLAVDER         shift and go to state 182
+    LLAVDER         shift and go to state 184
 
 
-state 175
+state 177
 
     (39) cases -> cases case_instr .
 
@@ -8491,7 +8573,7 @@ state 175
     CASE            reduce using rule 39 (cases -> cases case_instr .)
 
 
-state 176
+state 178
 
     (37) switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr LLAVDER .
 
@@ -8524,7 +8606,7 @@ state 176
     CASE            reduce using rule 37 (switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr LLAVDER .)
 
 
-state 177
+state 179
 
     (42) default_instr -> DEFAULT DOSPUNTOS . instrucciones def_instr_prima
     (2) instrucciones -> . instrucciones instruccion
@@ -8596,8 +8678,8 @@ state 177
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
   ! shift/reduce conflict for MAIN resolved as shift
   ! shift/reduce conflict for FUNC resolved as shift
@@ -8669,7 +8751,7 @@ state 177
   ! BREAK           [ reduce using rule 22 (empty -> .) ]
   ! CONTINUE        [ reduce using rule 22 (empty -> .) ]
 
-    instrucciones                  shift and go to state 183
+    instrucciones                  shift and go to state 185
     instruccion                    shift and go to state 3
     empty                          shift and go to state 4
     func_main                      shift and go to state 5
@@ -8688,7 +8770,7 @@ state 177
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 178
+state 180
 
     (41) case_instr -> CASE expresion . DOSPUNTOS instrucciones def_instr_prima
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -8708,7 +8790,7 @@ state 178
     (62) expresion -> expresion . IGUALQUE expresion
     (63) expresion -> expresion . NIGUALQUE expresion
 
-    DOSPUNTOS       shift and go to state 184
+    DOSPUNTOS       shift and go to state 186
     INCREMENT       shift and go to state 43
     DECREMENT       shift and go to state 44
     MAS             shift and go to state 45
@@ -8727,7 +8809,7 @@ state 178
     NIGUALQUE       shift and go to state 58
 
 
-state 179
+state 181
 
     (43) for_instr -> FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion . PARDER LLAVIZQ instrucciones LLAVDER
     (48) expresion -> expresion . INCREMENT def_instr_prima
@@ -8747,7 +8829,7 @@ state 179
     (62) expresion -> expresion . IGUALQUE expresion
     (63) expresion -> expresion . NIGUALQUE expresion
 
-    PARDER          shift and go to state 185
+    PARDER          shift and go to state 187
     INCREMENT       shift and go to state 43
     DECREMENT       shift and go to state 44
     MAS             shift and go to state 45
@@ -8766,7 +8848,7 @@ state 179
     NIGUALQUE       shift and go to state 58
 
 
-state 180
+state 182
 
     (81) funct_instr -> FUNC ID PARIZQ params PARDER LLAVIZQ instrucciones LLAVDER .
 
@@ -8799,7 +8881,7 @@ state 180
     CASE            reduce using rule 81 (funct_instr -> FUNC ID PARIZQ params PARDER LLAVIZQ instrucciones LLAVDER .)
 
 
-state 181
+state 183
 
     (31) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE . LLAVIZQ instrucciones LLAVDER
     (32) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE . if_instr
@@ -8807,12 +8889,12 @@ state 181
     (31) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
     (32) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
 
-    LLAVIZQ         shift and go to state 186
+    LLAVIZQ         shift and go to state 188
     IF              shift and go to state 28
 
-    if_instr                       shift and go to state 187
+    if_instr                       shift and go to state 189
 
-state 182
+state 184
 
     (38) switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr LLAVDER .
 
@@ -8845,7 +8927,7 @@ state 182
     CASE            reduce using rule 38 (switch_instr -> SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr LLAVDER .)
 
 
-state 183
+state 185
 
     (42) default_instr -> DEFAULT DOSPUNTOS instrucciones . def_instr_prima
     (2) instrucciones -> instrucciones . instruccion
@@ -8917,8 +8999,8 @@ state 183
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
     PTCOMA          shift and go to state 83
     LLAVDER         reduce using rule 22 (empty -> .)
@@ -8945,7 +9027,7 @@ state 183
     BREAK           shift and go to state 40
     CONTINUE        shift and go to state 41
 
-    def_instr_prima                shift and go to state 188
+    def_instr_prima                shift and go to state 190
     instruccion                    shift and go to state 42
     empty                          shift and go to state 84
     func_main                      shift and go to state 5
@@ -8964,7 +9046,7 @@ state 183
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 184
+state 186
 
     (41) case_instr -> CASE expresion DOSPUNTOS . instrucciones def_instr_prima
     (2) instrucciones -> . instrucciones instruccion
@@ -9036,8 +9118,8 @@ state 184
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
   ! shift/reduce conflict for MAIN resolved as shift
   ! shift/reduce conflict for FUNC resolved as shift
@@ -9112,7 +9194,7 @@ state 184
   ! CONTINUE        [ reduce using rule 22 (empty -> .) ]
 
     expresion                      shift and go to state 17
-    instrucciones                  shift and go to state 189
+    instrucciones                  shift and go to state 191
     instruccion                    shift and go to state 3
     empty                          shift and go to state 4
     func_main                      shift and go to state 5
@@ -9130,14 +9212,14 @@ state 184
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 185
+state 187
 
     (43) for_instr -> FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER . LLAVIZQ instrucciones LLAVDER
 
-    LLAVIZQ         shift and go to state 190
+    LLAVIZQ         shift and go to state 192
 
 
-state 186
+state 188
 
     (31) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ . instrucciones LLAVDER
     (2) instrucciones -> . instrucciones instruccion
@@ -9209,332 +9291,8 @@ state 186
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
-
-  ! shift/reduce conflict for MAIN resolved as shift
-  ! shift/reduce conflict for FUNC resolved as shift
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for RETURN resolved as shift
-  ! shift/reduce conflict for PRINT resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for SWITCH resolved as shift
-  ! shift/reduce conflict for FOR resolved as shift
-  ! shift/reduce conflict for NULL resolved as shift
-  ! shift/reduce conflict for MENOS resolved as shift
-  ! shift/reduce conflict for NOT resolved as shift
-  ! shift/reduce conflict for PARIZQ resolved as shift
-  ! shift/reduce conflict for ENTERO resolved as shift
-  ! shift/reduce conflict for DECIMAL resolved as shift
-  ! shift/reduce conflict for CADENA resolved as shift
-  ! shift/reduce conflict for CHARACTER resolved as shift
-  ! shift/reduce conflict for TRUE resolved as shift
-  ! shift/reduce conflict for FALSE resolved as shift
-  ! shift/reduce conflict for BREAK resolved as shift
-  ! shift/reduce conflict for CONTINUE resolved as shift
-    LLAVDER         reduce using rule 22 (empty -> .)
-    MAIN            shift and go to state 20
-    FUNC            shift and go to state 22
-    ID              shift and go to state 23
-    RETURN          shift and go to state 24
-    PRINT           shift and go to state 25
-    VAR             shift and go to state 26
-    WHILE           shift and go to state 27
-    IF              shift and go to state 28
-    SWITCH          shift and go to state 29
-    FOR             shift and go to state 30
-    NULL            shift and go to state 31
-    MENOS           shift and go to state 32
-    NOT             shift and go to state 33
-    PARIZQ          shift and go to state 21
-    ENTERO          shift and go to state 34
-    DECIMAL         shift and go to state 35
-    CADENA          shift and go to state 36
-    CHARACTER       shift and go to state 37
-    TRUE            shift and go to state 38
-    FALSE           shift and go to state 39
-    BREAK           shift and go to state 40
-    CONTINUE        shift and go to state 41
-
-  ! MAIN            [ reduce using rule 22 (empty -> .) ]
-  ! FUNC            [ reduce using rule 22 (empty -> .) ]
-  ! ID              [ reduce using rule 22 (empty -> .) ]
-  ! RETURN          [ reduce using rule 22 (empty -> .) ]
-  ! PRINT           [ reduce using rule 22 (empty -> .) ]
-  ! VAR             [ reduce using rule 22 (empty -> .) ]
-  ! WHILE           [ reduce using rule 22 (empty -> .) ]
-  ! IF              [ reduce using rule 22 (empty -> .) ]
-  ! SWITCH          [ reduce using rule 22 (empty -> .) ]
-  ! FOR             [ reduce using rule 22 (empty -> .) ]
-  ! NULL            [ reduce using rule 22 (empty -> .) ]
-  ! MENOS           [ reduce using rule 22 (empty -> .) ]
-  ! NOT             [ reduce using rule 22 (empty -> .) ]
-  ! PARIZQ          [ reduce using rule 22 (empty -> .) ]
-  ! ENTERO          [ reduce using rule 22 (empty -> .) ]
-  ! DECIMAL         [ reduce using rule 22 (empty -> .) ]
-  ! CADENA          [ reduce using rule 22 (empty -> .) ]
-  ! CHARACTER       [ reduce using rule 22 (empty -> .) ]
-  ! TRUE            [ reduce using rule 22 (empty -> .) ]
-  ! FALSE           [ reduce using rule 22 (empty -> .) ]
-  ! BREAK           [ reduce using rule 22 (empty -> .) ]
-  ! CONTINUE        [ reduce using rule 22 (empty -> .) ]
-
-    expresion                      shift and go to state 17
-    instrucciones                  shift and go to state 191
-    instruccion                    shift and go to state 3
-    empty                          shift and go to state 4
-    func_main                      shift and go to state 5
-    funct_instr                    shift and go to state 6
-    call_instr                     shift and go to state 7
-    return_instr                   shift and go to state 8
-    imprimir_instr                 shift and go to state 9
-    definicion_instr               shift and go to state 10
-    asignacion_instr               shift and go to state 11
-    def_asig_instr                 shift and go to state 12
-    while_instr                    shift and go to state 13
-    if_instr                       shift and go to state 14
-    switch_instr                   shift and go to state 15
-    for_instr                      shift and go to state 16
-    break_instr                    shift and go to state 18
-    continue_instr                 shift and go to state 19
-
-state 187
-
-    (32) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .
-
-    MAIN            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    FUNC            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    ID              reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    RETURN          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    PRINT           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    VAR             reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    WHILE           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    IF              reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    SWITCH          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    FOR             reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    NULL            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    MENOS           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    NOT             reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    PARIZQ          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    ENTERO          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    DECIMAL         reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    CADENA          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    CHARACTER       reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    TRUE            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    FALSE           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    BREAK           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    CONTINUE        reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    $end            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    LLAVDER         reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    PTCOMA          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    DEFAULT         reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-    CASE            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
-
-
-state 188
-
-    (42) default_instr -> DEFAULT DOSPUNTOS instrucciones def_instr_prima .
-
-    LLAVDER         reduce using rule 42 (default_instr -> DEFAULT DOSPUNTOS instrucciones def_instr_prima .)
-
-
-state 189
-
-    (41) case_instr -> CASE expresion DOSPUNTOS instrucciones . def_instr_prima
-    (2) instrucciones -> instrucciones . instruccion
-    (20) def_instr_prima -> . PTCOMA
-    (21) def_instr_prima -> . empty
-    (5) instruccion -> . func_main
-    (6) instruccion -> . funct_instr
-    (7) instruccion -> . call_instr
-    (8) instruccion -> . return_instr
-    (9) instruccion -> . imprimir_instr
-    (10) instruccion -> . definicion_instr
-    (11) instruccion -> . asignacion_instr
-    (12) instruccion -> . def_asig_instr
-    (13) instruccion -> . while_instr
-    (14) instruccion -> . if_instr
-    (15) instruccion -> . switch_instr
-    (16) instruccion -> . for_instr
-    (17) instruccion -> . expresion
-    (18) instruccion -> . break_instr
-    (19) instruccion -> . continue_instr
-    (22) empty -> .
-    (23) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (81) funct_instr -> . FUNC ID PARIZQ params PARDER LLAVIZQ instrucciones LLAVDER
-    (82) funct_instr -> . FUNC ID PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (83) call_instr -> . ID PARIZQ PARDER def_instr_prima
-    (84) call_instr -> . ID PARIZQ params_call PARDER def_instr_prima
-    (91) return_instr -> . RETURN expresion def_instr_prima
-    (92) return_instr -> . RETURN call_instr def_instr_prima
-    (24) imprimir_instr -> . PRINT PARIZQ expresion PARDER def_instr_prima
-    (25) imprimir_instr -> . PRINT PARIZQ call_instr PARDER def_instr_prima
-    (26) definicion_instr -> . VAR ID def_instr_prima
-    (27) asignacion_instr -> . ID IGUAL expresion def_instr_prima
-    (28) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (29) def_asig_instr -> . VAR ID IGUAL call_instr def_instr_prima
-    (33) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
-    (30) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
-    (31) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
-    (32) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
-    (36) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ cases LLAVDER
-    (37) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr LLAVDER
-    (38) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr LLAVDER
-    (43) for_instr -> . FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER
-    (47) expresion -> . NULL
-    (48) expresion -> . expresion INCREMENT def_instr_prima
-    (49) expresion -> . expresion DECREMENT def_instr_prima
-    (50) expresion -> . expresion MAS expresion
-    (51) expresion -> . expresion MENOS expresion
-    (52) expresion -> . expresion POR expresion
-    (53) expresion -> . expresion DIVIDIDO expresion
-    (54) expresion -> . expresion ELEVADO expresion
-    (55) expresion -> . expresion MOD expresion
-    (56) expresion -> . expresion AND expresion
-    (57) expresion -> . expresion OR expresion
-    (58) expresion -> . expresion MAYQUE expresion
-    (59) expresion -> . expresion MENQUE expresion
-    (60) expresion -> . expresion MAYIGUALQUE expresion
-    (61) expresion -> . expresion MENIGUALQUE expresion
-    (62) expresion -> . expresion IGUALQUE expresion
-    (63) expresion -> . expresion NIGUALQUE expresion
-    (64) expresion -> . MENOS expresion
-    (65) expresion -> . NOT expresion
-    (66) expresion -> . PARIZQ expresion PARDER
-    (67) expresion -> . ID
-    (68) expresion -> . ENTERO
-    (69) expresion -> . DECIMAL
-    (70) expresion -> . CADENA
-    (71) expresion -> . CHARACTER
-    (72) expresion -> . TRUE
-    (73) expresion -> . FALSE
-    (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
-    (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
-
-    PTCOMA          shift and go to state 83
-    LLAVDER         reduce using rule 22 (empty -> .)
-    DEFAULT         reduce using rule 22 (empty -> .)
-    CASE            reduce using rule 22 (empty -> .)
-    MAIN            shift and go to state 20
-    FUNC            shift and go to state 22
-    ID              shift and go to state 23
-    RETURN          shift and go to state 24
-    PRINT           shift and go to state 25
-    VAR             shift and go to state 26
-    WHILE           shift and go to state 27
-    IF              shift and go to state 28
-    SWITCH          shift and go to state 29
-    FOR             shift and go to state 30
-    NULL            shift and go to state 31
-    MENOS           shift and go to state 32
-    NOT             shift and go to state 33
-    PARIZQ          shift and go to state 21
-    ENTERO          shift and go to state 34
-    DECIMAL         shift and go to state 35
-    CADENA          shift and go to state 36
-    CHARACTER       shift and go to state 37
-    TRUE            shift and go to state 38
-    FALSE           shift and go to state 39
-    BREAK           shift and go to state 40
-    CONTINUE        shift and go to state 41
-
-    expresion                      shift and go to state 17
-    def_instr_prima                shift and go to state 192
-    instruccion                    shift and go to state 42
-    empty                          shift and go to state 84
-    func_main                      shift and go to state 5
-    funct_instr                    shift and go to state 6
-    call_instr                     shift and go to state 7
-    return_instr                   shift and go to state 8
-    imprimir_instr                 shift and go to state 9
-    definicion_instr               shift and go to state 10
-    asignacion_instr               shift and go to state 11
-    def_asig_instr                 shift and go to state 12
-    while_instr                    shift and go to state 13
-    if_instr                       shift and go to state 14
-    switch_instr                   shift and go to state 15
-    for_instr                      shift and go to state 16
-    break_instr                    shift and go to state 18
-    continue_instr                 shift and go to state 19
-
-state 190
-
-    (43) for_instr -> FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ . instrucciones LLAVDER
-    (2) instrucciones -> . instrucciones instruccion
-    (3) instrucciones -> . instruccion
-    (4) instrucciones -> . empty
-    (5) instruccion -> . func_main
-    (6) instruccion -> . funct_instr
-    (7) instruccion -> . call_instr
-    (8) instruccion -> . return_instr
-    (9) instruccion -> . imprimir_instr
-    (10) instruccion -> . definicion_instr
-    (11) instruccion -> . asignacion_instr
-    (12) instruccion -> . def_asig_instr
-    (13) instruccion -> . while_instr
-    (14) instruccion -> . if_instr
-    (15) instruccion -> . switch_instr
-    (16) instruccion -> . for_instr
-    (17) instruccion -> . expresion
-    (18) instruccion -> . break_instr
-    (19) instruccion -> . continue_instr
-    (22) empty -> .
-    (23) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (81) funct_instr -> . FUNC ID PARIZQ params PARDER LLAVIZQ instrucciones LLAVDER
-    (82) funct_instr -> . FUNC ID PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
-    (83) call_instr -> . ID PARIZQ PARDER def_instr_prima
-    (84) call_instr -> . ID PARIZQ params_call PARDER def_instr_prima
-    (91) return_instr -> . RETURN expresion def_instr_prima
-    (92) return_instr -> . RETURN call_instr def_instr_prima
-    (24) imprimir_instr -> . PRINT PARIZQ expresion PARDER def_instr_prima
-    (25) imprimir_instr -> . PRINT PARIZQ call_instr PARDER def_instr_prima
-    (26) definicion_instr -> . VAR ID def_instr_prima
-    (27) asignacion_instr -> . ID IGUAL expresion def_instr_prima
-    (28) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
-    (29) def_asig_instr -> . VAR ID IGUAL call_instr def_instr_prima
-    (33) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
-    (30) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
-    (31) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
-    (32) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
-    (36) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ cases LLAVDER
-    (37) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr LLAVDER
-    (38) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr LLAVDER
-    (43) for_instr -> . FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER
-    (47) expresion -> . NULL
-    (48) expresion -> . expresion INCREMENT def_instr_prima
-    (49) expresion -> . expresion DECREMENT def_instr_prima
-    (50) expresion -> . expresion MAS expresion
-    (51) expresion -> . expresion MENOS expresion
-    (52) expresion -> . expresion POR expresion
-    (53) expresion -> . expresion DIVIDIDO expresion
-    (54) expresion -> . expresion ELEVADO expresion
-    (55) expresion -> . expresion MOD expresion
-    (56) expresion -> . expresion AND expresion
-    (57) expresion -> . expresion OR expresion
-    (58) expresion -> . expresion MAYQUE expresion
-    (59) expresion -> . expresion MENQUE expresion
-    (60) expresion -> . expresion MAYIGUALQUE expresion
-    (61) expresion -> . expresion MENIGUALQUE expresion
-    (62) expresion -> . expresion IGUALQUE expresion
-    (63) expresion -> . expresion NIGUALQUE expresion
-    (64) expresion -> . MENOS expresion
-    (65) expresion -> . NOT expresion
-    (66) expresion -> . PARIZQ expresion PARDER
-    (67) expresion -> . ID
-    (68) expresion -> . ENTERO
-    (69) expresion -> . DECIMAL
-    (70) expresion -> . CADENA
-    (71) expresion -> . CHARACTER
-    (72) expresion -> . TRUE
-    (73) expresion -> . FALSE
-    (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
-    (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
   ! shift/reduce conflict for MAIN resolved as shift
   ! shift/reduce conflict for FUNC resolved as shift
@@ -9624,7 +9382,331 @@ state 190
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
+state 189
+
+    (32) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .
+
+    MAIN            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    FUNC            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    ID              reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    RETURN          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    PRINT           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    VAR             reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    WHILE           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    IF              reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    SWITCH          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    FOR             reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    NULL            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    MENOS           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    NOT             reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    PARIZQ          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    ENTERO          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    DECIMAL         reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    CADENA          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    CHARACTER       reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    TRUE            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    FALSE           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    BREAK           reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    CONTINUE        reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    $end            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    LLAVDER         reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    PTCOMA          reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    DEFAULT         reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+    CASE            reduce using rule 32 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr .)
+
+
+state 190
+
+    (42) default_instr -> DEFAULT DOSPUNTOS instrucciones def_instr_prima .
+
+    LLAVDER         reduce using rule 42 (default_instr -> DEFAULT DOSPUNTOS instrucciones def_instr_prima .)
+
+
 state 191
+
+    (41) case_instr -> CASE expresion DOSPUNTOS instrucciones . def_instr_prima
+    (2) instrucciones -> instrucciones . instruccion
+    (20) def_instr_prima -> . PTCOMA
+    (21) def_instr_prima -> . empty
+    (5) instruccion -> . func_main
+    (6) instruccion -> . funct_instr
+    (7) instruccion -> . call_instr
+    (8) instruccion -> . return_instr
+    (9) instruccion -> . imprimir_instr
+    (10) instruccion -> . definicion_instr
+    (11) instruccion -> . asignacion_instr
+    (12) instruccion -> . def_asig_instr
+    (13) instruccion -> . while_instr
+    (14) instruccion -> . if_instr
+    (15) instruccion -> . switch_instr
+    (16) instruccion -> . for_instr
+    (17) instruccion -> . expresion
+    (18) instruccion -> . break_instr
+    (19) instruccion -> . continue_instr
+    (22) empty -> .
+    (23) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
+    (81) funct_instr -> . FUNC ID PARIZQ params PARDER LLAVIZQ instrucciones LLAVDER
+    (82) funct_instr -> . FUNC ID PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
+    (83) call_instr -> . ID PARIZQ PARDER def_instr_prima
+    (84) call_instr -> . ID PARIZQ params_call PARDER def_instr_prima
+    (91) return_instr -> . RETURN expresion def_instr_prima
+    (92) return_instr -> . RETURN call_instr def_instr_prima
+    (24) imprimir_instr -> . PRINT PARIZQ expresion PARDER def_instr_prima
+    (25) imprimir_instr -> . PRINT PARIZQ call_instr PARDER def_instr_prima
+    (26) definicion_instr -> . VAR ID def_instr_prima
+    (27) asignacion_instr -> . ID IGUAL expresion def_instr_prima
+    (28) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
+    (29) def_asig_instr -> . VAR ID IGUAL call_instr def_instr_prima
+    (33) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (31) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (32) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
+    (36) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ cases LLAVDER
+    (37) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr LLAVDER
+    (38) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr LLAVDER
+    (43) for_instr -> . FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (47) expresion -> . NULL
+    (48) expresion -> . expresion INCREMENT def_instr_prima
+    (49) expresion -> . expresion DECREMENT def_instr_prima
+    (50) expresion -> . expresion MAS expresion
+    (51) expresion -> . expresion MENOS expresion
+    (52) expresion -> . expresion POR expresion
+    (53) expresion -> . expresion DIVIDIDO expresion
+    (54) expresion -> . expresion ELEVADO expresion
+    (55) expresion -> . expresion MOD expresion
+    (56) expresion -> . expresion AND expresion
+    (57) expresion -> . expresion OR expresion
+    (58) expresion -> . expresion MAYQUE expresion
+    (59) expresion -> . expresion MENQUE expresion
+    (60) expresion -> . expresion MAYIGUALQUE expresion
+    (61) expresion -> . expresion MENIGUALQUE expresion
+    (62) expresion -> . expresion IGUALQUE expresion
+    (63) expresion -> . expresion NIGUALQUE expresion
+    (64) expresion -> . MENOS expresion
+    (65) expresion -> . NOT expresion
+    (66) expresion -> . PARIZQ expresion PARDER
+    (67) expresion -> . ID
+    (68) expresion -> . ENTERO
+    (69) expresion -> . DECIMAL
+    (70) expresion -> . CADENA
+    (71) expresion -> . CHARACTER
+    (72) expresion -> . TRUE
+    (73) expresion -> . FALSE
+    (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
+    (80) expresion -> . call_instr
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
+
+    PTCOMA          shift and go to state 83
+    LLAVDER         reduce using rule 22 (empty -> .)
+    DEFAULT         reduce using rule 22 (empty -> .)
+    CASE            reduce using rule 22 (empty -> .)
+    MAIN            shift and go to state 20
+    FUNC            shift and go to state 22
+    ID              shift and go to state 23
+    RETURN          shift and go to state 24
+    PRINT           shift and go to state 25
+    VAR             shift and go to state 26
+    WHILE           shift and go to state 27
+    IF              shift and go to state 28
+    SWITCH          shift and go to state 29
+    FOR             shift and go to state 30
+    NULL            shift and go to state 31
+    MENOS           shift and go to state 32
+    NOT             shift and go to state 33
+    PARIZQ          shift and go to state 21
+    ENTERO          shift and go to state 34
+    DECIMAL         shift and go to state 35
+    CADENA          shift and go to state 36
+    CHARACTER       shift and go to state 37
+    TRUE            shift and go to state 38
+    FALSE           shift and go to state 39
+    BREAK           shift and go to state 40
+    CONTINUE        shift and go to state 41
+
+    expresion                      shift and go to state 17
+    def_instr_prima                shift and go to state 194
+    instruccion                    shift and go to state 42
+    empty                          shift and go to state 84
+    func_main                      shift and go to state 5
+    funct_instr                    shift and go to state 6
+    call_instr                     shift and go to state 7
+    return_instr                   shift and go to state 8
+    imprimir_instr                 shift and go to state 9
+    definicion_instr               shift and go to state 10
+    asignacion_instr               shift and go to state 11
+    def_asig_instr                 shift and go to state 12
+    while_instr                    shift and go to state 13
+    if_instr                       shift and go to state 14
+    switch_instr                   shift and go to state 15
+    for_instr                      shift and go to state 16
+    break_instr                    shift and go to state 18
+    continue_instr                 shift and go to state 19
+
+state 192
+
+    (43) for_instr -> FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ . instrucciones LLAVDER
+    (2) instrucciones -> . instrucciones instruccion
+    (3) instrucciones -> . instruccion
+    (4) instrucciones -> . empty
+    (5) instruccion -> . func_main
+    (6) instruccion -> . funct_instr
+    (7) instruccion -> . call_instr
+    (8) instruccion -> . return_instr
+    (9) instruccion -> . imprimir_instr
+    (10) instruccion -> . definicion_instr
+    (11) instruccion -> . asignacion_instr
+    (12) instruccion -> . def_asig_instr
+    (13) instruccion -> . while_instr
+    (14) instruccion -> . if_instr
+    (15) instruccion -> . switch_instr
+    (16) instruccion -> . for_instr
+    (17) instruccion -> . expresion
+    (18) instruccion -> . break_instr
+    (19) instruccion -> . continue_instr
+    (22) empty -> .
+    (23) func_main -> . MAIN PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
+    (81) funct_instr -> . FUNC ID PARIZQ params PARDER LLAVIZQ instrucciones LLAVDER
+    (82) funct_instr -> . FUNC ID PARIZQ PARDER LLAVIZQ instrucciones LLAVDER
+    (83) call_instr -> . ID PARIZQ PARDER def_instr_prima
+    (84) call_instr -> . ID PARIZQ params_call PARDER def_instr_prima
+    (91) return_instr -> . RETURN expresion def_instr_prima
+    (92) return_instr -> . RETURN call_instr def_instr_prima
+    (24) imprimir_instr -> . PRINT PARIZQ expresion PARDER def_instr_prima
+    (25) imprimir_instr -> . PRINT PARIZQ call_instr PARDER def_instr_prima
+    (26) definicion_instr -> . VAR ID def_instr_prima
+    (27) asignacion_instr -> . ID IGUAL expresion def_instr_prima
+    (28) def_asig_instr -> . VAR ID IGUAL expresion def_instr_prima
+    (29) def_asig_instr -> . VAR ID IGUAL call_instr def_instr_prima
+    (33) while_instr -> . WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (30) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (31) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER
+    (32) if_instr -> . IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE if_instr
+    (36) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ cases LLAVDER
+    (37) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ default_instr LLAVDER
+    (38) switch_instr -> . SWITCH PARIZQ expresion PARDER LLAVIZQ cases default_instr LLAVDER
+    (43) for_instr -> . FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER
+    (47) expresion -> . NULL
+    (48) expresion -> . expresion INCREMENT def_instr_prima
+    (49) expresion -> . expresion DECREMENT def_instr_prima
+    (50) expresion -> . expresion MAS expresion
+    (51) expresion -> . expresion MENOS expresion
+    (52) expresion -> . expresion POR expresion
+    (53) expresion -> . expresion DIVIDIDO expresion
+    (54) expresion -> . expresion ELEVADO expresion
+    (55) expresion -> . expresion MOD expresion
+    (56) expresion -> . expresion AND expresion
+    (57) expresion -> . expresion OR expresion
+    (58) expresion -> . expresion MAYQUE expresion
+    (59) expresion -> . expresion MENQUE expresion
+    (60) expresion -> . expresion MAYIGUALQUE expresion
+    (61) expresion -> . expresion MENIGUALQUE expresion
+    (62) expresion -> . expresion IGUALQUE expresion
+    (63) expresion -> . expresion NIGUALQUE expresion
+    (64) expresion -> . MENOS expresion
+    (65) expresion -> . NOT expresion
+    (66) expresion -> . PARIZQ expresion PARDER
+    (67) expresion -> . ID
+    (68) expresion -> . ENTERO
+    (69) expresion -> . DECIMAL
+    (70) expresion -> . CADENA
+    (71) expresion -> . CHARACTER
+    (72) expresion -> . TRUE
+    (73) expresion -> . FALSE
+    (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
+    (80) expresion -> . call_instr
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
+
+  ! shift/reduce conflict for MAIN resolved as shift
+  ! shift/reduce conflict for FUNC resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for RETURN resolved as shift
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for VAR resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for SWITCH resolved as shift
+  ! shift/reduce conflict for FOR resolved as shift
+  ! shift/reduce conflict for NULL resolved as shift
+  ! shift/reduce conflict for MENOS resolved as shift
+  ! shift/reduce conflict for NOT resolved as shift
+  ! shift/reduce conflict for PARIZQ resolved as shift
+  ! shift/reduce conflict for ENTERO resolved as shift
+  ! shift/reduce conflict for DECIMAL resolved as shift
+  ! shift/reduce conflict for CADENA resolved as shift
+  ! shift/reduce conflict for CHARACTER resolved as shift
+  ! shift/reduce conflict for TRUE resolved as shift
+  ! shift/reduce conflict for FALSE resolved as shift
+  ! shift/reduce conflict for BREAK resolved as shift
+  ! shift/reduce conflict for CONTINUE resolved as shift
+    LLAVDER         reduce using rule 22 (empty -> .)
+    MAIN            shift and go to state 20
+    FUNC            shift and go to state 22
+    ID              shift and go to state 23
+    RETURN          shift and go to state 24
+    PRINT           shift and go to state 25
+    VAR             shift and go to state 26
+    WHILE           shift and go to state 27
+    IF              shift and go to state 28
+    SWITCH          shift and go to state 29
+    FOR             shift and go to state 30
+    NULL            shift and go to state 31
+    MENOS           shift and go to state 32
+    NOT             shift and go to state 33
+    PARIZQ          shift and go to state 21
+    ENTERO          shift and go to state 34
+    DECIMAL         shift and go to state 35
+    CADENA          shift and go to state 36
+    CHARACTER       shift and go to state 37
+    TRUE            shift and go to state 38
+    FALSE           shift and go to state 39
+    BREAK           shift and go to state 40
+    CONTINUE        shift and go to state 41
+
+  ! MAIN            [ reduce using rule 22 (empty -> .) ]
+  ! FUNC            [ reduce using rule 22 (empty -> .) ]
+  ! ID              [ reduce using rule 22 (empty -> .) ]
+  ! RETURN          [ reduce using rule 22 (empty -> .) ]
+  ! PRINT           [ reduce using rule 22 (empty -> .) ]
+  ! VAR             [ reduce using rule 22 (empty -> .) ]
+  ! WHILE           [ reduce using rule 22 (empty -> .) ]
+  ! IF              [ reduce using rule 22 (empty -> .) ]
+  ! SWITCH          [ reduce using rule 22 (empty -> .) ]
+  ! FOR             [ reduce using rule 22 (empty -> .) ]
+  ! NULL            [ reduce using rule 22 (empty -> .) ]
+  ! MENOS           [ reduce using rule 22 (empty -> .) ]
+  ! NOT             [ reduce using rule 22 (empty -> .) ]
+  ! PARIZQ          [ reduce using rule 22 (empty -> .) ]
+  ! ENTERO          [ reduce using rule 22 (empty -> .) ]
+  ! DECIMAL         [ reduce using rule 22 (empty -> .) ]
+  ! CADENA          [ reduce using rule 22 (empty -> .) ]
+  ! CHARACTER       [ reduce using rule 22 (empty -> .) ]
+  ! TRUE            [ reduce using rule 22 (empty -> .) ]
+  ! FALSE           [ reduce using rule 22 (empty -> .) ]
+  ! BREAK           [ reduce using rule 22 (empty -> .) ]
+  ! CONTINUE        [ reduce using rule 22 (empty -> .) ]
+
+    expresion                      shift and go to state 17
+    instrucciones                  shift and go to state 195
+    instruccion                    shift and go to state 3
+    empty                          shift and go to state 4
+    func_main                      shift and go to state 5
+    funct_instr                    shift and go to state 6
+    call_instr                     shift and go to state 7
+    return_instr                   shift and go to state 8
+    imprimir_instr                 shift and go to state 9
+    definicion_instr               shift and go to state 10
+    asignacion_instr               shift and go to state 11
+    def_asig_instr                 shift and go to state 12
+    while_instr                    shift and go to state 13
+    if_instr                       shift and go to state 14
+    switch_instr                   shift and go to state 15
+    for_instr                      shift and go to state 16
+    break_instr                    shift and go to state 18
+    continue_instr                 shift and go to state 19
+
+state 193
 
     (31) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones . LLAVDER
     (2) instrucciones -> instrucciones . instruccion
@@ -9693,10 +9775,10 @@ state 191
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
-    LLAVDER         shift and go to state 194
+    LLAVDER         shift and go to state 196
     MAIN            shift and go to state 20
     FUNC            shift and go to state 22
     ID              shift and go to state 23
@@ -9737,7 +9819,7 @@ state 191
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 192
+state 194
 
     (41) case_instr -> CASE expresion DOSPUNTOS instrucciones def_instr_prima .
 
@@ -9746,7 +9828,7 @@ state 192
     CASE            reduce using rule 41 (case_instr -> CASE expresion DOSPUNTOS instrucciones def_instr_prima .)
 
 
-state 193
+state 195
 
     (43) for_instr -> FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones . LLAVDER
     (2) instrucciones -> instrucciones . instruccion
@@ -9815,10 +9897,10 @@ state 193
     (73) expresion -> . FALSE
     (79) expresion -> . PARIZQ expresion_data_type PARDER expresion
     (80) expresion -> . call_instr
-    (35) break_instr -> . BREAK
-    (34) continue_instr -> . CONTINUE
+    (35) break_instr -> . BREAK def_instr_prima
+    (34) continue_instr -> . CONTINUE def_instr_prima
 
-    LLAVDER         shift and go to state 195
+    LLAVDER         shift and go to state 197
     MAIN            shift and go to state 20
     FUNC            shift and go to state 22
     ID              shift and go to state 23
@@ -9859,7 +9941,7 @@ state 193
     break_instr                    shift and go to state 18
     continue_instr                 shift and go to state 19
 
-state 194
+state 196
 
     (31) if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .
 
@@ -9892,7 +9974,7 @@ state 194
     CASE            reduce using rule 31 (if_instr -> IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER ELSE LLAVIZQ instrucciones LLAVDER .)
 
 
-state 195
+state 197
 
     (43) for_instr -> FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER .
 
@@ -9951,6 +10033,8 @@ WARNING: shift/reduce conflict for BREAK in state 0 resolved as shift
 WARNING: shift/reduce conflict for CONTINUE in state 0 resolved as shift
 WARNING: shift/reduce conflict for MENOS in state 17 resolved as shift
 WARNING: shift/reduce conflict for PARIZQ in state 23 resolved as shift
+WARNING: shift/reduce conflict for PTCOMA in state 40 resolved as shift
+WARNING: shift/reduce conflict for PTCOMA in state 41 resolved as shift
 WARNING: shift/reduce conflict for PTCOMA in state 43 resolved as shift
 WARNING: shift/reduce conflict for PTCOMA in state 44 resolved as shift
 WARNING: shift/reduce conflict for PARIZQ in state 62 resolved as shift
@@ -9959,188 +10043,166 @@ WARNING: shift/reduce conflict for PTCOMA in state 72 resolved as shift
 WARNING: shift/reduce conflict for PTCOMA in state 73 resolved as shift
 WARNING: shift/reduce conflict for PTCOMA in state 73 resolved as shift
 WARNING: shift/reduce conflict for PTCOMA in state 75 resolved as shift
-WARNING: shift/reduce conflict for PTCOMA in state 104 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 108 resolved as shift
-WARNING: shift/reduce conflict for PTCOMA in state 108 resolved as shift
-WARNING: shift/reduce conflict for PARDER in state 112 resolved as shift
-WARNING: shift/reduce conflict for MAIN in state 123 resolved as shift
-WARNING: shift/reduce conflict for FUNC in state 123 resolved as shift
-WARNING: shift/reduce conflict for ID in state 123 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 123 resolved as shift
-WARNING: shift/reduce conflict for PRINT in state 123 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 123 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 123 resolved as shift
-WARNING: shift/reduce conflict for IF in state 123 resolved as shift
-WARNING: shift/reduce conflict for SWITCH in state 123 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 123 resolved as shift
-WARNING: shift/reduce conflict for NULL in state 123 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 123 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 123 resolved as shift
-WARNING: shift/reduce conflict for PARIZQ in state 123 resolved as shift
-WARNING: shift/reduce conflict for ENTERO in state 123 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 123 resolved as shift
-WARNING: shift/reduce conflict for CADENA in state 123 resolved as shift
-WARNING: shift/reduce conflict for CHARACTER in state 123 resolved as shift
-WARNING: shift/reduce conflict for TRUE in state 123 resolved as shift
-WARNING: shift/reduce conflict for FALSE in state 123 resolved as shift
-WARNING: shift/reduce conflict for BREAK in state 123 resolved as shift
-WARNING: shift/reduce conflict for CONTINUE in state 123 resolved as shift
-WARNING: shift/reduce conflict for INCREMENT in state 124 resolved as shift
-WARNING: shift/reduce conflict for DECREMENT in state 124 resolved as shift
-WARNING: shift/reduce conflict for MAS in state 124 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 124 resolved as shift
-WARNING: shift/reduce conflict for POR in state 124 resolved as shift
-WARNING: shift/reduce conflict for DIVIDIDO in state 124 resolved as shift
-WARNING: shift/reduce conflict for ELEVADO in state 124 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 124 resolved as shift
-WARNING: shift/reduce conflict for AND in state 124 resolved as shift
-WARNING: shift/reduce conflict for OR in state 124 resolved as shift
-WARNING: shift/reduce conflict for MAYQUE in state 124 resolved as shift
-WARNING: shift/reduce conflict for MENQUE in state 124 resolved as shift
-WARNING: shift/reduce conflict for MAYIGUALQUE in state 124 resolved as shift
-WARNING: shift/reduce conflict for MENIGUALQUE in state 124 resolved as shift
-WARNING: shift/reduce conflict for IGUALQUE in state 124 resolved as shift
-WARNING: shift/reduce conflict for NIGUALQUE in state 124 resolved as shift
-WARNING: shift/reduce conflict for PTCOMA in state 130 resolved as shift
-WARNING: shift/reduce conflict for PTCOMA in state 133 resolved as shift
-WARNING: shift/reduce conflict for PTCOMA in state 134 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 135 resolved as shift
+WARNING: shift/reduce conflict for PTCOMA in state 106 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 110 resolved as shift
+WARNING: shift/reduce conflict for PTCOMA in state 110 resolved as shift
+WARNING: shift/reduce conflict for PARDER in state 114 resolved as shift
+WARNING: shift/reduce conflict for MAIN in state 125 resolved as shift
+WARNING: shift/reduce conflict for FUNC in state 125 resolved as shift
+WARNING: shift/reduce conflict for ID in state 125 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 125 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 125 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 125 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 125 resolved as shift
+WARNING: shift/reduce conflict for IF in state 125 resolved as shift
+WARNING: shift/reduce conflict for SWITCH in state 125 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 125 resolved as shift
+WARNING: shift/reduce conflict for NULL in state 125 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 125 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 125 resolved as shift
+WARNING: shift/reduce conflict for PARIZQ in state 125 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 125 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 125 resolved as shift
+WARNING: shift/reduce conflict for CADENA in state 125 resolved as shift
+WARNING: shift/reduce conflict for CHARACTER in state 125 resolved as shift
+WARNING: shift/reduce conflict for TRUE in state 125 resolved as shift
+WARNING: shift/reduce conflict for FALSE in state 125 resolved as shift
+WARNING: shift/reduce conflict for BREAK in state 125 resolved as shift
+WARNING: shift/reduce conflict for CONTINUE in state 125 resolved as shift
+WARNING: shift/reduce conflict for INCREMENT in state 126 resolved as shift
+WARNING: shift/reduce conflict for DECREMENT in state 126 resolved as shift
+WARNING: shift/reduce conflict for MAS in state 126 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 126 resolved as shift
+WARNING: shift/reduce conflict for POR in state 126 resolved as shift
+WARNING: shift/reduce conflict for DIVIDIDO in state 126 resolved as shift
+WARNING: shift/reduce conflict for ELEVADO in state 126 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 126 resolved as shift
+WARNING: shift/reduce conflict for AND in state 126 resolved as shift
+WARNING: shift/reduce conflict for OR in state 126 resolved as shift
+WARNING: shift/reduce conflict for MAYQUE in state 126 resolved as shift
+WARNING: shift/reduce conflict for MENQUE in state 126 resolved as shift
+WARNING: shift/reduce conflict for MAYIGUALQUE in state 126 resolved as shift
+WARNING: shift/reduce conflict for MENIGUALQUE in state 126 resolved as shift
+WARNING: shift/reduce conflict for IGUALQUE in state 126 resolved as shift
+WARNING: shift/reduce conflict for NIGUALQUE in state 126 resolved as shift
+WARNING: shift/reduce conflict for PTCOMA in state 132 resolved as shift
 WARNING: shift/reduce conflict for PTCOMA in state 135 resolved as shift
 WARNING: shift/reduce conflict for PTCOMA in state 136 resolved as shift
-WARNING: shift/reduce conflict for PTCOMA in state 136 resolved as shift
-WARNING: shift/reduce conflict for MAIN in state 145 resolved as shift
-WARNING: shift/reduce conflict for FUNC in state 145 resolved as shift
-WARNING: shift/reduce conflict for ID in state 145 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 145 resolved as shift
-WARNING: shift/reduce conflict for PRINT in state 145 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 145 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 145 resolved as shift
-WARNING: shift/reduce conflict for IF in state 145 resolved as shift
-WARNING: shift/reduce conflict for SWITCH in state 145 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 145 resolved as shift
-WARNING: shift/reduce conflict for NULL in state 145 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 145 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 145 resolved as shift
-WARNING: shift/reduce conflict for PARIZQ in state 145 resolved as shift
-WARNING: shift/reduce conflict for ENTERO in state 145 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 145 resolved as shift
-WARNING: shift/reduce conflict for CADENA in state 145 resolved as shift
-WARNING: shift/reduce conflict for CHARACTER in state 145 resolved as shift
-WARNING: shift/reduce conflict for TRUE in state 145 resolved as shift
-WARNING: shift/reduce conflict for FALSE in state 145 resolved as shift
-WARNING: shift/reduce conflict for BREAK in state 145 resolved as shift
-WARNING: shift/reduce conflict for CONTINUE in state 145 resolved as shift
-WARNING: shift/reduce conflict for MAIN in state 153 resolved as shift
-WARNING: shift/reduce conflict for FUNC in state 153 resolved as shift
-WARNING: shift/reduce conflict for ID in state 153 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 153 resolved as shift
-WARNING: shift/reduce conflict for PRINT in state 153 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 153 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 153 resolved as shift
-WARNING: shift/reduce conflict for IF in state 153 resolved as shift
-WARNING: shift/reduce conflict for SWITCH in state 153 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 153 resolved as shift
-WARNING: shift/reduce conflict for NULL in state 153 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 153 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 153 resolved as shift
-WARNING: shift/reduce conflict for PARIZQ in state 153 resolved as shift
-WARNING: shift/reduce conflict for ENTERO in state 153 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 153 resolved as shift
-WARNING: shift/reduce conflict for CADENA in state 153 resolved as shift
-WARNING: shift/reduce conflict for CHARACTER in state 153 resolved as shift
-WARNING: shift/reduce conflict for TRUE in state 153 resolved as shift
-WARNING: shift/reduce conflict for FALSE in state 153 resolved as shift
-WARNING: shift/reduce conflict for BREAK in state 153 resolved as shift
-WARNING: shift/reduce conflict for CONTINUE in state 153 resolved as shift
-WARNING: shift/reduce conflict for MAIN in state 154 resolved as shift
-WARNING: shift/reduce conflict for FUNC in state 154 resolved as shift
-WARNING: shift/reduce conflict for ID in state 154 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 154 resolved as shift
-WARNING: shift/reduce conflict for PRINT in state 154 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 154 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 154 resolved as shift
-WARNING: shift/reduce conflict for IF in state 154 resolved as shift
-WARNING: shift/reduce conflict for SWITCH in state 154 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 154 resolved as shift
-WARNING: shift/reduce conflict for NULL in state 154 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 154 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 154 resolved as shift
-WARNING: shift/reduce conflict for PARIZQ in state 154 resolved as shift
-WARNING: shift/reduce conflict for ENTERO in state 154 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 154 resolved as shift
-WARNING: shift/reduce conflict for CADENA in state 154 resolved as shift
-WARNING: shift/reduce conflict for CHARACTER in state 154 resolved as shift
-WARNING: shift/reduce conflict for TRUE in state 154 resolved as shift
-WARNING: shift/reduce conflict for FALSE in state 154 resolved as shift
-WARNING: shift/reduce conflict for BREAK in state 154 resolved as shift
-WARNING: shift/reduce conflict for CONTINUE in state 154 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 137 resolved as shift
+WARNING: shift/reduce conflict for PTCOMA in state 137 resolved as shift
+WARNING: shift/reduce conflict for PTCOMA in state 138 resolved as shift
+WARNING: shift/reduce conflict for PTCOMA in state 138 resolved as shift
+WARNING: shift/reduce conflict for MAIN in state 147 resolved as shift
+WARNING: shift/reduce conflict for FUNC in state 147 resolved as shift
+WARNING: shift/reduce conflict for ID in state 147 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 147 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 147 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 147 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 147 resolved as shift
+WARNING: shift/reduce conflict for IF in state 147 resolved as shift
+WARNING: shift/reduce conflict for SWITCH in state 147 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 147 resolved as shift
+WARNING: shift/reduce conflict for NULL in state 147 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 147 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 147 resolved as shift
+WARNING: shift/reduce conflict for PARIZQ in state 147 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 147 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 147 resolved as shift
+WARNING: shift/reduce conflict for CADENA in state 147 resolved as shift
+WARNING: shift/reduce conflict for CHARACTER in state 147 resolved as shift
+WARNING: shift/reduce conflict for TRUE in state 147 resolved as shift
+WARNING: shift/reduce conflict for FALSE in state 147 resolved as shift
+WARNING: shift/reduce conflict for BREAK in state 147 resolved as shift
+WARNING: shift/reduce conflict for CONTINUE in state 147 resolved as shift
+WARNING: shift/reduce conflict for MAIN in state 155 resolved as shift
+WARNING: shift/reduce conflict for FUNC in state 155 resolved as shift
+WARNING: shift/reduce conflict for ID in state 155 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 155 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 155 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 155 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 155 resolved as shift
+WARNING: shift/reduce conflict for IF in state 155 resolved as shift
+WARNING: shift/reduce conflict for SWITCH in state 155 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 155 resolved as shift
+WARNING: shift/reduce conflict for NULL in state 155 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 155 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 155 resolved as shift
+WARNING: shift/reduce conflict for PARIZQ in state 155 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 155 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 155 resolved as shift
+WARNING: shift/reduce conflict for CADENA in state 155 resolved as shift
+WARNING: shift/reduce conflict for CHARACTER in state 155 resolved as shift
+WARNING: shift/reduce conflict for TRUE in state 155 resolved as shift
+WARNING: shift/reduce conflict for FALSE in state 155 resolved as shift
+WARNING: shift/reduce conflict for BREAK in state 155 resolved as shift
+WARNING: shift/reduce conflict for CONTINUE in state 155 resolved as shift
+WARNING: shift/reduce conflict for MAIN in state 156 resolved as shift
+WARNING: shift/reduce conflict for FUNC in state 156 resolved as shift
+WARNING: shift/reduce conflict for ID in state 156 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 156 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 156 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 156 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 156 resolved as shift
+WARNING: shift/reduce conflict for IF in state 156 resolved as shift
+WARNING: shift/reduce conflict for SWITCH in state 156 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 156 resolved as shift
+WARNING: shift/reduce conflict for NULL in state 156 resolved as shift
 WARNING: shift/reduce conflict for MENOS in state 156 resolved as shift
-WARNING: shift/reduce conflict for MAIN in state 158 resolved as shift
-WARNING: shift/reduce conflict for FUNC in state 158 resolved as shift
-WARNING: shift/reduce conflict for ID in state 158 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 158 resolved as shift
-WARNING: shift/reduce conflict for PRINT in state 158 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 158 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 158 resolved as shift
-WARNING: shift/reduce conflict for IF in state 158 resolved as shift
-WARNING: shift/reduce conflict for SWITCH in state 158 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 158 resolved as shift
-WARNING: shift/reduce conflict for NULL in state 158 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 156 resolved as shift
+WARNING: shift/reduce conflict for PARIZQ in state 156 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 156 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 156 resolved as shift
+WARNING: shift/reduce conflict for CADENA in state 156 resolved as shift
+WARNING: shift/reduce conflict for CHARACTER in state 156 resolved as shift
+WARNING: shift/reduce conflict for TRUE in state 156 resolved as shift
+WARNING: shift/reduce conflict for FALSE in state 156 resolved as shift
+WARNING: shift/reduce conflict for BREAK in state 156 resolved as shift
+WARNING: shift/reduce conflict for CONTINUE in state 156 resolved as shift
 WARNING: shift/reduce conflict for MENOS in state 158 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 158 resolved as shift
-WARNING: shift/reduce conflict for PARIZQ in state 158 resolved as shift
-WARNING: shift/reduce conflict for ENTERO in state 158 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 158 resolved as shift
-WARNING: shift/reduce conflict for CADENA in state 158 resolved as shift
-WARNING: shift/reduce conflict for CHARACTER in state 158 resolved as shift
-WARNING: shift/reduce conflict for TRUE in state 158 resolved as shift
-WARNING: shift/reduce conflict for FALSE in state 158 resolved as shift
-WARNING: shift/reduce conflict for BREAK in state 158 resolved as shift
-WARNING: shift/reduce conflict for CONTINUE in state 158 resolved as shift
-WARNING: shift/reduce conflict for MAIN in state 177 resolved as shift
-WARNING: shift/reduce conflict for FUNC in state 177 resolved as shift
-WARNING: shift/reduce conflict for ID in state 177 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 177 resolved as shift
-WARNING: shift/reduce conflict for PRINT in state 177 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 177 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 177 resolved as shift
-WARNING: shift/reduce conflict for IF in state 177 resolved as shift
-WARNING: shift/reduce conflict for SWITCH in state 177 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 177 resolved as shift
-WARNING: shift/reduce conflict for NULL in state 177 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 177 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 177 resolved as shift
-WARNING: shift/reduce conflict for PARIZQ in state 177 resolved as shift
-WARNING: shift/reduce conflict for ENTERO in state 177 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 177 resolved as shift
-WARNING: shift/reduce conflict for CADENA in state 177 resolved as shift
-WARNING: shift/reduce conflict for CHARACTER in state 177 resolved as shift
-WARNING: shift/reduce conflict for TRUE in state 177 resolved as shift
-WARNING: shift/reduce conflict for FALSE in state 177 resolved as shift
-WARNING: shift/reduce conflict for BREAK in state 177 resolved as shift
-WARNING: shift/reduce conflict for CONTINUE in state 177 resolved as shift
-WARNING: shift/reduce conflict for MAIN in state 184 resolved as shift
-WARNING: shift/reduce conflict for FUNC in state 184 resolved as shift
-WARNING: shift/reduce conflict for ID in state 184 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 184 resolved as shift
-WARNING: shift/reduce conflict for PRINT in state 184 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 184 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 184 resolved as shift
-WARNING: shift/reduce conflict for IF in state 184 resolved as shift
-WARNING: shift/reduce conflict for SWITCH in state 184 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 184 resolved as shift
-WARNING: shift/reduce conflict for NULL in state 184 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 184 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 184 resolved as shift
-WARNING: shift/reduce conflict for PARIZQ in state 184 resolved as shift
-WARNING: shift/reduce conflict for ENTERO in state 184 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 184 resolved as shift
-WARNING: shift/reduce conflict for CADENA in state 184 resolved as shift
-WARNING: shift/reduce conflict for CHARACTER in state 184 resolved as shift
-WARNING: shift/reduce conflict for TRUE in state 184 resolved as shift
-WARNING: shift/reduce conflict for FALSE in state 184 resolved as shift
-WARNING: shift/reduce conflict for BREAK in state 184 resolved as shift
-WARNING: shift/reduce conflict for CONTINUE in state 184 resolved as shift
+WARNING: shift/reduce conflict for MAIN in state 160 resolved as shift
+WARNING: shift/reduce conflict for FUNC in state 160 resolved as shift
+WARNING: shift/reduce conflict for ID in state 160 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 160 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 160 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 160 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 160 resolved as shift
+WARNING: shift/reduce conflict for IF in state 160 resolved as shift
+WARNING: shift/reduce conflict for SWITCH in state 160 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 160 resolved as shift
+WARNING: shift/reduce conflict for NULL in state 160 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 160 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 160 resolved as shift
+WARNING: shift/reduce conflict for PARIZQ in state 160 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 160 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 160 resolved as shift
+WARNING: shift/reduce conflict for CADENA in state 160 resolved as shift
+WARNING: shift/reduce conflict for CHARACTER in state 160 resolved as shift
+WARNING: shift/reduce conflict for TRUE in state 160 resolved as shift
+WARNING: shift/reduce conflict for FALSE in state 160 resolved as shift
+WARNING: shift/reduce conflict for BREAK in state 160 resolved as shift
+WARNING: shift/reduce conflict for CONTINUE in state 160 resolved as shift
+WARNING: shift/reduce conflict for MAIN in state 179 resolved as shift
+WARNING: shift/reduce conflict for FUNC in state 179 resolved as shift
+WARNING: shift/reduce conflict for ID in state 179 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 179 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 179 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 179 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 179 resolved as shift
+WARNING: shift/reduce conflict for IF in state 179 resolved as shift
+WARNING: shift/reduce conflict for SWITCH in state 179 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 179 resolved as shift
+WARNING: shift/reduce conflict for NULL in state 179 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 179 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 179 resolved as shift
+WARNING: shift/reduce conflict for PARIZQ in state 179 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 179 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 179 resolved as shift
+WARNING: shift/reduce conflict for CADENA in state 179 resolved as shift
+WARNING: shift/reduce conflict for CHARACTER in state 179 resolved as shift
+WARNING: shift/reduce conflict for TRUE in state 179 resolved as shift
+WARNING: shift/reduce conflict for FALSE in state 179 resolved as shift
+WARNING: shift/reduce conflict for BREAK in state 179 resolved as shift
+WARNING: shift/reduce conflict for CONTINUE in state 179 resolved as shift
 WARNING: shift/reduce conflict for MAIN in state 186 resolved as shift
 WARNING: shift/reduce conflict for FUNC in state 186 resolved as shift
 WARNING: shift/reduce conflict for ID in state 186 resolved as shift
@@ -10163,31 +10225,53 @@ WARNING: shift/reduce conflict for TRUE in state 186 resolved as shift
 WARNING: shift/reduce conflict for FALSE in state 186 resolved as shift
 WARNING: shift/reduce conflict for BREAK in state 186 resolved as shift
 WARNING: shift/reduce conflict for CONTINUE in state 186 resolved as shift
-WARNING: shift/reduce conflict for MAIN in state 190 resolved as shift
-WARNING: shift/reduce conflict for FUNC in state 190 resolved as shift
-WARNING: shift/reduce conflict for ID in state 190 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 190 resolved as shift
-WARNING: shift/reduce conflict for PRINT in state 190 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 190 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 190 resolved as shift
-WARNING: shift/reduce conflict for IF in state 190 resolved as shift
-WARNING: shift/reduce conflict for SWITCH in state 190 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 190 resolved as shift
-WARNING: shift/reduce conflict for NULL in state 190 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 190 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 190 resolved as shift
-WARNING: shift/reduce conflict for PARIZQ in state 190 resolved as shift
-WARNING: shift/reduce conflict for ENTERO in state 190 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 190 resolved as shift
-WARNING: shift/reduce conflict for CADENA in state 190 resolved as shift
-WARNING: shift/reduce conflict for CHARACTER in state 190 resolved as shift
-WARNING: shift/reduce conflict for TRUE in state 190 resolved as shift
-WARNING: shift/reduce conflict for FALSE in state 190 resolved as shift
-WARNING: shift/reduce conflict for BREAK in state 190 resolved as shift
-WARNING: shift/reduce conflict for CONTINUE in state 190 resolved as shift
+WARNING: shift/reduce conflict for MAIN in state 188 resolved as shift
+WARNING: shift/reduce conflict for FUNC in state 188 resolved as shift
+WARNING: shift/reduce conflict for ID in state 188 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 188 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 188 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 188 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 188 resolved as shift
+WARNING: shift/reduce conflict for IF in state 188 resolved as shift
+WARNING: shift/reduce conflict for SWITCH in state 188 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 188 resolved as shift
+WARNING: shift/reduce conflict for NULL in state 188 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 188 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 188 resolved as shift
+WARNING: shift/reduce conflict for PARIZQ in state 188 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 188 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 188 resolved as shift
+WARNING: shift/reduce conflict for CADENA in state 188 resolved as shift
+WARNING: shift/reduce conflict for CHARACTER in state 188 resolved as shift
+WARNING: shift/reduce conflict for TRUE in state 188 resolved as shift
+WARNING: shift/reduce conflict for FALSE in state 188 resolved as shift
+WARNING: shift/reduce conflict for BREAK in state 188 resolved as shift
+WARNING: shift/reduce conflict for CONTINUE in state 188 resolved as shift
+WARNING: shift/reduce conflict for MAIN in state 192 resolved as shift
+WARNING: shift/reduce conflict for FUNC in state 192 resolved as shift
+WARNING: shift/reduce conflict for ID in state 192 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 192 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 192 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 192 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 192 resolved as shift
+WARNING: shift/reduce conflict for IF in state 192 resolved as shift
+WARNING: shift/reduce conflict for SWITCH in state 192 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 192 resolved as shift
+WARNING: shift/reduce conflict for NULL in state 192 resolved as shift
+WARNING: shift/reduce conflict for MENOS in state 192 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 192 resolved as shift
+WARNING: shift/reduce conflict for PARIZQ in state 192 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 192 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 192 resolved as shift
+WARNING: shift/reduce conflict for CADENA in state 192 resolved as shift
+WARNING: shift/reduce conflict for CHARACTER in state 192 resolved as shift
+WARNING: shift/reduce conflict for TRUE in state 192 resolved as shift
+WARNING: shift/reduce conflict for FALSE in state 192 resolved as shift
+WARNING: shift/reduce conflict for BREAK in state 192 resolved as shift
+WARNING: shift/reduce conflict for CONTINUE in state 192 resolved as shift
 WARNING: reduce/reduce conflict in state 7 resolved using rule (instruccion -> call_instr)
 WARNING: rejected rule (expresion -> call_instr) in state 7
 WARNING: reduce/reduce conflict in state 73 resolved using rule (empty -> <empty>)
 WARNING: rejected rule (expresion -> call_instr) in state 73
-WARNING: reduce/reduce conflict in state 136 resolved using rule (empty -> <empty>)
-WARNING: rejected rule (expresion -> call_instr) in state 136
+WARNING: reduce/reduce conflict in state 138 resolved using rule (empty -> <empty>)
+WARNING: rejected rule (expresion -> call_instr) in state 138

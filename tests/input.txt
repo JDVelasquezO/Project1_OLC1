@@ -1,21 +1,19 @@
 
-main () {
-
-    #* for (var i = 0; i < 9; i++){
+func metodo() {
+    for (var i = 0; i < 9; i++) {
         if (i == 5) {
-            print ("Me salte el numero " + i)
-            continue
+            return i;
         }
-        print(i)
-    } *#
+        print(i);
+    }
+}
 
-    var counter = 10
-    while (counter > 0){
-        counter--
-        if (counter == 5){
-            print("me salto en el " + counter)
-            continue
+main () {
+    #print(metodo())
+    for (var i = 0; i < 9; i++) {
+        if (i == 5) {
+            continue;
         }
-        print(counter)
+        print(i);
     }
 }

@@ -302,13 +302,13 @@ def p_while_instr(t):
 
 # -------------------------------- CONTINUE ---------------------------
 def p_continue_instr(t):
-    'continue_instr     : CONTINUE'
+    'continue_instr     : CONTINUE def_instr_prima'
     t[0] = Continue(t.lineno(1), find_column(entrada, t.slice[1]))
 
 
 # ----------------------------- SWITCH y BREAK -----------------------------
 def p_break_instr(t):
-    '''break_instr    : BREAK'''
+    '''break_instr    : BREAK def_instr_prima'''
     t[0] = Break(t.lineno(1), find_column(entrada, t.slice[1]))
 
 

@@ -154,16 +154,19 @@ def procesar_switch(instr, ts, console):
 
 
 def procesar_for(instr, ts, console):
-    ts_local = TS.TablaDeSimbolos(ts)
-    procesar_definicion_asignacion(instr.exp1, ts_local)
-    while resolver_operador_logico(instr.expLogica, ts_local):
-        ts_instr = TS.TablaDeSimbolos(ts_local)
-        value = procesar_instrucciones(instr.instrucciones, ts_instr, console)
-        resolver_expresion_increment(instr.reAsign, ts_local)
+    # ts_local = TS.TablaDeSimbolos(ts)
+    procesar_definicion_asignacion(instr.exp1, ts)
+    while resolver_operador_logico(instr.expLogica, ts):
+        resolver_expresion_increment(instr.reAsign, ts)
+        value = procesar_instrucciones(instr.instrucciones, ts, console)
         if value == 'break':
             break
         elif value == 'continue':
             continue
+        elif value is not None:
+            # if isinstance(value, ExpresionIdentificador):
+            #     value = ts.obtener(value.id)
+            return value
         # resolver_operador_logico(logic, ts_local)
 
 
@@ -228,7 +231,7 @@ def resolver_cadena(expCad, ts):
         return val
 
     elif isinstance(expCad, Call):
-        val = call_func(expCad.name, ts, None, expCad.params)
+        val = call_func(expCad.name, ts_global, None, expCad.params)
         return val
 
     else:
@@ -434,7 +437,9 @@ def resolver_expresion_aritmetica(expNum, ts):
         return expNum.exp
 
     elif isinstance(expNum, ExpresionIdentificador):
-        return ts.obtener(expNum.id.lower()).valor
+        value = ts.obtener(expNum.id.lower())
+        if value:
+            return value.valor
 
     elif isinstance(expNum, ExpresionBoolean):
         return expNum.val
@@ -545,34 +550,33 @@ def resolver_type(exp, ts, console):
 
 
 def call_func(name, ts, console, params=[]):
-    ts_local = TS.TablaDeSimbolos(ts)
-
     try:
-        if isinstance(params[0], ExpresionIdentificador):
-            value = ts_local.obtener(params[0].id.lower()).valor
-        else:
-            if isinstance(params[0], ExpresionBinaria):
-                value = resolver_expresion_aritmetica(params[0], ts)
-            elif isinstance(params[0], Call):
-                value = call_func(params[0].name, ts, None, params[0].params)
+        if len(params) > 0:
+            if isinstance(params[0], ExpresionIdentificador):
+                value = ts.obtener(params[0].id.lower()).valor
             else:
-                value = params[0].val
+                if isinstance(params[0], ExpresionBinaria):
+                    value = resolver_expresion_aritmetica(params[0], ts)
+                elif isinstance(params[0], Call):
+                    value = call_func(params[0].name, ts, None, params[0].params)
+                else:
+                    value = params[0].val
 
-        if value is None:
-            return 'NULL'
+            if value is None:
+                return 'NULL'
 
-        if name.lower() == 'tolower':
-            return value.lower()
-        elif name.lower() == 'toupper':
-            return value.upper()
-        elif name.lower() == 'length':
-            return len(value)
-        elif name.lower() == 'truncate':
-            return math.trunc(value)
-        elif name.lower() == 'round':
-            return round(value)
-        elif name.lower() == 'typeof':
-            return resolver_type(params[0], ts, None)
+            if name.lower() == 'tolower':
+                return value.lower()
+            elif name.lower() == 'toupper':
+                return value.upper()
+            elif name.lower() == 'length':
+                return len(value)
+            elif name.lower() == 'truncate':
+                return math.trunc(value)
+            elif name.lower() == 'round':
+                return round(value)
+            elif name.lower() == 'typeof':
+                return resolver_type(params[0], ts, None)
     except AttributeError:
         err = Excepcion("Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
         errores.append(err)
@@ -582,15 +586,15 @@ def call_func(name, ts, console, params=[]):
         errores.append(err)
         return err.toString()
 
-    func = ts_local.obtener(name)
-    if len(func.params[0]) > 0:
+    func = ts.obtener(name)
+    if len(func.params) > 0:
         if len(func.params) == len(params):
             i = 0
             for param in func.params:
                 if isinstance(params[i], ExpresionBinaria):
-                    value = resolver_expresion_aritmetica(params[i], ts_local)
+                    value = resolver_expresion_aritmetica(params[i], ts)
                 elif isinstance(params[i], ExpresionOperacionLogica):
-                    value = resolver_operador_logico(params[i], ts_local)
+                    value = resolver_operador_logico(params[i], ts)
                 elif isinstance(params[i], ExpresionIdentificador):
                     value = ts.obtener(params[i].id.lower()).valor
                 elif (param["type"] == 'int' or param["type"] == 'double') and isinstance(params[i], ExpresionNumerica):
@@ -607,18 +611,16 @@ def call_func(name, ts, console, params=[]):
                     errores.append(err)
                     return err.toString()
                 simbol = TS.Simbolo(param["id"], param["type"], value, 0, 0)
-                ts_local.agregar(simbol)
+                ts.agregar(simbol)
                 i += 1
         else:
             print(Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString())
             err = Excepcion("Semantico", "Numero de parametros diferente", func.row, func.col)
             errores.append(err)
             return err.toString()
-    val = procesar_instrucciones(func.valor, ts_local, console)
+    val = procesar_instrucciones(func.valor, ts, console)
     if val:
-        res = resolver_expresion_aritmetica(val, ts_local)
-        # simbolo = TS.Simbolo(func.id, TS.TIPO_DATO.NUMERO, res, func.row, func.col)
-        # ts_local.actualizar(simbolo, None)
+        res = resolver_expresion_aritmetica(val, ts)
         return res
 
 
@@ -641,6 +643,8 @@ def procesar_instrucciones(instrucciones, ts, console):
                 return 'break'
             elif value == 'continue':
                 return 'continue'
+            elif value is not None:
+                return value
         elif isinstance(instr, IfElse):
             value = procesar_if_else(instr, ts, console)
             return value if value else False
@@ -653,7 +657,9 @@ def procesar_instrucciones(instrucciones, ts, console):
         elif isinstance(instr, ExpresionIncrement):
             resolver_expresion_increment(instr, ts)
         elif isinstance(instr, For):
-            procesar_for(instr, ts, console)
+            value = procesar_for(instr, ts, console)
+            if value is not None:
+                return value
         elif isinstance(instr, Call):
             call_func(instr.name, ts, console, instr.params)
         elif isinstance(instr, Return):
