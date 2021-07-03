@@ -367,34 +367,39 @@ def resolver_expresion_aritmetica(expNum, ts, console):
             # read = input()
 
         if expNum.operador == OPERACION_ARITMETICA.MAS:
-            if isinstance(exp1, int) and isinstance(exp2, str):
-                if isinstance(exp1, bool):
-                    if exp1:
-                        return f"true{exp2}"
-                    else:
-                        return f"false{exp2}"
-                return str(exp1) + exp2
+            try:
+                if isinstance(exp1, int) and isinstance(exp2, str):
+                    if isinstance(exp1, bool):
+                        if exp1:
+                            return f"true{exp2}"
+                        else:
+                            return f"false{exp2}"
+                    return str(exp1) + exp2
 
-            elif isinstance(exp1, float) and isinstance(exp2, str):
-                return str(exp1) + exp2
+                elif isinstance(exp1, float) and isinstance(exp2, str):
+                    return str(exp1) + exp2
 
-            elif isinstance(exp1, str) and isinstance(exp2, int):
-                if isinstance(exp2, bool):
+                elif isinstance(exp1, str) and isinstance(exp2, int):
+                    if isinstance(exp2, bool):
+                        if exp2:
+                            return f"{exp1}true"
+                        else:
+                            return f"{exp1}false"
+                    return exp1 + str(exp2)
+
+                elif isinstance(exp1, str) and isinstance(exp2, float):
+                    return exp1 + str(exp2)
+
+                elif isinstance(exp1, str) and isinstance(exp2, bool):
                     if exp2:
-                        return f"{exp1}true"
+                        return f"true{exp1}"
                     else:
-                        return f"{exp1}false"
-                return exp1 + str(exp2)
-
-            elif isinstance(exp1, str) and isinstance(exp2, float):
-                return exp1 + str(exp2)
-
-            elif isinstance(exp1, str) and isinstance(exp2, bool):
-                if exp2:
-                    return f"true{exp1}"
-                else:
-                    return f"false{exp1}"
-            return exp1 + exp2
+                        return f"false{exp1}"
+                return exp1 + exp2
+            except TypeError:
+                err = Excepcion("Error semantico", "No es posible la suma", expNum.row, expNum.col)
+                errores.append(err)
+                return err.toString()
 
         if expNum.operador == OPERACION_ARITMETICA.MENOS:
             try:
@@ -531,7 +536,7 @@ def resolver_casteo(expNum, ts, console):
     except ValueError:
         err = Excepcion("Error semántico", "No es posible este casteo", expNum.row, expNum.col)
         errores.append(err)
-        return err.toString()
+        return err
 
 
 def resolver_expresion_null(expNum, ts):
