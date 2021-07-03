@@ -247,13 +247,13 @@ labelOut.config(bg="slate gray")
 labelOut.grid(row=2, column=1)
 
 # Editor
-texto = Text(frame)
+texto = scrolledtext.ScrolledText(frame)
 texto.config(bd=0, highlightbackground="white", highlightcolor="white", highlightthickness=8, width=50, height=10,
              padx=6, pady=4, font=("Consolas", 12))
 texto.grid(row=3, column=0, padx=20, pady=20)
 
 # Console
-console = Text(frame)
+console = scrolledtext.ScrolledText(frame)
 console.config(bd=0, bg="gray14", highlightbackground="black", highlightcolor="black",
                highlightthickness=8, width=50, height=10,
                padx=6, pady=4, font=("Consolas", 12))

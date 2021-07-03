@@ -20,7 +20,7 @@ func calculadora() {
     numero2 = (double) read();
 
     print("Ingrese la operación que desea realizar: (+,-,*,/,**,%)\n");
-    operacion = (string) ReAd()
+    operacion = ReAd()
 
     switch(operacion) {
         case "+":

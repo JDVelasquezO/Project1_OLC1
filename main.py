@@ -31,8 +31,10 @@ def procesar_definicion(instr, ts, signal=False, console=None):
 
 def procesar_asignacion(instr, ts, console):
     expression = instr.expression
-    # if isinstance(instr.expression, Read):
-    #     expression = Cast('string', instr.expression, instr.row, instr.col)
+
+    if isinstance(instr.expression, Read):
+        console.insert(END, f"> Ingresaste a un Read, ingresa el valor: \n")
+        expression = Cast('string', instr.expression, instr.row, instr.col)
 
     val = resolver_expresion_aritmetica(expression, ts, console)
 
