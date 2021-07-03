@@ -1,5 +1,6 @@
 import ply.lex as lex
 import ply.yacc as yacc
+from Exception import Excepcion
 from expressions import *
 from instructions import *
 
@@ -582,10 +583,14 @@ def p_read(t):
 
 # ---------------------------- ERROR SINTACTICO --------------------------------
 
+errores = []
+
 
 def p_error(t):
-    print(t)
-    print("Error sintáctico en '%s'" % t.value)
+    err = Excepcion("Error sintactico en ", f"{t.value}", t.lexer.lineno, find_column(t.lexer.lexdata, t))
+    errores.append(err)
+    # print(find_column(t.lexer.lexdata, t))
+    print("Error sintáctico en '%s'" % t)
 
 
 parser = yacc.yacc()

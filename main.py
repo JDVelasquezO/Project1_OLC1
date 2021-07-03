@@ -610,7 +610,7 @@ def call_func(name, ts, console, params=[]):
             elif name.lower() == 'round':
                 return round(value)
             elif name.lower() == 'typeof':
-                return resolver_type(params[0], ts, None)
+                return resolver_type(params[0], ts, console)
     except AttributeError:
         err = Excepcion("Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
         errores.append(err)

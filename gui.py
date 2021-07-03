@@ -77,7 +77,6 @@ def executeProgram():
     instrucciones = g.parse(texto.get("1.0", END))
     ts_global = TS.TablaDeSimbolos()
     ast = Tree(instrucciones)
-
     ast.setTSglobal(ts_global)
 
     # PRIMERA PASADA
@@ -96,6 +95,10 @@ def executeProgram():
         if isinstance(instr, Funcion_Main):
             procesar_instrucciones(instr.instrucciones, ts_global, console)
     t1 = time.time()
+
+    if len(g.errores) > 0:
+        for e in g.errores:
+            console.insert(END, f"> {e.toString()}\n")
 
     console.insert(END, f"\n\n> Ejecución terminada en: {round(t1 - t0, 6)} segundos")
 
@@ -143,6 +146,19 @@ def generateReport():
             f"</tr>\n"
         )
         i += 1
+
+    j = 1
+    for e in g.errores:
+        f.write(
+            "f<tr>\n"
+            f"<th>{j}</th>\n"
+            f"<td>{e.type}</td>\n"
+            f"<td>{e.desc}</td>\n"
+            f"<td>{e.row}</td>\n"
+            f"<td>{e.col}</td>\n"
+            f"</tr>\n"
+        )
+        j += 1
 
     f.write("f</tbody>\n"
             "f</table>\n"

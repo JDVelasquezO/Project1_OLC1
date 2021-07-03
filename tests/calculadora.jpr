@@ -22,9 +22,9 @@ func calculadora(){
     print("Ingrese la operación que desea realizar: (+,-,*,/,**,%)\n");
     operacion = (string) ReAd()
 
-    switch(operacion){
+    switch(operacion) {
         case "+":
-            print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 + numero2) );
+            print("El resultado de  " numero1 + operacion + numero2 + " es igual a " + ( numero1 + numero2) );
             break;
         case "-":
             print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 - numero2) );
