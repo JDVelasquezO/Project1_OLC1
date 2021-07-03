@@ -500,6 +500,7 @@ def resolver_casteo(expNum, ts, console):
     if isinstance(expNum.value, Read):
         val = simpledialog.askstring("Valor", "Ingresar el dato requerido")
         console.insert(END, f"> {val}\n")
+        console.delete("1.0", END)
         # val = input()
 
     if isinstance(expNum.value, ExpresionIdentificador):
