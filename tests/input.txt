@@ -1,6 +1,10 @@
 
 main () {
-
+    #* print(par(1))
+    print(impar(101))
+    print(factorial(5)) *#
+    print(ackermann(2,0));
+    # print(50 + "Cadena"+ True )
 }
 
 func factorial(int num){
@@ -9,5 +13,29 @@ func factorial(int num){
     }
     else{
         return num * factorial(num-1)
+    }
+}
+
+func par(int nump) {
+    if (nump == 0) {
+        return true;
+    }
+    return impar(nump - 1);
+}
+
+func impar(int numi) {
+    if (numi == 0) {
+        return false;
+    }
+    return par(numi - 1);
+}
+
+func ackermann(int m, int n){
+    if (m == 0){
+        return n + 1;
+    } else if (m > 0 && n == 0){
+        return ackermann(m-1, 1)
+    } else{
+        return ackermann(m-1, ackermann(m, n-1))
     }
 }

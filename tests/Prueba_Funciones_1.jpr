@@ -33,11 +33,11 @@ main(){
     print(numeroEntero);
     print(numeroDoble);     # error variable no encontrada
     print(Suma(100, 500));
-    #* print(par(101))
+    print(par(101))
     print(impar(101))
     print(factorial(5))
     print(ackermann(3,4));
-    print(50 + "Cadena"+ True ) *#
+    print(50 + "Cadena"+ True )
 
 }
 

@@ -123,7 +123,8 @@ def procesar_if_else(instr, ts, console):
         val = resolver_operador_not(instr.expLogica, ts, console)
     if val:
         ts_local = TS.TablaDeSimbolos(ts)
-        procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
+        value = procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
+        return value
     else:
         ts_local = TS.TablaDeSimbolos(ts)
         value = procesar_instrucciones(instr.instrIfFalso, ts_local, console)
@@ -140,11 +141,11 @@ def procesar_else_if(instr, ts, console):
         val = resolver_operador_not(instr.expLogica, ts, console)
     if val:
         ts_local = TS.TablaDeSimbolos(ts)
-        procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
+        return procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
     else:
         # for instruction in instr.instrElse.instrIfVerdadero:
         ts_local = TS.TablaDeSimbolos(ts)
-        procesar_instrucciones(instr.instrElse.instrIfVerdadero, ts_local, console)
+        return procesar_instrucciones(instr.instrElse.instrIfVerdadero, ts_local, console)
 
 
 def procesar_switch(instr, ts, console):
@@ -241,7 +242,7 @@ def resolver_cadena(expCad, ts, console):
     elif isinstance(expCad, Call):
         read = ""
         val = call_func(expCad.name, ts, console, expCad.params)
-        if val:
+        if val is not None:
             return val
         read = console.get(1.0, 'end-1c')
         return read
@@ -657,7 +658,10 @@ def call_func(name, ts, console, params=[]):
             return err.toString()
     val = procesar_instrucciones(func.valor, ts_local, console)
     if val:
-        res = resolver_expresion_aritmetica(val, ts_local, console)
+        if isinstance(val, ExpresionBoolean):
+            res = val.val
+        else:
+            res = resolver_expresion_aritmetica(val, ts_local, console)
         return res
 
 
@@ -684,9 +688,10 @@ def procesar_instrucciones(instrucciones, ts, console):
                 return value
         elif isinstance(instr, IfElse):
             value = procesar_if_else(instr, ts, console)
-            return value if value else False
+            return value
         elif isinstance(instr, ElseIf):
-            procesar_else_if(instr, ts, console)
+            value = procesar_else_if(instr, ts, console)
+            return value
         elif isinstance(instr, Switch):
             procesar_switch(instr, ts, console)
         elif isinstance(instr, ExpresionIncrement):
