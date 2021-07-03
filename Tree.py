@@ -5,6 +5,8 @@ class Tree:
         self.excepts = []
         self.TSGlobal = None
         self.__text = None
+        self.dot = ''
+        self.contador = 0
 
     def getTextInterfaz(self):
         return self.__text
@@ -39,3 +41,20 @@ class Tree:
 
     def setTSglobal(self, TSglobal):
         self.TSGlobal = TSglobal
+
+    def getDot(self, raiz):
+        self.dot = ''
+        self.dot += "digraph {\n"
+        self.dot += "n0[label=\"" + raiz.getValor().replace("\"", "\\\"") + "\"];\n"
+        self.contador = 1
+        self.recorrerAST("n0", raiz)
+        self.dot += "}"
+        return self.dot
+
+    def recorrerAST(self, idPadre, nodoPadre):
+        for hijo in nodoPadre.getHijos():
+            nombreHijo = "n" + str(self.contador)
+            self.dot += nombreHijo + "[label=\"" + hijo.getValor().replace("\"", "\\\"") + "\"];\n"
+            self.dot += idPadre + "->" + nombreHijo + ";\n"
+            self.contador += 1
+            self.recorrerAST(nombreHijo, hijo)
