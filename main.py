@@ -80,7 +80,9 @@ def procesar_asignacion(instr, ts, console):
     else:
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NUMERO, val, instr.row, instr.col)
 
-    ts.actualizar(simbolo, errores)
+    val = ts.actualizar(simbolo, errores)
+    if isinstance(val, Excepcion):
+        return val
 
 
 def procesar_definicion_asignacion(instr, ts, console):
@@ -145,7 +147,11 @@ def procesar_else_if(instr, ts, console):
     else:
         # for instruction in instr.instrElse.instrIfVerdadero:
         ts_local = TS.TablaDeSimbolos(ts)
-        return procesar_instrucciones(instr.instrElse.instrIfVerdadero, ts_local, console)
+        if isinstance(instr, IfElse):
+            return procesar_instrucciones(instr.instrIfFalso, ts_local, console)
+        elif isinstance(instr, ElseIf):
+            return procesar_else_if(instr.instrElse, ts_local, console)
+        # return procesar_instrucciones(instr.instrElse.instrIfVerdadero, ts_local, console)
 
 
 def procesar_switch(instr, ts, console):
@@ -587,41 +593,44 @@ def resolver_type(exp, ts, console):
 
 
 def call_func(name, ts, console, params=[]):
-    try:
-        if len(params) > 0:
-            if isinstance(params[0], ExpresionIdentificador):
-                value = ts.obtener(params[0].id.lower()).valor
-            else:
-                if isinstance(params[0], ExpresionBinaria):
-                    value = resolver_expresion_aritmetica(params[0], ts, console)
-                elif isinstance(params[0], Call):
-                    value = call_func(params[0].name, ts, console, params[0].params)
+    if name.lower() == 'tolower' or name.lower() == 'toupper' or name.lower() == 'length' or \
+            name.lower() == 'truncate' or name.lower() == 'round' or name.lower() == 'typeof':
+
+        try:
+            if len(params) > 0:
+                if isinstance(params[0], ExpresionIdentificador):
+                    value = ts.obtener(params[0].id.lower()).valor
                 else:
-                    value = params[0].val
+                    if isinstance(params[0], ExpresionBinaria):
+                        value = resolver_expresion_aritmetica(params[0], ts, console)
+                    elif isinstance(params[0], Call):
+                        value = call_func(params[0].name, ts, console, params[0].params)
+                    else:
+                        value = params[0].val
 
-            if value is None:
-                return 'NULL'
+                if value is None:
+                    return 'NULL'
 
-            if name.lower() == 'tolower':
-                return value.lower()
-            elif name.lower() == 'toupper':
-                return value.upper()
-            elif name.lower() == 'length':
-                return len(value)
-            elif name.lower() == 'truncate':
-                return math.trunc(value)
-            elif name.lower() == 'round':
-                return round(value)
-            elif name.lower() == 'typeof':
-                return resolver_type(params[0], ts, console)
-    except AttributeError:
-        err = Excepcion("Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
-        errores.append(err)
-        return err.toString()
-    except TypeError:
-        err = Excepcion("Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
-        errores.append(err)
-        return err.toString()
+                if name.lower() == 'tolower':
+                    return value.lower()
+                elif name.lower() == 'toupper':
+                    return value.upper()
+                elif name.lower() == 'length':
+                    return len(value)
+                elif name.lower() == 'truncate':
+                    return math.trunc(value)
+                elif name.lower() == 'round':
+                    return round(value)
+                elif name.lower() == 'typeof':
+                    return resolver_type(params[0], ts, console)
+        except AttributeError:
+            err = Excepcion("Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
+            errores.append(err)
+            return err.toString()
+        except TypeError:
+            err = Excepcion("Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
+            errores.append(err)
+            return err.toString()
 
     ts_local = TS.TablaDeSimbolos(ts)
     func = ts.obtener(name)
@@ -632,9 +641,11 @@ def call_func(name, ts, console, params=[]):
                 if isinstance(params[i], ExpresionBinaria):
                     value = resolver_expresion_aritmetica(params[i], ts, console)
                 elif isinstance(params[i], ExpresionOperacionLogica):
-                    value = resolver_operador_logico(params[i], ts)
+                    value = resolver_operador_logico(params[i], ts, console)
                 elif isinstance(params[i], ExpresionIdentificador):
                     value = ts.obtener(params[i].id.lower()).valor
+                elif isinstance(params[i], Call):
+                    value = call_func(params[i].name, ts, console, params[i].params)
                 elif (param["type"] == 'int' or param["type"] == 'double') and isinstance(params[i], ExpresionNumerica):
                     value = params[i].val
                 elif param["type"] == 'boolean' and isinstance(params[i], ExpresionBoolean):
@@ -673,7 +684,10 @@ def procesar_instrucciones(instrucciones, ts, console):
         elif isinstance(instr, Definicion):
             procesar_definicion(instr, ts, False, console)
         elif isinstance(instr, Asignacion):
-            procesar_asignacion(instr, ts, console)
+            val = procesar_asignacion(instr, ts, console)
+            if isinstance(val, Excepcion):
+                errores.append(val)
+                return val.toString()
         elif isinstance(instr, Definicion_Asignacion):
             procesar_definicion_asignacion(instr, ts, console)
         elif isinstance(instr, While):
