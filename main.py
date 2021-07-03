@@ -1,6 +1,6 @@
 """ Créditos de ayuda: José Puac Auxiliar de OLC1 e Ing Navarro """
 import math
-from tkinter import END
+from tkinter import END, simpledialog
 import symbolTable as TS
 import grammar as g
 from expressions import *
@@ -12,11 +12,11 @@ errores = []
 
 
 def procesar_imprimir(instr, ts, console):
-    # console.insert(END, f"> {resolver_cadena(instr.cad, ts)}\n")
-    print('> ', resolver_cadena(instr.cad, ts))
+    console.insert(END, f"> {resolver_cadena(instr.cad, ts, console)}\n")
+    # print('> ', resolver_cadena(instr.cad, ts))
 
 
-def procesar_definicion(instr, ts, signal=False):
+def procesar_definicion(instr, ts, signal=False, console=None):
     # ts_local = TS.TablaDeSimbolos(ts)
     # inicializamos con 0 como valor por defecto
     simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.NULL, None, instr.row, instr.col)
@@ -26,15 +26,15 @@ def procesar_definicion(instr, ts, signal=False):
         errores.append(val)
         return val
     if signal:
-        procesar_asignacion(instr, ts)
+        procesar_asignacion(instr, ts, console)
 
 
-def procesar_asignacion(instr, ts):
+def procesar_asignacion(instr, ts, console):
     expression = instr.expression
     # if isinstance(instr.expression, Read):
     #     expression = Cast('string', instr.expression, instr.row, instr.col)
 
-    val = resolver_expresion_aritmetica(expression, ts)
+    val = resolver_expresion_aritmetica(expression, ts, console)
 
     if isinstance(instr.expression, ExpresionSimpleComilla):
         simbolo = TS.Simbolo(instr.id, TS.TIPO_DATO.CHAR, val, instr.row, instr.col)
@@ -83,12 +83,12 @@ def procesar_asignacion(instr, ts):
     ts.actualizar(simbolo, errores)
 
 
-def procesar_definicion_asignacion(instr, ts):
-    procesar_definicion(instr, ts, True)
+def procesar_definicion_asignacion(instr, ts, console):
+    procesar_definicion(instr, ts, True, console)
 
 
 def procesar_while(instr, ts, console):
-    while resolver_operador_logico(instr.expLogica, ts):
+    while resolver_operador_logico(instr.expLogica, ts, console):
         ts_local = TS.TablaDeSimbolos(ts)
         value = procesar_instrucciones(instr.instrucciones, ts_local, console)
         if value == 'break':
@@ -100,13 +100,13 @@ def procesar_while(instr, ts, console):
 def procesar_if(instr, ts, console):
     val = True
     if isinstance(instr.expLogica, ExpresionOperacionLogica):
-        val = resolver_operador_logico(instr.expLogica, ts)
+        val = resolver_operador_logico(instr.expLogica, ts, console)
     elif isinstance(instr.expLogica, ExpresionLogica):
-        val = resolver_expreision_logica(instr.expLogica, ts)
+        val = resolver_expreision_logica(instr.expLogica, ts, console)
     elif isinstance(instr.expLogica, ExpresionLogicaNot):
-        val = resolver_operador_not(instr.expLogica, ts)
+        val = resolver_operador_not(instr.expLogica, ts, console)
     elif isinstance(instr.expLogica, Cast):
-        val = resolver_casteo(instr.expLogica, ts)
+        val = resolver_casteo(instr.expLogica, ts, console)
     if val:
         ts_local = TS.TablaDeSimbolos(ts)
         value = procesar_instrucciones(instr.instrucciones, ts_local, console)
@@ -116,11 +116,11 @@ def procesar_if(instr, ts, console):
 def procesar_if_else(instr, ts, console):
     val = True
     if isinstance(instr.expLogica, ExpresionOperacionLogica):
-        val = resolver_operador_logico(instr.expLogica, ts)
+        val = resolver_operador_logico(instr.expLogica, ts, console)
     elif isinstance(instr.expLogica, ExpresionLogica):
-        val = resolver_expreision_logica(instr.expLogica, ts)
+        val = resolver_expreision_logica(instr.expLogica, ts, console)
     elif isinstance(instr.expLogica, ExpresionLogicaNot):
-        val = resolver_operador_not(instr.expLogica, ts)
+        val = resolver_operador_not(instr.expLogica, ts, console)
     if val:
         ts_local = TS.TablaDeSimbolos(ts)
         procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
@@ -133,11 +133,11 @@ def procesar_if_else(instr, ts, console):
 def procesar_else_if(instr, ts, console):
     val = True
     if isinstance(instr.expLogica, ExpresionOperacionLogica):
-        val = resolver_operador_logico(instr.expLogica, ts)
+        val = resolver_operador_logico(instr.expLogica, ts, console)
     elif isinstance(instr.expLogica, ExpresionLogica):
-        val = resolver_expreision_logica(instr.expLogica, ts)
+        val = resolver_expreision_logica(instr.expLogica, ts, console)
     elif isinstance(instr.expLogica, ExpresionLogicaNot):
-        val = resolver_operador_not(instr.expLogica, ts)
+        val = resolver_operador_not(instr.expLogica, ts, console)
     if val:
         ts_local = TS.TablaDeSimbolos(ts)
         procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
@@ -158,16 +158,13 @@ def procesar_switch(instr, ts, console):
             res = procesar_instrucciones(case.instrucciones, ts_local, console)
             if res == 'break':
                 return
-            # if case.break_instr is not None:
-            #     if case.break_instr.col:
-            #         return
     procesar_instrucciones(instr.default.instrucciones, ts_local, console)
 
 
 def procesar_for(instr, ts, console):
     # ts_local = TS.TablaDeSimbolos(ts)
-    procesar_definicion_asignacion(instr.exp1, ts)
-    while resolver_operador_logico(instr.expLogica, ts):
+    procesar_definicion_asignacion(instr.exp1, ts, console)
+    while resolver_operador_logico(instr.expLogica, ts, console):
         resolver_expresion_increment(instr.reAsign, ts)
         value = procesar_instrucciones(instr.instrucciones, ts, console)
         if value == 'break':
@@ -186,10 +183,10 @@ def procesar_func_main(instr, ts, console):
     procesar_instrucciones(instr, ts_local, console)
 
 
-def resolver_cadena(expCad, ts):
+def resolver_cadena(expCad, ts, console):
     if isinstance(expCad, ExpresionConcatenar):
-        exp1 = resolver_cadena(expCad.exp1, ts)
-        exp2 = resolver_cadena(expCad.exp2, ts)
+        exp1 = resolver_cadena(expCad.exp1, ts, console)
+        exp2 = resolver_cadena(expCad.exp2, ts, console)
         return str(exp1) + str(exp2)
 
     elif isinstance(expCad, ExpresionDobleComilla):
@@ -202,7 +199,7 @@ def resolver_cadena(expCad, ts):
         return resolver_expresion_increment(expCad, ts)
 
     elif isinstance(expCad, ExpresionCadenaNumerico):
-        return str(resolver_expresion_aritmetica(expCad.exp, ts))
+        return str(resolver_expresion_aritmetica(expCad.exp, ts, console))
 
     elif isinstance(expCad, ExpresionNumero):
         return str(expCad.val)
@@ -225,33 +222,35 @@ def resolver_cadena(expCad, ts):
         return True if expCad.val == 'true' else False
 
     elif isinstance(expCad, ExpresionBinaria):
-        return resolver_expresion_aritmetica(expCad, ts)
+        return resolver_expresion_aritmetica(expCad, ts, console)
 
     elif isinstance(expCad, ExpresionLogica):
-        val = resolver_expreision_logica(expCad, ts)
+        val = resolver_expreision_logica(expCad, ts, console)
         if val:
             return True
         return False
 
     elif isinstance(expCad, ExpresionOperacionLogica):
-        val = resolver_operador_logico(expCad, ts)
+        val = resolver_operador_logico(expCad, ts, console)
         return val
 
     elif isinstance(expCad, ExpresionLogicaNot):
-        val = resolver_operador_not(expCad, ts)
+        val = resolver_operador_not(expCad, ts, console)
         return val
 
     elif isinstance(expCad, Call):
-        val = call_func(expCad.name, ts_global, None, expCad.params)
-        return val
+        read = ""
+        if call_func(expCad.name, ts, console, expCad.params):
+            read = console.get(1.0, 'end-1c')
+        return read
 
     else:
         print('Error: Expresión cadena no válida')
 
 
-def resolver_expreision_logica(expLog, ts):
-    exp1 = resolver_expresion_aritmetica(expLog.exp1, ts)
-    exp2 = resolver_expresion_aritmetica(expLog.exp2, ts)
+def resolver_expreision_logica(expLog, ts, console):
+    exp1 = resolver_expresion_aritmetica(expLog.exp1, ts, console)
+    exp2 = resolver_expresion_aritmetica(expLog.exp2, ts, console)
     if expLog.operador == OPERACION_LOGICA.MAYOR_QUE: return exp1 > exp2
     if expLog.operador == OPERACION_LOGICA.MENOR_QUE: return exp1 < exp2
     if expLog.operador == OPERACION_LOGICA.MENORIGUAL_QUE: return exp1 <= exp2
@@ -281,32 +280,32 @@ def resolver_expreision_logica(expLog, ts):
     if expLog.operador == OPERACION_LOGICA.DIFERENTE: return exp1 != exp2
 
 
-def resolver_operador_logico(expLog, ts):
+def resolver_operador_logico(expLog, ts, console):
     exp1 = True
     exp2 = True
     if isinstance(expLog, ExpresionBoolean):
         return resolver_operador_bool(expLog)
     elif isinstance(expLog, ExpresionLogica):
-        return resolver_expreision_logica(expLog, ts)
+        return resolver_expreision_logica(expLog, ts, console)
     elif isinstance(expLog, Call):
-        return call_func(expLog.name, ts, None, [])
+        return call_func(expLog.name, ts, console, [])
     elif isinstance(expLog.exp1, ExpresionBoolean):
         exp1 = resolver_operador_bool(expLog.exp1)
     elif isinstance(expLog.exp1, ExpresionOperacionLogica):
-        exp1 = resolver_operador_logico(expLog.exp1, ts)
+        exp1 = resolver_operador_logico(expLog.exp1, ts, console)
     elif isinstance(expLog.exp1, ExpresionLogica):
-        exp1 = resolver_expreision_logica(expLog.exp1, ts)
+        exp1 = resolver_expreision_logica(expLog.exp1, ts, console)
     elif isinstance(expLog.exp1, ExpresionLogicaNot):
-        exp1 = resolver_operador_not(expLog.exp1.exp1, ts)
+        exp1 = resolver_operador_not(expLog.exp1.exp1, ts, console)
 
     if isinstance(expLog.exp2, ExpresionBoolean):
         exp2 = resolver_operador_bool(expLog.exp2)
     elif isinstance(expLog.exp2, ExpresionOperacionLogica):
-        exp2 = resolver_operador_logico(expLog.exp2, ts)
+        exp2 = resolver_operador_logico(expLog.exp2, ts, console)
     elif isinstance(expLog.exp2, ExpresionLogica):
-        exp2 = resolver_expreision_logica(expLog.exp2, ts)
+        exp2 = resolver_expreision_logica(expLog.exp2, ts, console)
     elif isinstance(expLog.exp2, ExpresionLogicaNot):
-        exp2 = resolver_operador_not(expLog.exp2, ts)
+        exp2 = resolver_operador_not(expLog.exp2, ts, console)
 
     if expLog.operador == OPERADOR_LOGICO.AND:
         if exp1 and exp2:
@@ -317,17 +316,17 @@ def resolver_operador_logico(expLog, ts):
     return False
 
 
-def resolver_operador_not(expLog, ts):
+def resolver_operador_not(expLog, ts, console):
     if isinstance(expLog, ExpresionLogica):
-        exp1 = resolver_expreision_logica(expLog, ts)
+        exp1 = resolver_expreision_logica(expLog, ts, console)
     elif isinstance(expLog.exp1, ExpresionLogica):
-        exp1 = resolver_expreision_logica(expLog.exp1, ts)
+        exp1 = resolver_expreision_logica(expLog.exp1, ts, console)
     elif isinstance(expLog.exp1, ExpresionLogicaNot):
-        exp1 = resolver_operador_not(expLog.exp1, ts)
+        exp1 = resolver_operador_not(expLog.exp1, ts, console)
     elif isinstance(expLog.exp1, ExpresionIdentificador):
         exp1 = ts.obtener(expLog.exp1.id.lower()).valor
     else:
-        exp1 = resolver_operador_logico(expLog.exp1, ts)
+        exp1 = resolver_operador_logico(expLog.exp1, ts, console)
     # else:
     #     exp1 = ts.obtener(expLog.exp1.id).valor
     if not exp1:
@@ -352,18 +351,20 @@ def resolver_expresion_increment(expLog, ts):
     return val
 
 
-def resolver_expresion_aritmetica(expNum, ts):
+def resolver_expresion_aritmetica(expNum, ts, console):
     if isinstance(expNum, ExpresionBinaria):
-        exp1 = resolver_expresion_aritmetica(expNum.exp1, ts)
-        exp2 = resolver_expresion_aritmetica(expNum.exp2, ts)
+        exp1 = resolver_expresion_aritmetica(expNum.exp1, ts, console)
+        exp2 = resolver_expresion_aritmetica(expNum.exp2, ts, console)
 
         if isinstance(exp2, list):
             exp2 = procesar_instrucciones(exp2, ts, None)
 
         if exp2 == 'read':
-            print("Ingresaste a un READ. Ingresa el valor")
-            read = input()
+            console.insert(END, f"> Ingresaste a un READ. Ingresa tu nombre\n")
+            read = simpledialog.askstring("Valor", "Ingresar el dato requerido")
             exp2 = read
+            # print("Ingresaste a un READ. Ingresa el valor")
+            # read = input()
 
         if expNum.operador == OPERACION_ARITMETICA.MAS:
             if isinstance(exp1, int) and isinstance(exp2, str):
@@ -445,7 +446,7 @@ def resolver_expresion_aritmetica(expNum, ts):
                 return err.toString()
 
     elif isinstance(expNum, ExpresionNegativo):
-        exp = resolver_expresion_aritmetica(expNum.exp, ts)
+        exp = resolver_expresion_aritmetica(expNum.exp, ts, console)
         return exp * -1
 
     elif isinstance(expNum, ExpresionNumero):
@@ -469,35 +470,37 @@ def resolver_expresion_aritmetica(expNum, ts):
         return expNum.val
 
     elif isinstance(expNum, ExpresionLogica):
-        return resolver_expreision_logica(expNum, ts)
+        return resolver_expreision_logica(expNum, ts, console)
 
     elif isinstance(expNum, ExpresionLogicaNot):
-        return resolver_operador_not(expNum, ts)
+        return resolver_operador_not(expNum, ts, console)
 
     elif isinstance(expNum, ExpresionOperacionLogica):
-        return resolver_operador_logico(expNum, ts)
+        return resolver_operador_logico(expNum, ts, console)
 
     elif isinstance(expNum, ExpresionIncrement):
         return resolver_expresion_increment(expNum, ts)
 
     elif isinstance(expNum, Cast):
-        return resolver_casteo(expNum, ts)
+        return resolver_casteo(expNum, ts, console)
 
     elif isinstance(expNum, ExpresionNull):
         return
 
     elif isinstance(expNum, Call):
-        return call_func(expNum.name, ts, None, expNum.params)
+        return call_func(expNum.name, ts, console, expNum.params)
 
     elif isinstance(expNum, Read):
         return expNum
 
 
-def resolver_casteo(expNum, ts):
+def resolver_casteo(expNum, ts, console):
     val = expNum.value
 
     if isinstance(expNum.value, Read):
-        val = input()
+        val = simpledialog.askstring("Valor", "Ingresar el dato requerido")
+        console.insert(END, f"> {val}\n")
+        # val = input()
 
     if isinstance(expNum.value, ExpresionIdentificador):
         val = ts.obtener(expNum.value.id).valor
@@ -581,9 +584,9 @@ def call_func(name, ts, console, params=[]):
                 value = ts.obtener(params[0].id.lower()).valor
             else:
                 if isinstance(params[0], ExpresionBinaria):
-                    value = resolver_expresion_aritmetica(params[0], ts)
+                    value = resolver_expresion_aritmetica(params[0], ts, console)
                 elif isinstance(params[0], Call):
-                    value = call_func(params[0].name, ts, None, params[0].params)
+                    value = call_func(params[0].name, ts, console, params[0].params)
                 else:
                     value = params[0].val
 
@@ -617,7 +620,7 @@ def call_func(name, ts, console, params=[]):
             i = 0
             for param in func.params:
                 if isinstance(params[i], ExpresionBinaria):
-                    value = resolver_expresion_aritmetica(params[i], ts)
+                    value = resolver_expresion_aritmetica(params[i], ts, console)
                 elif isinstance(params[i], ExpresionOperacionLogica):
                     value = resolver_operador_logico(params[i], ts)
                 elif isinstance(params[i], ExpresionIdentificador):
@@ -631,21 +634,21 @@ def call_func(name, ts, console, params=[]):
                 elif param["type"] == 'char' and isinstance(params[i], ExpresionSimpleComilla):
                     value = params[i].val
                 else:
-                    print(Excepcion("Semantico", "Tipo de dato diferente", instr.row, instr.col).toString())
-                    err = Excepcion("Semantico", "Tipo de dato diferente", func.row, func.col)
+                    print(Excepcion("Semantico", "Tipo de dato diferente", params[i].row, params[i].col).toString())
+                    err = Excepcion("Semantico", "Tipo de dato diferente", params[i].row, params[i].col)
                     errores.append(err)
                     return err.toString()
                 simbol = TS.Simbolo(param["id"], param["type"], value, 0, 0)
                 ts.agregar(simbol)
                 i += 1
         else:
-            print(Excepcion("Semantico", "Numero de parametros diferente", instr.row, instr.col).toString())
+            print(Excepcion("Semantico", "Numero de parametros diferente", func.row, func.col).toString())
             err = Excepcion("Semantico", "Numero de parametros diferente", func.row, func.col)
             errores.append(err)
             return err.toString()
     val = procesar_instrucciones(func.valor, ts, console)
     if val:
-        res = resolver_expresion_aritmetica(val, ts)
+        res = resolver_expresion_aritmetica(val, ts, console)
         return res
 
 
@@ -655,11 +658,11 @@ def procesar_instrucciones(instrucciones, ts, console):
         if isinstance(instr, Imprimir):
             procesar_imprimir(instr, ts, console)
         elif isinstance(instr, Definicion):
-            procesar_definicion(instr, ts)
+            procesar_definicion(instr, ts, False, console)
         elif isinstance(instr, Asignacion):
-            procesar_asignacion(instr, ts)
+            procesar_asignacion(instr, ts, console)
         elif isinstance(instr, Definicion_Asignacion):
-            procesar_definicion_asignacion(instr, ts)
+            procesar_definicion_asignacion(instr, ts, console)
         elif isinstance(instr, While):
             procesar_while(instr, ts, console)
         elif isinstance(instr, If):
@@ -696,28 +699,27 @@ def procesar_instrucciones(instrucciones, ts, console):
         else:
             print('Error: instrucción no válida')
 
-
-f = open("tests/calculadora.jpr", "r")
-inputs = f.read()
-
-instrucciones = g.parse(inputs)
-ts_global = TS.TablaDeSimbolos()
-ast = Tree(instrucciones)
-
-ast.setTSglobal(ts_global)
+# f = open("tests/calculadora.jpr", "r")
+# inputs = f.read()
+#
+# instrucciones = g.parse(inputs)
+# ts_global = TS.TablaDeSimbolos()
+# ast = Tree(instrucciones)
+#
+# ast.setTSglobal(ts_global)
 
 # PRIMERA PASADA
-for instr in ast.getInstrs():
-    if isinstance(instr, Function):
-        procesar_func(instr, ts_global, None)
-    elif isinstance(instr, Definicion):
-        procesar_definicion(instr, ts_global)
-    elif isinstance(instr, Asignacion):
-        procesar_asignacion(instr, ts_global)
-    elif isinstance(instr, Definicion_Asignacion):
-        procesar_definicion_asignacion(instr, ts_global)
-
-# SEGUNDA PASADA
-for instr in ast.getInstrs():
-    if isinstance(instr, Funcion_Main):
-        procesar_instrucciones(instr.instrucciones, ts_global, None)
+# for instr in ast.getInstrs():
+#     if isinstance(instr, Function):
+#         procesar_func(instr, ts_global, None)
+#     elif isinstance(instr, Definicion):
+#         procesar_definicion(instr, ts_global)
+#     elif isinstance(instr, Asignacion):
+#         procesar_asignacion(instr, ts_global)
+#     elif isinstance(instr, Definicion_Asignacion):
+#         procesar_definicion_asignacion(instr, ts_global)
+#
+# # SEGUNDA PASADA
+# for instr in ast.getInstrs():
+#     if isinstance(instr, Funcion_Main):
+#         procesar_instrucciones(instr.instrucciones, ts_global, None)

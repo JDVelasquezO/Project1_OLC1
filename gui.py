@@ -85,11 +85,11 @@ def executeProgram():
         if isinstance(instr, Function):
             procesar_func(instr, ts_global, None)
         elif isinstance(instr, Definicion):
-            procesar_definicion(instr, ts_global)
+            procesar_definicion(instr, ts_global, console)
         elif isinstance(instr, Asignacion):
-            procesar_asignacion(instr, ts_global)
+            procesar_asignacion(instr, ts_global, console)
         elif isinstance(instr, Definicion_Asignacion):
-            procesar_definicion_asignacion(instr, ts_global)
+            procesar_definicion_asignacion(instr, ts_global, console)
 
     # SEGUNDA PASADA
     for instr in ast.getInstrs():

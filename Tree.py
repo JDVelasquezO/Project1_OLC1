@@ -4,6 +4,13 @@ class Tree:
         self.funcs = []
         self.excepts = []
         self.TSGlobal = None
+        self.__text = None
+
+    def getTextInterfaz(self):
+        return self.__text
+
+    def setTextInterfaz(self, text):
+        self.__text = text
 
     def getInstrs(self):
         return self.instrs
