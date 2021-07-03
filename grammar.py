@@ -165,6 +165,8 @@ def t_newline(t):
 
 
 def t_error(t):
+    err = Excepcion("Error lexico en ", f"{t.value[0]}", t.lexer.lineno, find_column(t.lexer.lexdata, t))
+    errores.append(err)
     print("Caracter ilegal '%s'" % t.value[0])
     t.lexer.skip(1)
 

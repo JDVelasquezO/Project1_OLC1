@@ -240,8 +240,10 @@ def resolver_cadena(expCad, ts, console):
 
     elif isinstance(expCad, Call):
         read = ""
-        if call_func(expCad.name, ts, console, expCad.params):
-            read = console.get(1.0, 'end-1c')
+        val = call_func(expCad.name, ts, console, expCad.params)
+        if val:
+            return val
+        read = console.get(1.0, 'end-1c')
         return read
 
     else:
@@ -620,6 +622,7 @@ def call_func(name, ts, console, params=[]):
         errores.append(err)
         return err.toString()
 
+    ts_local = TS.TablaDeSimbolos(ts)
     func = ts.obtener(name)
     if len(func.params) > 0:
         if len(func.params) == len(params):
@@ -645,16 +648,16 @@ def call_func(name, ts, console, params=[]):
                     errores.append(err)
                     return err.toString()
                 simbol = TS.Simbolo(param["id"], param["type"], value, 0, 0)
-                ts.agregar(simbol)
+                ts_local.agregar(simbol)
                 i += 1
         else:
             print(Excepcion("Semantico", "Numero de parametros diferente", func.row, func.col).toString())
             err = Excepcion("Semantico", "Numero de parametros diferente", func.row, func.col)
             errores.append(err)
             return err.toString()
-    val = procesar_instrucciones(func.valor, ts, console)
+    val = procesar_instrucciones(func.valor, ts_local, console)
     if val:
-        res = resolver_expresion_aritmetica(val, ts, console)
+        res = resolver_expresion_aritmetica(val, ts_local, console)
         return res
 
 
@@ -686,8 +689,6 @@ def procesar_instrucciones(instrucciones, ts, console):
             procesar_else_if(instr, ts, console)
         elif isinstance(instr, Switch):
             procesar_switch(instr, ts, console)
-        elif isinstance(instr, Funcion_Main):
-            procesar_func_main(instr.instrucciones, ts, console)
         elif isinstance(instr, ExpresionIncrement):
             resolver_expresion_increment(instr, ts)
         elif isinstance(instr, For):
@@ -703,7 +704,11 @@ def procesar_instrucciones(instrucciones, ts, console):
         elif isinstance(instr, Continue):
             return "continue"
         else:
+            print(Excepcion("Lexico", "Intruccion no valida", instr.row, instr.col).toString())
+            err = Excepcion("Lexico", "Intruccion no valida", instr.row, instr.col)
+            errores.append(err)
             print('Error: instrucción no válida')
+            return err.toString()
 
 # f = open("tests/calculadora.jpr", "r")
 # inputs = f.read()

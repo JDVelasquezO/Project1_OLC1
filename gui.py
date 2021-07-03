@@ -93,7 +93,7 @@ def executeProgram():
     # SEGUNDA PASADA
     for instr in ast.getInstrs():
         if isinstance(instr, Funcion_Main):
-            procesar_instrucciones(instr.instrucciones, ts_global, console)
+            procesar_func_main(instr.instrucciones, ts_global, console)
     t1 = time.time()
 
     if len(g.errores) > 0:

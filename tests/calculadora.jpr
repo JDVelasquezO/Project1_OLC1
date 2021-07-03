@@ -10,7 +10,7 @@ main(){
     print("Calculadora finalizada correctamente");
 }
 
-func calculadora(){
+func calculadora() {
     var numero1;
     var numero2;
     var operacion;
@@ -24,7 +24,7 @@ func calculadora(){
 
     switch(operacion) {
         case "+":
-            print("El resultado de  " numero1 + operacion + numero2 + " es igual a " + ( numero1 + numero2) );
+            print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 + numero2) );
             break;
         case "-":
             print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 - numero2) );
