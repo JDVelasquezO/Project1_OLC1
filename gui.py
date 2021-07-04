@@ -4,11 +4,8 @@ import time
 from tkinter import *
 from tkinter import filedialog as FileDialog, scrolledtext
 from io import open
-
-import main
 from main import *
 import grammar as g
-import webbrowser
 
 ruta = ""  # La utilizaremos para almacenar la ruta del fichero
 
@@ -100,6 +97,21 @@ def executeProgram():
         for e in g.errores:
             console.insert(END, f"> {e.toString()}\n")
 
+    init = Node("ROOT")
+    instrs = Node("INSTRUCTIONS")
+
+    for instr in ast.getInstrs():
+        instrs.agregarHijoNodo(instr.getNode())
+    init.agregarHijoNodo(instrs)
+    graph = ast.getDot(init)
+    dirname = os.path.dirname(__file__)
+    path = os.path.join(dirname, 'ast.dot')
+    file = open(path, 'w+')
+    file.write(graph)
+    file.close()
+    os.system('dot -T pdf -o ast.pdf ast.dot')
+    subprocess.call(['xdg-open', "ast.pdf"])
+
     console.insert(END, f"\n\n> Ejecución terminada en: {round(t1 - t0, 6)} segundos")
 
 
@@ -138,11 +150,11 @@ def generateReport():
     for e in errores:
         f.write(
             "f<tr>\n"
-                f"<th>{i}</th>\n"
-                f"<td>{e.type}</td>\n"
-                f"<td>{e.desc}</td>\n"
-                f"<td>{e.row}</td>\n"
-                f"<td>{e.col}</td>\n"
+            f"<th>{i}</th>\n"
+            f"<td>{e.type}</td>\n"
+            f"<td>{e.desc}</td>\n"
+            f"<td>{e.row}</td>\n"
+            f"<td>{e.col}</td>\n"
             f"</tr>\n"
         )
         i += 1
@@ -179,7 +191,7 @@ def restart_program():
     Note: this function does not return. Any cleanup action (like
     saving data) must be done before calling this function."""
     python = sys.executable
-    os.execl(python, python, * sys.argv)
+    os.execl(python, python, *sys.argv)
 
 
 # Configuración de la raíz

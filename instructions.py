@@ -1,4 +1,5 @@
 from Node import Node
+from symbolTable import TIPO_DATO as Type
 
 
 class Instruccion:
@@ -18,7 +19,7 @@ class Imprimir(Instruccion):
 
     def getNode(self):
         node = Node("PRINT")
-        node.agregarHijo(self.cad)
+        node.agregarHijoNodo(self.cad.getNode())
         return node
 
 
@@ -37,10 +38,10 @@ class While(Instruccion):
 
     def getNode(self):
         node = Node("WHILE")
-        instr = Node("INSTRUCTIONS")
-        for ins in self.instrucciones:
-            instr.agregarHijo(ins.getNode())
-        node.agregarHijo(instr)
+        instrs = Node("INSTRUCTIONS")
+        for instr in self.instrucciones:
+            instrs.agregarHijoNodo(instr.getNode())
+        node.agregarHijoNodo(instrs)
         return node
 
 
@@ -76,7 +77,7 @@ class Asignacion(Instruccion):
     def getNode(self):
         node = Node("ASIGNATION")
         node.agregarHijo(str(self.id))
-        node.agregarHijo(self.expression.getNode())
+        node.agregarHijoNodo(self.expression.getNode())
         return node
 
 
@@ -89,8 +90,8 @@ class Definicion_Asignacion(Instruccion):
 
     def getNode(self):
         node = Node("DEF_ASIGN")
-        node.agregarHijo(str(self.id))
-        node.agregarHijo(self.expression)
+        node.agregarHijoNodo(str(self.id))
+        node.agregarHijoNodo(self.expression.getNode())
         return node
 
 
@@ -104,8 +105,8 @@ class Funcion_Main(Instruccion):
         node = Node("MAIN")
         instrs = Node("INSTRUCTIONS")
         for inst in self.instrucciones:
-            instrs.agregarHijo(inst.getNode())
-        node.agregarHijo(instrs)
+            instrs.agregarHijoNodo(inst.getNode())
+        node.agregarHijoNodo(instrs)
         return node
 
 
@@ -126,8 +127,8 @@ class If(Instruccion):
         node = Node("IF")
         instrs = Node("INSTRUCTIONS")
         for instr in self.instrucciones:
-            instrs.agregarHijo(instr.getNode())
-        node.agregarHijo(instrs)
+            instrs.agregarHijoNodo(instr.getNode())
+        node.agregarHijoNodo(instrs)
         return node
 
 
@@ -152,13 +153,13 @@ class IfElse(Instruccion):
 
         if self.instrIfVerdadero is not None:
             for instr in self.instrIfVerdadero:
-                instrs.agregarHijo(instr.getNode())
-            node.agregarHijo(instrs)
+                instrs.agregarHijoNodo(instr.getNode())
+            node.agregarHijoNodo(instrs)
 
         if self.instrIfFalso is not None:
             for instr in self.instrIfFalso:
-                instrs.agregarHijo(instr.getNode())
-            node.agregarHijo(instrs)
+                instrs.agregarHijoNodo(instr.getNode())
+            node.agregarHijoNodo(instrs)
         return node
 
 
@@ -176,13 +177,13 @@ class ElseIf(Instruccion):
 
         if self.instrIfVerdadero is not None:
             for instr in self.instrIfVerdadero:
-                instrs.agregarHijo(instr.getNode())
-            node.agregarHijo(instrs)
+                instrs.agregarHijoNodo(instr.getNode())
+            node.agregarHijoNodo(instrs)
 
         if self.instrElse is not None:
             for instr in self.instrElse:
-                instrs.agregarHijo(instr.getNode())
-            node.agregarHijo(instrs)
+                instrs.agregarHijoNodo(instr.getNode())
+            node.agregarHijoNodo(instrs)
         return node
 
 
@@ -218,8 +219,8 @@ class Case(Instruccion):
         node = Node("CASE")
         instrs = Node("INTRUCTIONS")
         for inst in self.instrucciones:
-            instrs.agregarHijo(inst.getNode())
-        node.agregarHijo(instrs)
+            instrs.agregarHijoNodo(inst.getNode())
+        node.agregarHijoNodo(instrs)
         return node
 
 
@@ -235,8 +236,8 @@ class Switch(Instruccion):
         node = Node("SWITCH")
         cases = Node("CASES")
         for case in self.cases:
-            cases.agregarHijo(case.getNode())
-        node.agregarHijo(cases)
+            cases.agregarHijoNodo(case.getNode())
+        node.agregarHijoNodo(cases)
         return node
 
 
@@ -253,6 +254,60 @@ class For(Instruccion):
         node = Node("FOR")
         instrs = Node("INTRUCTIONS")
         for instr in self.instrucciones:
-            instrs.agregarHijo(instr.getNode())
-        node.agregarHijo(instrs)
+            instrs.agregarHijoNodo(instr.getNode())
+        node.agregarHijoNodo(instrs)
         return node
+
+
+class Cast:
+    def __init__(self, data, value, row, col):
+        self.data = data
+        self.value = value
+        self.col = col
+        self.row = row
+
+    def getNode(self):
+        node = Node("CAST")
+        node.agregarHijo(str(self.data))
+        node.agregarHijo(str(self.value))
+        node.agregarHijoNodo(node)
+        return node
+
+
+class Function:
+    def __init__(self, name, params, instructions, row, col):
+        self.id = name
+        self.params = params
+        self.instructions = instructions
+        self.row = row
+        self.col = col
+        self.type = Type.NULL
+
+
+class Call:
+    def __init__(self, name, params, row, col):
+        self.name = name
+        self.params = params
+        self.row = row
+        self.col = col
+
+
+class Return:
+    def __init__(self, exp, row, col):
+        self.exp = exp
+        self.row = row
+        self.col = col
+
+
+class toNative:
+    def __init__(self, name, exp):
+        self.name = name
+        self.exp = exp
+
+
+class Read:
+    def __init__(self, row, col):
+        self.row = row
+        self.col = col
+        self.type = Type.CADENA
+

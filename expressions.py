@@ -1,5 +1,5 @@
 from enum import Enum
-from symbolTable import TIPO_DATO as Type
+from Node import Node
 
 
 class OPERACION_ARITMETICA(Enum):
@@ -47,6 +47,13 @@ class ExpresionBinaria(ExpresionNumerica):
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("EXPRESION BINARIA")
+        node.agregarHijoNodo(self.exp1.getNode())
+        node.agregarHijo(str(self.operador))
+        node.agregarHijoNodo(self.exp2.getNode())
+        return node
+
 
 class ExpresionNegativo(ExpresionNumerica):
     '''
@@ -59,6 +66,12 @@ class ExpresionNegativo(ExpresionNumerica):
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("EXPRESION NEGATIVA")
+        node.agregarHijo(str(self.exp.operador))
+        node.agregarHijoNodo(self.exp.getNode())
+        return node
+
 
 class ExpresionIncrement(ExpresionNumerica):
     def __init__(self, expression, operation, row, col):
@@ -66,6 +79,11 @@ class ExpresionIncrement(ExpresionNumerica):
         self.operation = operation
         self.row = row
         self.col = col
+
+    def getNode(self):
+        node = Node("INCREMENTO")
+        node.agregarHijoNodo(self.expression.getNode())
+        node.agregarHijo(str(self.operation))
 
 
 class ExpresionNumero(ExpresionNumerica):
@@ -78,6 +96,11 @@ class ExpresionNumero(ExpresionNumerica):
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("NUMBER")
+        node.agregarHijo(str(self.val))
+        return node
+
 
 class ExpresionIdentificador(ExpresionNumerica):
     '''
@@ -88,6 +111,11 @@ class ExpresionIdentificador(ExpresionNumerica):
         self.id = id
         self.row = row
         self.col = col
+
+    def getNode(self):
+        node = Node("IDENTIFICATOR")
+        node.agregarHijo(str(self.id))
+        return node
 
 
 class ExpresionCadena:
@@ -108,6 +136,13 @@ class ExpresionConcatenar(ExpresionCadena):
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("CONCATENATION")
+        node.agregarHijoNodo(self.exp1.getNode())
+        node.agregarHijo("+")
+        node.agregarHijoNodo(self.exp2.getNode())
+        return node
+
 
 class ExpresionDobleComilla(ExpresionCadena):
     '''
@@ -120,6 +155,11 @@ class ExpresionDobleComilla(ExpresionCadena):
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("DOUBLE QUOTE STRING")
+        node.agregarHijo(str(self.val))
+        return node
+
 
 class ExpresionCadenaNumerico(ExpresionCadena):
     '''
@@ -131,6 +171,11 @@ class ExpresionCadenaNumerico(ExpresionCadena):
         self.exp = exp
         self.row = row
         self.col = col
+
+    def getNode(self):
+        node = Node("NUMBER STRING")
+        node.agregarHijoNodo(self.exp.getNode())
+        return node
 
 
 class ExpresionLogica:
@@ -146,6 +191,13 @@ class ExpresionLogica:
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("LOGIC EXPRESSION")
+        node.agregarHijoNodo(self.exp1.getNode())
+        node.agregarHijo(str(self.operador))
+        node.agregarHijoNodo(self.exp2.getNode())
+        return node
+
 
 class ExpresionOperacionLogica:
     def __init__(self, exp1, exp2, operador, row, col):
@@ -155,6 +207,13 @@ class ExpresionOperacionLogica:
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("OPERATION LOGIC")
+        node.agregarHijoNodo(self.exp1.getNode())
+        node.agregarHijo(str(self.operador))
+        node.agregarHijoNodo(self.exp2.getNode())
+        return node
+
 
 class ExpresionLogicaNot:
     def __init__(self, exp1, operador, row, col):
@@ -163,12 +222,23 @@ class ExpresionLogicaNot:
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("LOGICAL NEGATION")
+        node.agregarHijo(str(self.operador))
+        node.agregarHijoNodo(self.exp1.getNode())
+        return node
+
 
 class ExpresionBoolean:
     def __init__(self, exp, row, col):
         self.val = exp
         self.row = row
         self.col = col
+
+    def getNode(self):
+        node = Node("BOOLEAN")
+        node.agregarHijo(str(self.val))
+        return node
 
 
 class ExpresionChar:
@@ -181,6 +251,11 @@ class ExpresionSimpleComilla(ExpresionChar):
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("CHAR")
+        node.agregarHijo(str(self.val))
+        return node
+
 
 class ExpresionNull:
     def __init__(self, exp, row, col):
@@ -188,48 +263,7 @@ class ExpresionNull:
         self.row = row
         self.col = col
 
-
-class Cast:
-    def __init__(self, data, value, row, col):
-        self.data = data
-        self.value = value
-        self.col = col
-        self.row = row
-
-
-class Function:
-    def __init__(self, name, params, instructions, row, col):
-        self.id = name
-        self.params = params
-        self.instructions = instructions
-        self.row = row
-        self.col = col
-        self.type = Type.NULL
-
-
-class Call:
-    def __init__(self, name, params, row, col):
-        self.name = name
-        self.params = params
-        self.row = row
-        self.col = col
-
-
-class Return:
-    def __init__(self, exp, row, col):
-        self.exp = exp
-        self.row = row
-        self.col = col
-
-
-class toNative:
-    def __init__(self, name, exp):
-        self.name = name
-        self.exp = exp
-
-
-class Read:
-    def __init__(self, row, col):
-        self.row = row
-        self.col = col
-        self.type = Type.CADENA
+    def getNode(self):
+        node = Node("NULL")
+        node.agregarHijo("null")
+        return node
