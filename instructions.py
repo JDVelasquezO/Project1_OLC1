@@ -164,7 +164,7 @@ class IfElse(Instruccion):
 
 
 class ElseIf(Instruccion):
-    def __init__(self, expLogica, instrIfVerdadero=[], instrElse=[], row=0, col=0):
+    def __init__(self, expLogica, instrIfVerdadero=[], instrElse=None, row=0, col=0):
         self.expLogica = expLogica
         self.instrIfVerdadero = instrIfVerdadero
         self.instrElse = instrElse
@@ -175,15 +175,19 @@ class ElseIf(Instruccion):
         node = Node("IF-ELSE")
         instrs = Node("INSTRUCTIONS")
 
-        if self.instrIfVerdadero is not None:
+        if len(self.instrIfVerdadero) > 0:
             for instr in self.instrIfVerdadero:
                 instrs.agregarHijoNodo(instr.getNode())
             node.agregarHijoNodo(instrs)
 
-        if self.instrElse is not None:
-            for instr in self.instrElse:
-                instrs.agregarHijoNodo(instr.getNode())
-            node.agregarHijoNodo(instrs)
+        elseNode = Node("ELSE")
+        elseNode.agregarHijoNodo(self.instrElse.getNode())
+        node.agregarHijoNodo(elseNode)
+
+        # if len(self.instrElse) > 0:
+        #     for instr in self.instrElse:
+        #         instrs.agregarHijoNodo(instr.getNode())
+        #     node.agregarHijoNodo(instrs)
         return node
 
 
@@ -283,6 +287,26 @@ class Function:
         self.col = col
         self.type = Type.NULL
 
+    def getNode(self):
+        node = Node("FUNCTION")
+        node.agregarHijo(str(self.id))
+        node.agregarHijo("(")
+        params = Node("PARAMS")
+        for param in self.params:
+            p = Node("PARAM")
+            p.agregarHijo(param)
+            params.agregarHijoNodo(p)
+        node.agregarHijo(")")
+        node.agregarHijo("{")
+
+        instrs = Node("INSTRUCTIONS")
+        for instr in self.instructions:
+            instrs.agregarHijoNodo(instr.getNode())
+        node.agregarHijoNodo(instrs)
+        node.agregarHijo("}")
+
+        return node
+
 
 class Call:
     def __init__(self, name, params, row, col):
@@ -291,6 +315,15 @@ class Call:
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("CALL FUNCTION")
+        node.agregarHijo(str(self.name))
+        parameters = Node("PARAMS")
+        for p in self.params:
+            parameters.agregarHijoNodo(p.getNode())
+        node.agregarHijoNodo(parameters)
+        return node
+
 
 class Return:
     def __init__(self, exp, row, col):
@@ -298,11 +331,22 @@ class Return:
         self.row = row
         self.col = col
 
+    def getNode(self):
+        node = Node("RETURN")
+        node.agregarHijoNodo(self.exp.getNode())
+        return node
+
 
 class toNative:
     def __init__(self, name, exp):
         self.name = name
         self.exp = exp
+
+    def getNode(self):
+        node = Node("TO NATIVE")
+        node.agregarHijo(str(self.name))
+        node.agregarHijoNodo(self.exp.getNode())
+        return node
 
 
 class Read:
@@ -310,4 +354,3 @@ class Read:
         self.row = row
         self.col = col
         self.type = Type.CADENA
-

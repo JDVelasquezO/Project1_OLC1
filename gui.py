@@ -69,6 +69,7 @@ def guardar_como():
 
 def executeProgram():
     t0 = time.time()
+    global ast
 
     console.delete("1.0", END)
     instrucciones = g.parse(texto.get("1.0", END))
@@ -96,21 +97,6 @@ def executeProgram():
     if len(g.errores) > 0:
         for e in g.errores:
             console.insert(END, f"> {e.toString()}\n")
-
-    init = Node("ROOT")
-    instrs = Node("INSTRUCTIONS")
-
-    for instr in ast.getInstrs():
-        instrs.agregarHijoNodo(instr.getNode())
-    init.agregarHijoNodo(instrs)
-    graph = ast.getDot(init)
-    dirname = os.path.dirname(__file__)
-    path = os.path.join(dirname, 'ast.dot')
-    file = open(path, 'w+')
-    file.write(graph)
-    file.close()
-    os.system('dot -T pdf -o ast.pdf ast.dot')
-    subprocess.call(['xdg-open', "ast.pdf"])
 
     console.insert(END, f"\n\n> Ejecución terminada en: {round(t1 - t0, 6)} segundos")
 
@@ -186,6 +172,23 @@ def generateReport():
     subprocess.call(['xdg-open', nombreArchivo])
 
 
+def generateAst():
+    init = Node("ROOT")
+    instrs = Node("INSTRUCTIONS")
+
+    for instr in ast.getInstrs():
+        instrs.agregarHijoNodo(instr.getNode())
+    init.agregarHijoNodo(instrs)
+    graph = ast.getDot(init)
+    dirname = os.path.dirname(__file__)
+    path = os.path.join(dirname, 'ast.dot')
+    file = open(path, 'w+')
+    file.write(graph)
+    file.close()
+    os.system('dot -T pdf -o ast.pdf ast.dot')
+    subprocess.call(['xdg-open', "ast.pdf"])
+
+
 def restart_program():
     """Restarts the current program.
     Note: this function does not return. Any cleanup action (like
@@ -217,6 +220,7 @@ fMenuTools.add_command(label="Depurar", command=executeProgram)
 
 fMenuReports = Menu(menuReports, tearoff=0)
 fMenuReports.add_command(label="Reporte de Errores", command=generateReport)
+fMenuReports.add_command(label="Reporte de Árbol AST", command=generateAst)
 
 menubar.add_cascade(menu=filemenu, label="Archivo")
 menubar.add_cascade(menu=filemenu, label="Edición")
