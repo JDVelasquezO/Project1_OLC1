@@ -145,10 +145,9 @@ def procesar_else_if(instr, ts, console):
         val = resolver_operador_not(instr.expLogica, ts, console)
     if val:
         ts_local = TS.TablaDeSimbolos(ts)
-        if isinstance(instr, ElseIf):
-            return procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
-        elif isinstance(instr, If):
+        if isinstance(instr, If):
             return procesar_instrucciones(instr.instrucciones, ts_local, console)
+        return procesar_instrucciones(instr.instrIfVerdadero, ts_local, console)
     else:
         ts_local = TS.TablaDeSimbolos(ts)
         if isinstance(instr, IfElse):

@@ -7,6 +7,10 @@ from io import open
 from main import *
 import grammar as g
 
+print(sys.getrecursionlimit())
+sys.setrecursionlimit(1500)
+print(sys.getrecursionlimit())
+
 ruta = ""  # La utilizaremos para almacenar la ruta del fichero
 
 
@@ -223,9 +227,7 @@ fMenuReports.add_command(label="Reporte de Errores", command=generateReport)
 fMenuReports.add_command(label="Reporte de Árbol AST", command=generateAst)
 
 menubar.add_cascade(menu=filemenu, label="Archivo")
-menubar.add_cascade(menu=filemenu, label="Edición")
 menubar.add_cascade(menu=fMenuTools, label="Herramientas")
-menubar.add_cascade(menu=filemenu, label="Analizar")
 menubar.add_cascade(menu=fMenuReports, label="Reportes")
 menubar.add_cascade(menu=filemenu, label="Ayuda")
 
