@@ -28,6 +28,43 @@ class OPERADOR_LOGICO(Enum):
     NOT = 3
 
 
+def getOperador(type):
+    if type == OPERACION_ARITMETICA.MAS:
+        return "+"
+    elif type == OPERACION_ARITMETICA.MENOS:
+        return "-"
+    elif type == OPERACION_ARITMETICA.POR:
+        return "*"
+    elif type == OPERACION_ARITMETICA.DIVIDIDO:
+        return "/"
+    elif type == OPERACION_ARITMETICA.INCREMENTO:
+        return "++"
+    elif type == OPERACION_ARITMETICA.DISMINUCION:
+        return "--"
+    elif type == OPERACION_ARITMETICA.MODULO:
+        return "%"
+    elif type == OPERACION_ARITMETICA.POTENCIA:
+        return "**"
+    elif type == OPERADOR_LOGICO.OR:
+        return "||"
+    elif type == OPERADOR_LOGICO.AND:
+        return "&&"
+    elif type == OPERADOR_LOGICO.NOT:
+        return "!"
+    elif type == OPERACION_LOGICA.IGUAL:
+        return "=="
+    elif type == OPERACION_LOGICA.DIFERENTE:
+        return "=!"
+    elif type == OPERACION_LOGICA.MENOR_QUE:
+        return "<"
+    elif type == OPERACION_LOGICA.MAYOR_QUE:
+        return ">"
+    elif type == OPERACION_LOGICA.MENORIGUAL_QUE:
+        return "<="
+    elif type == OPERACION_LOGICA.MAYORIGUAL_QUE:
+        return ">="
+
+
 class ExpresionNumerica:
     '''
         Esta clase representa una expresión numérica
@@ -50,7 +87,7 @@ class ExpresionBinaria(ExpresionNumerica):
     def getNode(self):
         node = Node("EXPRESION BINARIA")
         node.agregarHijoNodo(self.exp1.getNode())
-        node.agregarHijo(str(self.operador))
+        node.agregarHijo(getOperador(self.operador))
         node.agregarHijoNodo(self.exp2.getNode())
         return node
 
@@ -68,7 +105,7 @@ class ExpresionNegativo(ExpresionNumerica):
 
     def getNode(self):
         node = Node("EXPRESION NEGATIVA")
-        node.agregarHijo(str(self.exp.operador))
+        node.agregarHijo(getOperador(self.exp.operador))
         node.agregarHijoNodo(self.exp.getNode())
         return node
 
@@ -194,7 +231,7 @@ class ExpresionLogica:
     def getNode(self):
         node = Node("LOGIC EXPRESSION")
         node.agregarHijoNodo(self.exp1.getNode())
-        node.agregarHijo(str(self.operador))
+        node.agregarHijo(getOperador(self.operador))
         node.agregarHijoNodo(self.exp2.getNode())
         return node
 
@@ -210,7 +247,7 @@ class ExpresionOperacionLogica:
     def getNode(self):
         node = Node("OPERATION LOGIC")
         node.agregarHijoNodo(self.exp1.getNode())
-        node.agregarHijo(str(self.operador))
+        node.agregarHijo(getOperador(self.operador))
         node.agregarHijoNodo(self.exp2.getNode())
         return node
 
@@ -224,7 +261,7 @@ class ExpresionLogicaNot:
 
     def getNode(self):
         node = Node("LOGICAL NEGATION")
-        node.agregarHijo(str(self.operador))
+        node.agregarHijo(getOperador(self.operador))
         node.agregarHijoNodo(self.exp1.getNode())
         return node
 

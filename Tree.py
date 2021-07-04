@@ -56,12 +56,13 @@ class Tree:
 
     def recorrerAST(self, idPadre, nodoPadre):
         for hijo in nodoPadre.getHijos():
-            nombreHijo = "n" + str(self.contador)
-            if isinstance(hijo, Node):
-                self.dot += nombreHijo + "[label=\"" + hijo.getValor().replace("\"", "\\\"") + "\"];\n"
-            else:
-                self.dot += nombreHijo + "[label=\"" + hijo.replace("\"", "\\\"") + "\"];\n"
-            self.dot += idPadre + "->" + nombreHijo + ";\n"
-            self.contador += 1
-            if isinstance(hijo, Node):
-                self.recorrerAST(nombreHijo, hijo)
+            if hijo is not None:
+                nombreHijo = "n" + str(self.contador)
+                if isinstance(hijo, Node):
+                    self.dot += nombreHijo + "[label=\"" + hijo.getValor().replace("\"", "\\\"") + "\"];\n"
+                else:
+                    self.dot += nombreHijo + "[label=\"" + hijo.replace("\"", "\\\"") + "\"];\n"
+                self.dot += idPadre + "->" + nombreHijo + ";\n"
+                self.contador += 1
+                if isinstance(hijo, Node):
+                    self.recorrerAST(nombreHijo, hijo)

@@ -264,14 +264,15 @@ labelOut.grid(row=2, column=1)
 
 # Editor
 texto = scrolledtext.ScrolledText(frame)
-texto.config(bd=0, highlightbackground="white", highlightcolor="white", highlightthickness=8, width=60, height=10,
+texto.config(bd=0, highlightbackground="white", highlightcolor="white", highlightthickness=8,
+             width=60, height=20,
              padx=3, pady=4, font=("Consolas", 12))
 texto.grid(row=3, column=0, padx=5, pady=20)
 
 # Console
 console = scrolledtext.ScrolledText(frame)
 console.config(bd=0, bg="gray14", highlightbackground="black", highlightcolor="black",
-               highlightthickness=8, width=60, height=10,
+               highlightthickness=8, width=60, height=20,
                padx=3, pady=4, font=("Consolas", 12))
 console.grid(row=3, column=1)
 

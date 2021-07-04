@@ -38,10 +38,15 @@ class While(Instruccion):
 
     def getNode(self):
         node = Node("WHILE")
+        node.agregarHijo("(")
+        node.agregarHijoNodo(self.expLogica.getNode())
+        node.agregarHijo(")")
+        node.agregarHijo("{")
         instrs = Node("INSTRUCTIONS")
         for instr in self.instrucciones:
             instrs.agregarHijoNodo(instr.getNode())
         node.agregarHijoNodo(instrs)
+        node.agregarHijo("}")
         return node
 
 
@@ -58,6 +63,7 @@ class Definicion(Instruccion):
 
     def getNode(self):
         node = Node("DEFINITION")
+        node.agregarHijo("VAR")
         node.agregarHijo(str(self.id))
         return node
 
@@ -90,6 +96,7 @@ class Definicion_Asignacion(Instruccion):
 
     def getNode(self):
         node = Node("DEF_ASIGN")
+        node.agregarHijo("VAR")
         node.agregarHijoNodo(str(self.id))
         node.agregarHijoNodo(self.expression.getNode())
         return node
@@ -103,10 +110,14 @@ class Funcion_Main(Instruccion):
 
     def getNode(self):
         node = Node("MAIN")
+        node.agregarHijo("(")
+        node.agregarHijo(")")
+        node.agregarHijo("{")
         instrs = Node("INSTRUCTIONS")
         for inst in self.instrucciones:
             instrs.agregarHijoNodo(inst.getNode())
         node.agregarHijoNodo(instrs)
+        node.agregarHijo("}")
         return node
 
 
@@ -125,10 +136,15 @@ class If(Instruccion):
 
     def getNode(self):
         node = Node("IF")
+        node.agregarHijo("(")
+        node.agregarHijoNodo(self.expLogica.getNode())
+        node.agregarHijo(")")
+        node.agregarHijo("{")
         instrs = Node("INSTRUCTIONS")
         for instr in self.instrucciones:
             instrs.agregarHijoNodo(instr.getNode())
         node.agregarHijoNodo(instrs)
+        node.agregarHijo("}")
         return node
 
 
@@ -149,17 +165,26 @@ class IfElse(Instruccion):
 
     def getNode(self):
         node = Node("IF-ELSE")
-        instrs = Node("INSTRUCTIONS")
+        node.agregarHijo("(")
+        node.agregarHijoNodo(self.expLogica.getNode())
+        node.agregarHijo(")")
+        node.agregarHijo("{")
 
+        instrs = Node("INSTRUCTIONS")
         if self.instrIfVerdadero is not None:
             for instr in self.instrIfVerdadero:
                 instrs.agregarHijoNodo(instr.getNode())
             node.agregarHijoNodo(instrs)
 
+        node.agregarHijo("}")
+        node.agregarHijo("ELSE")
+        node.agregarHijo("{")
+
         if self.instrIfFalso is not None:
             for instr in self.instrIfFalso:
                 instrs.agregarHijoNodo(instr.getNode())
             node.agregarHijoNodo(instrs)
+        node.agregarHijo("}")
         return node
 
 
@@ -173,21 +198,23 @@ class ElseIf(Instruccion):
 
     def getNode(self):
         node = Node("IF-ELSE")
+        node.agregarHijo("(")
+        node.agregarHijoNodo(self.expLogica.getNode())
+        node.agregarHijo(")")
+        node.agregarHijo("{")
         instrs = Node("INSTRUCTIONS")
 
         if len(self.instrIfVerdadero) > 0:
             for instr in self.instrIfVerdadero:
                 instrs.agregarHijoNodo(instr.getNode())
             node.agregarHijoNodo(instrs)
+        node.agregarHijo("}")
 
         elseNode = Node("ELSE")
+        node.agregarHijo("{")
         elseNode.agregarHijoNodo(self.instrElse.getNode())
         node.agregarHijoNodo(elseNode)
-
-        # if len(self.instrElse) > 0:
-        #     for instr in self.instrElse:
-        #         instrs.agregarHijoNodo(instr.getNode())
-        #     node.agregarHijoNodo(instrs)
+        node.agregarHijo("}")
         return node
 
 
@@ -238,6 +265,9 @@ class Switch(Instruccion):
 
     def getNode(self):
         node = Node("SWITCH")
+        node.agregarHijo("(")
+        node.agregarHijoNodo(self.expLogica.getNode())
+        node.agregarHijo(")")
         cases = Node("CASES")
         for case in self.cases:
             cases.agregarHijoNodo(case.getNode())
@@ -246,7 +276,7 @@ class Switch(Instruccion):
 
 
 class For(Instruccion):
-    def __init__(self, exp1, expLogica, reAsign, instrucciones = [], row=0, col=0):
+    def __init__(self, exp1, expLogica, reAsign, instrucciones=[], row=0, col=0):
         self.exp1 = exp1
         self.expLogica = expLogica
         self.reAsign = reAsign
@@ -256,10 +286,17 @@ class For(Instruccion):
 
     def getNode(self):
         node = Node("FOR")
+        node.agregarHijo("(")
+        node.agregarHijoNodo(self.exp1.getNode())
+        node.agregarHijoNodo(self.expLogica.getNode())
+        node.agregarHijoNodo(self.reAsign.getNode())
+        node.agregarHijo(")")
+        node.agregarHijo("{")
         instrs = Node("INTRUCTIONS")
         for instr in self.instrucciones:
             instrs.agregarHijoNodo(instr.getNode())
         node.agregarHijoNodo(instrs)
+        node.agregarHijo("}")
         return node
 
 
@@ -289,13 +326,16 @@ class Function:
 
     def getNode(self):
         node = Node("FUNCTION")
+        node.agregarHijo("func")
         node.agregarHijo(str(self.id))
         node.agregarHijo("(")
         params = Node("PARAMS")
         for param in self.params:
             p = Node("PARAM")
-            p.agregarHijo(param)
+            p.agregarHijoNodo(param["type"])
+            p.agregarHijoNodo(param["id"])
             params.agregarHijoNodo(p)
+        node.agregarHijoNodo(params)
         node.agregarHijo(")")
         node.agregarHijo("{")
 
