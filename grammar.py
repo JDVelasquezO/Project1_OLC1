@@ -358,18 +358,21 @@ def p_default(t):
 
 # ------------------------------ FOR -----------------------------
 def p_for(t):
-    'for_instr : FOR PARIZQ def_asign_for def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER'
+    'for_instr : FOR PARIZQ expresion def_instr_prima expresion def_instr_prima expresion PARDER LLAVIZQ instrucciones LLAVDER'
     t[0] = For(t[3], t[5], t[7], t[10], t.lineno(1), find_column(entrada, t.slice[1]))
 
 
-def p_def_asign_for(t):
-    '''def_asign_for  : ID
-                        | asignacion_instr
-                        | def_asig_instr'''
+# ------------------------------ EXPRESIONES -----------------------------
+def p_expresion_asignacion(t):
+    'expresion :    asignacion_instr'
     t[0] = t[1]
 
 
-# ------------------------------ EXPRESIONES -----------------------------
+def p_expresion_declaracion_asignacion(t):
+    'expresion :    def_asig_instr'
+    t[0] = t[1]
+
+
 def p_null(t):
     '''expresion    : NULL'''
     t[0] = ExpresionNull(t[1], t.lineno(1), find_column(entrada, t.slice[1]))

@@ -172,9 +172,15 @@ def procesar_switch(instr, ts, console):
 
 def procesar_for(instr, ts, console):
     # ts_local = TS.TablaDeSimbolos(ts)
-    procesar_definicion_asignacion(instr.exp1, ts, console)
+    if isinstance(instr.exp1, Definicion_Asignacion):
+        procesar_definicion_asignacion(instr.exp1, ts, console)
+    elif isinstance(instr.exp1, Asignacion):
+        procesar_asignacion(instr.exp1, ts, console)
     while resolver_operador_logico(instr.expLogica, ts, console):
-        resolver_expresion_increment(instr.reAsign, ts)
+        if isinstance(instr.reAsign, ExpresionIncrement):
+            resolver_expresion_increment(instr.reAsign, ts)
+        elif isinstance(instr.reAsign, Asignacion):
+            procesar_asignacion(instr.reAsign, ts, console)
         value = procesar_instrucciones(instr.instrucciones, ts, console)
         if value == 'break':
             break
