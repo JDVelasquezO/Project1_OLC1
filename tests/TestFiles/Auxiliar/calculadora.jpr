@@ -10,7 +10,7 @@ main(){
     print("Calculadora finalizada correctamente");
 }
 
-func calculadora() {
+func calculadora(){
     var numero1;
     var numero2;
     var operacion;
@@ -20,9 +20,9 @@ func calculadora() {
     numero2 = (int) read();
 
     print("Ingrese la operación que desea realizar: (+,-,*,/,**,%)\n");
-    operacion = ReAd()
+    operacion =  ReAd()
 
-    switch(operacion) {
+    switch(operacion){
         case "+":
             print("El resultado de  " + numero1 + operacion + numero2 + " es igual a " + ( numero1 + numero2) );
             break;

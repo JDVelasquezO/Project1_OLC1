@@ -255,7 +255,6 @@ def resolver_cadena(expCad, ts, console):
         return val
 
     elif isinstance(expCad, Call):
-        read = ""
         val = call_func(expCad.name, ts, console, expCad.params)
         if val is not None:
             return val

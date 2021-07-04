@@ -83,6 +83,7 @@ class Asignacion(Instruccion):
     def getNode(self):
         node = Node("ASIGNATION")
         node.agregarHijo(str(self.id))
+        node.agregarHijo("=")
         node.agregarHijoNodo(self.expression.getNode())
         return node
 
@@ -98,6 +99,7 @@ class Definicion_Asignacion(Instruccion):
         node = Node("DEF_ASIGN")
         node.agregarHijo("VAR")
         node.agregarHijoNodo(str(self.id))
+        node.agregarHijo("=")
         node.agregarHijoNodo(self.expression.getNode())
         return node
 
@@ -309,9 +311,10 @@ class Cast:
 
     def getNode(self):
         node = Node("CAST")
+        node.agregarHijo("(")
         node.agregarHijo(str(self.data))
-        node.agregarHijo(str(self.value))
-        node.agregarHijoNodo(node)
+        node.agregarHijo(")")
+        node.agregarHijoNodo(self.value.getNode())
         return node
 
 
@@ -394,3 +397,7 @@ class Read:
         self.row = row
         self.col = col
         self.type = Type.CADENA
+
+    def getNode(self):
+        node = Node("READ")
+        return node
