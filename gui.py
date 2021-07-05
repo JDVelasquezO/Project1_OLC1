@@ -213,22 +213,38 @@ def generateReportST():
             f"</thead>\n"
             f"<tbody>\n")
     i = 1
+    ids = []
     for st in symbolTables:
         for symbol in st.simbolos:
             # print(symbol)
             sym = st.simbolos[symbol]
-            f.write(
-                "f<tr>\n"
-                f"<th>{sym.id}</th>\n"
-                f"<td>Variable</td>\n"
-                f"<td>{sym.tipo}</td>\n"
-                f"<td>Main</td>\n"
-                f"<td>{sym.valor}</td>\n"
-                f"<td>{sym.col}</td>\n"
-                f"<td>{sym.row}</td>\n"
-                f"</tr>\n"
-            )
-            i += 1
+            if sym.id not in ids:
+                ids.append(sym.id)
+                if sym.tipo == Type.NULL:
+                    f.write(
+                        "f<tr>\n"
+                        f"<th>{sym.id}</th>\n"
+                        f"<td>Funcion</td>\n"
+                        f"<td>{sym.tipo}</td>\n"
+                        f"<td>----</td>\n"
+                        f"<td>----</td>\n"
+                        f"<td>{sym.col}</td>\n"
+                        f"<td>{sym.row}</td>\n"
+                        f"</tr>\n"
+                    )
+                else:
+                    f.write(
+                        "f<tr>\n"
+                        f"<th>{sym.id}</th>\n"
+                        f"<td>Variable</td>\n"
+                        f"<td>{sym.tipo}</td>\n"
+                        f"<td>Main</td>\n"
+                        f"<td>{sym.valor}</td>\n"
+                        f"<td>{sym.col}</td>\n"
+                        f"<td>{sym.row}</td>\n"
+                        f"</tr>\n"
+                    )
+                i += 1
 
     f.write("f</tbody>\n"
             "f</table>\n"
