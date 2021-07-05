@@ -89,16 +89,16 @@ def executeProgram():
         elif isinstance(instr, Definicion):
             procesar_definicion(instr, ts_global, console)
         elif isinstance(instr, Asignacion):
-            procesar_asignacion(instr, ts_global, console)
+            procesar_asignacion(instr, ts_global, console, symbolTables)
         elif isinstance(instr, Definicion_Asignacion):
-            procesar_definicion_asignacion(instr, ts_global, console)
+            procesar_definicion_asignacion(instr, ts_global, console, symbolTables)
 
     symbolTables.append(ts_global)
 
     # SEGUNDA PASADA
     for instr in ast.getInstrs():
         if isinstance(instr, Funcion_Main):
-            procesar_func_main(instr.instrucciones, ts_global, console)
+            procesar_func_main(instr.instrucciones, ts_global, console, symbolTables)
     t1 = time.time()
 
     if len(g.errores) > 0:

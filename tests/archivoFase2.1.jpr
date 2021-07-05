@@ -1,22 +1,22 @@
 
 
 main(){
-    #* print("INICIO DEL PROGRAMA")
+    print("INICIO DEL PROGRAMA")
     print("Ingrese su nombre: ");
     var nombre = Read();
-    print("Bienvenido " + nombre); *#
+    print("Bienvenido " + nombre);
 
     CasteosYMas();
 
     
     
-    #* print("=============CALCULADORA==============");
+    print("=============CALCULADORA==============");
     while(true){
         if(!calculadoraCALI()){
             break;
         }
     }
-    print("Calculadora finalizada correctamente"); *#
+    print("Calculadora finalizada correctamente");
 
     
     print("=============RECURSIVIDAD==============");
