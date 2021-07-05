@@ -304,7 +304,6 @@ filemenu.add_command(label="Resetear", command=restart_program)
 
 fMenuTools = Menu(menuTools, tearoff=0)
 fMenuTools.add_command(label="Ejecutar", command=executeProgram)
-fMenuTools.add_command(label="Depurar", command=executeProgram)
 
 fMenuReports = Menu(menuReports, tearoff=0)
 fMenuReports.add_command(label="Reporte de Errores", command=generateReport)
@@ -314,7 +313,6 @@ fMenuReports.add_command(label="Reporte de Tabla de Símbolos", command=generate
 menubar.add_cascade(menu=filemenu, label="Archivo")
 menubar.add_cascade(menu=fMenuTools, label="Herramientas")
 menubar.add_cascade(menu=fMenuReports, label="Reportes")
-menubar.add_cascade(menu=filemenu, label="Ayuda")
 
 # Frame general
 frame = Frame(root, width=240, height=120)
