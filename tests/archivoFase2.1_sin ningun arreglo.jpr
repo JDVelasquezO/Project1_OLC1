@@ -1,22 +1,31 @@
-
+#string[][] Clases = new String[4][5]; #5 clases de 30 alumnos con 5 atributos cada uno
+#*
+func agregarAlumno(string[][] arreglo, int alumno, String nombre, String carnet, String edad, String nota){
+    print("Agregando a alumno #" + alumno );
+    arreglo[alumno][0] = nombre;    # agregando el nombre al alumno 
+    arreglo[alumno][2] = carnet;    # agregando el carnet al alumno 
+    arreglo[alumno][3] = edad;      # agregando la edad al alumno 
+    arreglo[alumno][4] = nota;      # agregando la nota al alumno 
+}
+*#
 
 main(){
-    #* print("INICIO DEL PROGRAMA")
+    print("INICIO DEL PROGRAMA")
     print("Ingrese su nombre: ");
     var nombre = Read();
     print("Bienvenido " + nombre);
 
-    CasteosYMas(); *#
+    CasteosYMas();
 
     
     
-    #* print("=============CALCULADORA==============");
+    print("=============CALCULADORA==============");
     while(true){
         if(!calculadoraCALI()){
             break;
         }
     }
-    print("Calculadora finalizada correctamente"); *#
+    print("Calculadora finalizada correctamente");
 
     
     print("=============RECURSIVIDAD==============");
@@ -51,6 +60,66 @@ main(){
     Mover disco de 2 a 3
     Mover disco de 1 a 3
     *#
+
+    print("=============ARREGLOS==============");
+
+    #*int[] vectorNumeros = new int[15];
+    vectorNumeros[0] = 2;
+    vectorNumeros[1] = 26;
+    vectorNumeros[2] = 1;
+    vectorNumeros[3] = 135;
+    vectorNumeros[4] = 15;
+    vectorNumeros[5] = 0;
+    vectorNumeros[6] = 76;
+    vectorNumeros[7] = 84;
+    vectorNumeros[8] = 7;
+    vectorNumeros[9] = 44;
+    vectorNumeros[10] = 51;
+    vectorNumeros[11] = 9;
+    vectorNumeros[12] = 945;
+    vectorNumeros[13] = 9;
+    vectorNumeros[14] = 73;
+    *#
+
+    print("============VECTOR DESORDENADO================");
+    #imprimirVector1(vectorNumeros);
+    #BubbleSort(vectorNumeros);
+    print("============VECTOR ORDENADO================");
+    #imprimirVector1(vectorNumeros);
+
+    #Clase 1
+    #*
+    agregarAlumno(Clases, 0, "GABRIEL ORLANDO AJSIVINAC XICAY", "201213010", "22", "73")
+    agregarAlumno(Clases, 1, "FERNANDO AUGUSTO ARMIRA RAMÍREZ", "201503961", "19", "100")
+    agregarAlumno(Clases, 2, "JOSÉ ALEJANDRO BARRIOS RODAS", "3149675670901", "25", "74")
+    agregarAlumno(Clases, 3, "JORGE LUIS ARGUETA RIVERA", "201404334", "24", "97")
+    *#
+
+    
+    # IMPRIMIENDO CLASES
+    #*
+    for(var j = 0; j < 4; j ++){
+        print("El nombre del alumno es: " + Clases[j][0])  # imprimiendo el nombre del alumno 
+        print("El carnet del alumno es: " + Clases[j][2])  # imprimiendo el carnet del alumno 
+        print("La edad del alumno es: " + Clases[j][3])    # imprimiendo la edad del alumno 
+        print("La nota del alumno es: " + Clases[j][4])    # imprimiendo la nota del alumno 
+    }*#
+    
+
+    #TIPO 2
+    #*InT[][][] ArregloCubo = {{{5,10,15,20},{25,30,35,40}},{{45,50,55,60},{65,70,75,80}},{{85,90,95,100},{105,110,115,120}}} #[3][2][4]
+    print("CUBO")
+    for(var i = 0; i < 3;i++){
+        print("Dimension i = " + i)
+        for(var j = 0; j < 2; j++){
+            print("Dimension j = " + j)
+            for(var k = 0; k < 4; k++){
+                print(ArregloCubo[i][j][k])
+            }
+        }
+        print("=====================================");
+    }*#
+
 }
 
 func CasteosYMas(){
@@ -74,8 +143,21 @@ func CasteosYMas(){
     var string504 = "50.4"
     var string505 = "FalSe"
 
+    #* print(typeof((double)num500));
+    print(typeof((string)num500));
+    print(typeof((char)num500)); *#
     print((char)num500)
+
+    # print(typeof((int)double501));
     print((int)double501)
+    # print(typeof((string)double501));
+
+    #* print(typeof((int)char502));
+    print(typeof((double)char502));
+
+    print(typeof((int)string503));
+    print(typeof((double)string504));
+    print(typeof((boolean)string505)); *#
 
     print("======================")
 
@@ -181,3 +263,24 @@ func HanoiCALI(int discos, int origen, int auxiliar, int destino) {
         HanoiCALI(discos - 1, auxiliar, origen, destino);
     }
 }
+#*
+func imprimirVector1(int[] miVector){
+    for (var i = 0; i < length(miVector); i++) {
+        print("vectorNumeros[" + i + "] = " + miVector[i]);
+    }
+}
+
+func BubbleSort(int[] miVector){
+    for (var i = 0; i < length(miVector); i++)
+    {
+        for (var j = 0; j < length(miVector) - i - 1; j++)
+        {
+            if (miVector[j] > miVector[j + 1]) {
+                var temp;
+                temp = miVector[j];
+                miVector[j] = miVector[j + 1];
+                miVector[j + 1] = temp;
+            }
+        }
+    }
+}*#

@@ -316,7 +316,7 @@ def resolver_operador_logico(expLog, ts, console, symbolTables):
     elif isinstance(expLog, ExpresionLogica):
         return resolver_expreision_logica(expLog, ts, console, symbolTables)
     elif isinstance(expLog, Call):
-        return call_func(expLog.name, ts, console, [], symbolTables)
+        return call_func(expLog.name, ts, console, expLog.params, symbolTables)
     elif isinstance(expLog.exp1, ExpresionBoolean):
         exp1 = resolver_operador_bool(expLog.exp1)
     elif isinstance(expLog.exp1, ExpresionOperacionLogica):
