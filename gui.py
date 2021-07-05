@@ -181,7 +181,7 @@ def generateReport():
 
 def generateReportST():
     print(len(errores))
-    f = open('reporte.html', 'w')
+    f = open('reporteTS.html', 'w')
 
     f.write(f"<!DOCTYPE html>\n"
             f"<html>\n"
@@ -195,7 +195,7 @@ def generateReportST():
             f"<section class=\"section\">\n"
             f"<div class=\"container\">\n"
             f"<h1 class=\"title\">\n"
-            f"Generador de Errores\n"
+            f"Tabla de Símbolos\n"
             f"</h1>\n"
 
             f"<div class=\"container\">\n"
@@ -216,14 +216,16 @@ def generateReportST():
     for st in symbolTables:
         for symbol in st.simbolos:
             # print(symbol)
+            sym = st.simbolos[symbol]
             f.write(
                 "f<tr>\n"
-                f"<th>{symbol['id']}</th>\n"
-                f"<td>{symbol['type']}</td>\n"
+                f"<th>{sym.id}</th>\n"
                 f"<td>Variable</td>\n"
-                f"<td>{symbol['value']}</td>\n"
-                f"<td>{symbol['row']}</td>\n"
-                f"<td>{symbol['col']}</td>\n"
+                f"<td>{sym.tipo}</td>\n"
+                f"<td>Main</td>\n"
+                f"<td>{sym.valor}</td>\n"
+                f"<td>{sym.col}</td>\n"
+                f"<td>{sym.row}</td>\n"
                 f"</tr>\n"
             )
             i += 1
@@ -238,7 +240,7 @@ def generateReportST():
 
     f.close()
 
-    nombreArchivo = 'reporte.html'
+    nombreArchivo = 'reporteTS.html'
     subprocess.call(['xdg-open', nombreArchivo])
 
 
