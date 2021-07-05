@@ -85,7 +85,7 @@ def executeProgram():
     # PRIMERA PASADA
     for instr in ast.getInstrs():
         if isinstance(instr, Function):
-            procesar_func(instr, ts_global)
+            procesar_func(instr, ts_global, console)
         elif isinstance(instr, Definicion):
             procesar_definicion(instr, ts_global, console)
         elif isinstance(instr, Asignacion):
@@ -98,7 +98,7 @@ def executeProgram():
     # SEGUNDA PASADA
     for instr in ast.getInstrs():
         if isinstance(instr, Funcion_Main):
-            procesar_func_main(instr.instrucciones, ts_global, console, symbolTables)
+            procesar_func_main(instr.instrucciones, ts_global, console)
     t1 = time.time()
 
     if len(g.errores) > 0:
