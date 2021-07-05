@@ -1,0 +1,125 @@
+
+
+func Hanoi(int discos, int origen, int auxiliar, int destino) {
+    if (discos == 1) {
+        print("Mover disco de " + origen + " a " + destino);
+    } else {
+        Hanoi(discos - 1, origen, destino, auxiliar);
+        print("Mover disco de " + origen + " a " + destino);
+        Hanoi(discos - 1, auxiliar, origen, destino);
+    }
+}
+
+
+main(){
+    Archivo3();
+}
+
+func ParoImpar(int a) {
+    if (par(a) == 1) { # El número es Par
+        print("El numero \'" + a + "\'" + " es Par");
+    } else { # El número es impar
+        print("El numero \'" + a + "\'" + " es Impar");
+    }
+}
+
+func par(int nump) {
+    if (nump == 0) {
+        return 1;
+    }
+    return impar(nump - 1);
+}
+
+func impar(int numi) {
+    if (numi == 0) {
+        return 0;
+    }
+    return par(numi - 1);
+}
+
+func ackermanPuntosMenos(int m, int n)
+{
+    if (m == 0) {
+        return n + 1;
+    } else if (m > 0 && n == 0) {
+        return ackermanPuntosMenos(m - 1, 1);
+    } else {
+        return ackermanPuntosMenos(m - 1, ackermanPuntosMenos(m, n - 1));
+    }
+}
+
+func Archivo3(){
+
+    print("**************SECCION DE CASTEOS***************");
+    Casteos();
+    print("************FIN DE SECCION DE CASTEOS*************");
+    print("**************SECCION DE NATIVAS***************");
+    FuncionesEspecialesNativas();
+    print("************FIN DE SECCION DE NATIVAS*************");
+    print("***********SECCION DE RECURSIVIDAD***************");
+    print("---------------FUNCION FIBONACCI-----------------");
+    imprimir_fibonacci(20);
+    print("-------------------------------------------------");
+    print("---------------FUNCION PAR-IMPAR-----------------");
+    ParoImpar(71);
+    print("-------------------------------------------------");
+    print("----------------TORRES DE HANOI------------------");
+    var discos = 3;
+    var origen = 1;
+    var auxiliar = 2;
+    var destino = 3;
+    Hanoi(discos, origen, auxiliar, destino);
+    print("-------------------------------------------------");
+    print("---------------FUNCION ACKERMANN-----------------");
+    var m = 3;
+    var n = 4;
+    print("Funcion de Ackerman (" + m + ", " + n + ") = " + ackerman(m, n));
+    #print("Funcion de Ackerman Puntos Menos (" + m + ", " + n + ") = " + ackermanPuntosMenos(m, n));
+    print("-------------------------------------------------");
+    print("*************FIN DE RECURSIVIDAD*****************");
+    print("=================================================");
+}
+
+func Casteos(){
+    print("int a "+typeof((double) 1789));
+    print("double a "+ typeof((int) 258.2));
+    print("char  a "+ typeof((double) 'F'));
+    print("int a "+typeof((char) 98));
+    print("double a "+typeof((string)2589.97));
+}
+
+func FuncionesEspecialesNativas(){
+
+    print("------------------TOSTRING-------------------");
+    var numero=105;
+    print("tipo: "+typeof(numero));
+    print("tipo: "+typeof((string)(numero)));
+}
+
+func imprimir_fibonacci(int valor) {
+    print("Resultado de fibonacci(" + valor + ") = " + fibonacci(valor));
+}
+
+func fibonacci(int n) {
+    if (n > 1) {
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    } else if (n == 1) {
+        return 1;
+    } else if (n == 0) {
+        return 0;
+    } else {
+        print("error");
+        return 0;
+    }
+}
+
+func ackerman(int m, int n){
+    if (m == 0){
+        return n + 1;
+    } else if (m > 0 && n == 0){
+        return ackerman(m-1, 1)
+    } else{
+        return ackerman(m-1, ackerman(m, n-1))
+    }
+}
+

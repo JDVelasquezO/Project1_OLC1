@@ -7,11 +7,12 @@ from io import open
 from main import *
 import grammar as g
 
-print(sys.getrecursionlimit())
-sys.setrecursionlimit(1500)
-print(sys.getrecursionlimit())
+# print(sys.getrecursionlimit())
+# sys.setrecursionlimit(1500)
+# print(sys.getrecursionlimit())
 
 ruta = ""  # La utilizaremos para almacenar la ruta del fichero
+symbolTables = []
 
 
 def nuevo():
@@ -84,7 +85,7 @@ def executeProgram():
     # PRIMERA PASADA
     for instr in ast.getInstrs():
         if isinstance(instr, Function):
-            procesar_func(instr, ts_global, None)
+            procesar_func(instr, ts_global)
         elif isinstance(instr, Definicion):
             procesar_definicion(instr, ts_global, console)
         elif isinstance(instr, Asignacion):
@@ -92,10 +93,12 @@ def executeProgram():
         elif isinstance(instr, Definicion_Asignacion):
             procesar_definicion_asignacion(instr, ts_global, console)
 
+    symbolTables.append(ts_global)
+
     # SEGUNDA PASADA
     for instr in ast.getInstrs():
         if isinstance(instr, Funcion_Main):
-            procesar_func_main(instr.instrucciones, ts_global, console)
+            procesar_func_main(instr.instrucciones, ts_global, console, symbolTables)
     t1 = time.time()
 
     if len(g.errores) > 0:
@@ -176,6 +179,69 @@ def generateReport():
     subprocess.call(['xdg-open', nombreArchivo])
 
 
+def generateReportST():
+    print(len(errores))
+    f = open('reporte.html', 'w')
+
+    f.write(f"<!DOCTYPE html>\n"
+            f"<html>\n"
+            f"<head>\n"
+            f"<meta charset=\"utf-8\">\n"
+            f"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+            f"<title>OLC1</title>\n"
+            f"<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css\">\n"
+            f"</head>\n"
+            f"<body>\n"
+            f"<section class=\"section\">\n"
+            f"<div class=\"container\">\n"
+            f"<h1 class=\"title\">\n"
+            f"Generador de Errores\n"
+            f"</h1>\n"
+
+            f"<div class=\"container\">\n"
+            f"<table class=\"table is-bordered is-striped is-narrow is-hoverable is-fullwidth\">\n"
+            f"<thead>\n"
+            f"<tr>\n"
+            f"<th><abbr>Identificador</abbr></th>\n"
+            f"<th abbr>Tipo</th>\n"
+            f"<th><abbr>Tipo de Dato</abbr></th>"
+            f"<th><abbr>Entorno</abbr></th>"
+            f"<th><abbr>Valor</abbr></th>"
+            f"<th><abbr>Línea</abbr></th>"
+            f"<th><abbr>Columna</abbr></th>"
+            f"</tr>\n"
+            f"</thead>\n"
+            f"<tbody>\n")
+    i = 1
+    for st in symbolTables:
+        for symbol in st.simbolos:
+            # print(symbol)
+            f.write(
+                "f<tr>\n"
+                f"<th>{symbol['id']}</th>\n"
+                f"<td>{symbol['type']}</td>\n"
+                f"<td>Variable</td>\n"
+                f"<td>{symbol['value']}</td>\n"
+                f"<td>{symbol['row']}</td>\n"
+                f"<td>{symbol['col']}</td>\n"
+                f"</tr>\n"
+            )
+            i += 1
+
+    f.write("f</tbody>\n"
+            "f</table>\n"
+            "</div>\n"
+            "</div>\n"
+            "</section>\n"
+            "</body>\n"
+            "</html>")
+
+    f.close()
+
+    nombreArchivo = 'reporte.html'
+    subprocess.call(['xdg-open', nombreArchivo])
+
+
 def generateAst():
     init = Node("ROOT")
     instrs = Node("INSTRUCTIONS")
@@ -225,6 +291,7 @@ fMenuTools.add_command(label="Depurar", command=executeProgram)
 fMenuReports = Menu(menuReports, tearoff=0)
 fMenuReports.add_command(label="Reporte de Errores", command=generateReport)
 fMenuReports.add_command(label="Reporte de Árbol AST", command=generateAst)
+fMenuReports.add_command(label="Reporte de Tabla de Símbolos", command=generateReportST)
 
 menubar.add_cascade(menu=filemenu, label="Archivo")
 menubar.add_cascade(menu=fMenuTools, label="Herramientas")
@@ -248,13 +315,6 @@ labelLine = Label(frame, text="[3, 1]")
 labelLine.config(bg="slate gray")
 labelLine.grid(row=1, column=0)
 
-
-def actionNext():
-    print("Hola mundo!")
-
-
-btnNext = Button(frame, text="Siguiente", command=actionNext)
-btnNext.grid(row=1, column=1)
 
 labelIn = Label(frame, text="input:")
 labelIn.config(bg="slate gray")
