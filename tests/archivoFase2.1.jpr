@@ -74,21 +74,8 @@ func CasteosYMas(){
     var string504 = "50.4"
     var string505 = "FalSe"
 
-    print(typeof((double)num500));
-    print(typeof((string)num500));
-    print(typeof((char)num500));
     print((char)num500)
-
-    print(typeof((int)double501));
     print((int)double501)
-    print(typeof((string)double501));
-
-    print(typeof((int)char502));
-    print(typeof((double)char502));
-
-    print(typeof((int)string503));
-    print(typeof((double)string504));
-    print(typeof((boolean)string505));
 
     print("======================")
 

@@ -261,6 +261,9 @@ def resolver_cadena(expCad, ts, console):
         read = console.get(1.0, 'end-1c')
         return read
 
+    elif isinstance(expCad, Cast):
+        return resolver_casteo(expCad, ts, console)
+
     else:
         print('Error: Expresión cadena no válida')
 
@@ -590,7 +593,7 @@ def resolver_type(exp, ts, console):
 
     if isinstance(exp, ExpresionDobleComilla):
         return 'STRING'
-    elif isinstance(exp, ExpresionNumerica):
+    elif isinstance(exp, ExpresionNumero):
         if isinstance(exp.val, int):
             return 'INT'
         return 'DOUBLE'
@@ -630,6 +633,8 @@ def call_func(name, ts, console, params=[]):
                 elif name.lower() == 'round':
                     return round(value)
                 elif name.lower() == 'typeof':
+                    if isinstance(params[0], Cast):
+                        return resolver_type(params[0].value, ts, console)
                     return resolver_type(params[0], ts, console)
         except AttributeError:
             err = Excepcion("Semantico", "Tipo de dato incorrecto", params[0].row, params[0].col)
